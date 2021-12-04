@@ -9,5 +9,7 @@ int main() {
     std::cout << "7777";
     std::cout << "have material";
     std::cout << "00857003";
+
+    std::cout << "!@#$%^&*()^%$RTYGHY";
     return 0;
 }
