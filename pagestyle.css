@@ -14,7 +14,7 @@
     background: linear-gradient(0deg, #ffffff, rgb(255, 255, 255));
     /*padding: 15px 45% 100px;*/
 }
-body{
+body {
     background: #DFDEE6;
 }
 .card{
@@ -28,4 +28,16 @@ body{
 .card ,h1{
     text-align: center;
     /*margin-top: 20px;*/
+}
+.CAPTCHA_input::-webkit-outer-spin-button{/*消除驗證碼輸入框之上下鍵*/
+    -webkit-appearance: none;
+    margin: 0;
+  }
+.CAPTCHA_input::-webkit-inner-spin-button {/*消除驗證碼輸入框之上下鍵*/
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {/*消除驗證碼輸入框之上下鍵*/
+  -moz-appearance: textfield;
 }
