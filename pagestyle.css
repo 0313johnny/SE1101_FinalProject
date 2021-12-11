@@ -1,22 +1,16 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
-
+/*@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500&display=swap');
 *{
-    font-family: 'Poppins', sans-serif;
-    margin:0; padding: 0;
-    box-sizing: border-box;
-    outline: none; border:none;
-    text-decoration: none;
-    text-transform: capitalize;
-    transition: .2s linear;
+    font-family: 'Readex Pro', sans-serif;
 }*/
 
 .container_sp{
     background: linear-gradient(0deg, #ffffff, rgb(255, 255, 255));
     /*padding: 15px 45% 100px;*/
 }
-body {
+body.classroomlist{
     background: #DFDEE6;
 }
+/*教室列表CSS*/
 .card{
     box-shadow : 0 .5rem 1rem rgba(0,0,0,.2);
     transition:ease .5s;
@@ -29,15 +23,30 @@ body {
     text-align: center;
     /*margin-top: 20px;*/
 }
-.CAPTCHA_input::-webkit-outer-spin-button{/*消除驗證碼輸入框之上下鍵*/
-    -webkit-appearance: none;
-    margin: 0;
-  }
-.CAPTCHA_input::-webkit-inner-spin-button {/*消除驗證碼輸入框之上下鍵*/
+.middle {
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+.circle{
+    border-radius:10px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 /* Firefox */
-input[type=number] {/*消除驗證碼輸入框之上下鍵*/
-  -moz-appearance: textfield;
+input[type=number] {
+    -moz-appearance: textfield;
+}
+/*管理員分割面板*/
+.content{
+    float:right;
+    background: #ffffff;
+}
+.sidebar{
+    float:left;
+    background: #bfd1ec;
 }

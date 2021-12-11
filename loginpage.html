@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>註冊畫面</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="pagestyle.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="pagestyle.css">
-    <script src="https://smtpjs.com/v3/smtp.js"></script><!--        引入email函示庫-->
-    <script src="http://code.jquery.com/jquery-latest.js"></script><!--        引入jquery函示庫-->
-    <script  type="text/javascript" src="js/sign_up.js"></script><!--        引入註冊js-->
     <style>
         button.sp{
             width: 100px;
@@ -18,33 +15,33 @@
 </head>
 <!--        加入驗證碼發送時提示窗-->
 <body>
+<!--Header-->
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="javascript:void(0)">NTOU教室借用平台</a>
+        <a class="navbar-brand" href="index.html">NTOU教室借用平台</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mynavbar">
-            <ul class="navbar-nav me-auto">
-                <li style="display: none" class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">預約教室</a>
+            <ul class="navbar-nav me-auto text-center">
+                <li style="display: none" class="nav-item mt-1">
+                    <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#search">預約教室</a>
                 </li>
-                <li style="display: none" class="nav-item">
+                <li style="display: none" class="nav-item mt-1">
                     <a class="nav-link" href="javascript:void(0)">個人資料</a>
                 </li>
-                <li style="display: none" class="nav-item">
-
-                    <a class="nav-link" href="javascript:void(0)">登入</a>
+                <li style="display: none" class="nav-item mt-1">
+                    <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#register">登入</a>
                 </li>
             </ul>
-            <form class="d-flex">
+            <form class="d-flex mt-2">
                 <input class="form-control me-2" type="text" placeholder="快速查詢教室">
                 <button class="btn btn-primary" type="button">Search</button>
             </form>
         </div>
     </div>
 </nav>
-
+<!--備註:新增密碼要改為*字-->
 <div class="container mt-3 justify-content-center">
 
     <h1 class="offcanvas-title">註冊介面</h1>
@@ -61,15 +58,17 @@
         </div>
 
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="確認密碼" name="checkPassword">
+            <input type="text" class="form-control" placeholder="確認密碼" name="Password">
         </div>
 
         <div class="input-group mb-3">
-            <input type="number" class="form-control CAPTCHA_input" placeholder="驗證碼" name="CAPTCHA">
-            <span class="input-group-text" id = "send_CAPTCHA">驗證碼發送</span>
+            <input type="text" class="form-control" placeholder="驗證碼" name="email">
+            <span class="input-group-text">
+                <button type="button" class="btn spec1">驗證碼發送</button>
+            </span>
             <span class="input-group-text" style="background-color: rgba(3,3,2,0.53)">無效</span>
         </div>
-        <button type="button" class="btn btn-success sp" id = "sign_up_btn">註冊</button>
+        <button type="button" class="btn btn-success sp">註冊</button>
     </form>
 
 </div>
