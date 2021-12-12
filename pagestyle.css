@@ -17,7 +17,7 @@
     border-radius:10px;
 }
 .card:hover{
-    transform: scale(1.15);
+    transform: scale(1.08);
 }
 .card ,h1{
     text-align: center;
@@ -49,4 +49,20 @@ input[type=number] {
 .sidebar{
     float:left;
     background: #bfd1ec;
+}
+#scroll-top{
+    width: 75px;
+    position: fixed;
+    top:-120%;
+    right:2rem;
+    /*padding:.5rem 1.5rem;*/
+    font-size: 4rem;
+    background: rgba(3, 3, 2, 0.61);
+    color: #fff;
+    border-radius: .5rem;
+    transition: .5s linear;
+    z-index: 1000;
+}
+#scroll-top.active{
+    top:calc(100% - 12rem);
 }
