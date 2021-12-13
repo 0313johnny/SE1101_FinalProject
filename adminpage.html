@@ -47,6 +47,84 @@
         </div>
     </div>
 </nav>
+<!--嵌入搜尋頁面-->
+<div class="offcanvas offcanvas-end" id="search">
+    <div class="offcanvas-header">
+        <h1 class="offcanvas-title justify-content-md-center">預約教室搜尋介面</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form action="/action_page.php">
+            <div class="input-group mb-3">
+                <input type="date" class="form-control" placeholder="Username" name="date">
+                <span class="input-group-text">日期</span>
+            </div>
+            <div class="input-group mb-3">
+                <select class="input-group mb-3 form-select mt-3">
+                    <option>第一堂</option>
+                    <option>第二堂</option>
+                    <option>第三堂</option>
+                    <option>第四堂</option>
+                    <option>第五堂</option>
+                    <option>第六堂</option>
+                    <option>第七堂</option>
+                    <option>第八堂</option>
+                    <option>第九堂</option>
+                    <option>第十堂</option>
+                    <option>第十一堂</option>
+                    <option>第十二堂</option>
+                </select>
+                <h1 class="mt-2">~</h1>
+                <select class="input-group mb-3 form-select mt-3">
+                    <option>第一堂</option>
+                    <option>第二堂</option>
+                    <option>第三堂</option>
+                    <option>第四堂</option>
+                    <option>第五堂</option>
+                    <option>第六堂</option>
+                    <option>第七堂</option>
+                    <option>第八堂</option>
+                    <option>第九堂</option>
+                    <option>第十堂</option>
+                    <option>第十一堂</option>
+                    <option>第十二堂</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary">搜尋</button>
+        </form>
+        <h2 class="mt-5">以教室查詢</h2>
+        <form action="/action_page.php">
+            <div class="input-group dropdown">
+                <ul class="input-group mb-3 dropdown-menu">
+                    <li><h5 class="dropdown-header">地下室</h5></li>
+                    <li><a class="dropdown-item" href="#">B10</a></li>
+                    <li><a class="dropdown-item" href="#">B12</a></li>
+                    <li><a class="dropdown-item" href="#">INSB07</a></li>
+                    <li><h5 class="dropdown-header">一樓</h5></li>
+                    <li><a class="dropdown-item" href="#">INS101</a></li>
+                    <li><a class="dropdown-item" href="#">INS105</a></li>
+                    <li><h5 class="dropdown-header">二樓</h5></li>
+                    <li><a class="dropdown-item" href="#">INS203</a></li>
+                    <li><a class="dropdown-item" href="#">INS205</a></li>
+                    <li><h5 class="dropdown-header">三樓</h5></li>
+                    <li><a class="dropdown-item" href="#">INS301</a></li>
+                    <li><a class="dropdown-item" href="#">INS303</a></li>
+                    <li><h5 class="dropdown-header">四樓</h5></li>
+                    <li><a class="dropdown-item" href="#">INS407</a></li>
+                    <li><a class="dropdown-item" href="#">INS409</a></li>
+                </ul>
+            </div>
+            <div class="input-group mt-3">
+                <input type="text" class="form-control" placeholder="Search">
+                <button type="button" class="btn btn-primary">搜尋</button>
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
 <!--style="background-color: #bfd1ec"  這個原放置於sidebar李-->
 <div class="container-fluid">
     <div class="row h-25">
@@ -81,11 +159,12 @@
             </div>
             <hr class="d-sm-none">
         </div>
-        <div class="col-sm-9 col-12 content classroomlist">
+        <div class="col-sm-9 col-12 content classroomlist" style="background-color: #DFDEE6">
+                <!--更改教室列表教室列表-->
                 <div class="row m-2">
-                    <h1>教室列表</h1>
-                    <div class="col-12 col-md-6 p-1">
-                        <div class="card m-3 container_sp text-dark ">
+                    <h1>更改教室列表</h1>
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
                             <div class="card-body">
                                 <h1>B10</h1>
                                 <p>座位:50</p>
@@ -93,64 +172,82 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-1">
-                        <div class="card m-3 container_sp text-dark ">
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
                             <div class="card-body">
-                                <h1>B10</h1>
+                                <h1>B12</h1>
                                 <p>座位:50</p>
                                 <p>器材:....</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-1">
-                        <div class="card m-3 container_sp text-dark ">
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
                             <div class="card-body">
-                                <h1>B10</h1>
+                                <h1>B07</h1>
                                 <p>座位:50</p>
                                 <p>器材:....</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-1">
-                        <div class="card m-3 container_sp text-dark ">
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
                             <div class="card-body">
-                                <h1>B10</h1>
+                                <h1>101</h1>
                                 <p>座位:50</p>
                                 <p>器材:....</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-1">
-                        <div class="card m-3 container_sp text-dark ">
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
                             <div class="card-body">
-                                <h1>B10</h1>
+                                <h1>105</h1>
                                 <p>座位:50</p>
                                 <p>器材:....</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-1">
-                        <div class="card m-3 container_sp text-dark ">
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
                             <div class="card-body">
-                                <h1>B10</h1>
+                                <h1>203</h1>
                                 <p>座位:50</p>
                                 <p>器材:....</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-1">
-                        <div class="card m-3 container_sp text-dark ">
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
                             <div class="card-body">
-                                <h1>B10</h1>
+                                <h1>205</h1>
                                 <p>座位:50</p>
                                 <p>器材:....</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 p-1">
-                        <div class="card m-3 container_sp text-dark ">
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
                             <div class="card-body">
-                                <h1>B10</h1>
+                                <h1>301</h1>
+                                <p>座位:50</p>
+                                <p>器材:....</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
+                            <div class="card-body">
+                                <h1>303</h1>
+                                <p>座位:50</p>
+                                <p>器材:....</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-3 p-1">
+                        <div class="card m-3 container_sp text-dark glass">
+                            <div class="card-body">
+                                <h1>407</h1>
                                 <p>座位:50</p>
                                 <p>器材:....</p>
                             </div>
@@ -161,6 +258,7 @@
         </div>
     </div>
 </div>
-<!--footer section-->
+<script src="js/script.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
 </html>
