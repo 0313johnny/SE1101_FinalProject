@@ -1,14 +1,28 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap');
 *{
-    font-family: 'Readex Pro', sans-serif;
-}*/
+    font-family: 'Noto Sans TC', sans-serif;
+}
 
+/*管理員分割面板*/
+.content{
+    float:right;
+    padding: 0px;
+}
+.sidebar{
+    float:left;
+    background: #bfd1ec;
+}
 .container_sp{
     background: linear-gradient(0deg, #ffffff, rgb(255, 255, 255));
-    /*padding: 15px 45% 100px;*/
 }
 .classroomlist{
-    background: #DFDEE6;
+    /*background: #DFDEE6;*/
+    background-image:url( 'pic/IB_1.png' ) ;
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }
 /*教室列表CSS*/
 .card{
@@ -17,7 +31,7 @@
     border-radius:10px;
 }
 .card:hover{
-    transform: scale(1.15);
+    transform: scale(1.08);
 }
 .card ,h1{
     text-align: center;
@@ -41,12 +55,51 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
-/*管理員分割面板*/
-.content{
-    float:right;
-    padding: 0px;
+#scroll-top{
+    width: 50px;
+    position: fixed;
+    top:-120%;
+    right:2rem;
+    /*padding:.5rem 1.5rem;*/
+    font-size: 4rem;
+    background: rgb(0, 0, 0);
+    color: #fff;
+    border-radius: .5rem;
+    transition: .5s linear;
+    z-index: 1000;
 }
-.sidebar{
-    float:left;
-    background: #bfd1ec;
+#scroll-top.active{
+    top:calc(100% - 8rem);
 }
+/*毛玻璃效果*/
+body ,classroomlist::before {
+    background: url( 'pic/IB_1.png' ) 0 / cover fixed;
+}
+.glass {
+    background: hsla(0,0%,100%,.5);
+    position: relative;
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+
+    /* 其他樣式 */
+}/*
+.glass::before {
+    position: absolute;
+    top:0; right:0; bottom:0; left:0;
+    backdrop-filter: blur(20px);
+    z-index: -1;
+    margin: -30px;
+一般教室	E化教室	B10	50	數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)
+一般教室	E化教室	B12	50	數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)
+一般教室	E化教室	INSB07	30	數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)
+視聽教室	E化教室	INS303	60	數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)
+研究生教室	E化教室	INS407	15	數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)
+研討室	E化教室	INS409	15	數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)
+視聽教室	階梯教室	INS101	70	數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)
+視聽教室	階梯教室	INS105	70	數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)
+個人電腦實驗室	教學實驗室	INS203	80	投影機、擴大機、麥克風、喇叭、布幕、81台主機
+3D多媒體教學實驗室	教學實驗室	INS205	25	投影機、擴大機、麥克風、喇叭、布幕、23台mac主機
+電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室	教學實驗室	INS301	53	投影機、擴大機、麥克風、喇叭、布幕、53台主機
+物聯網實驗室	教學實驗室	電機一館314	65	擴大機、麥克風、喇叭、65台主機
+
+}*/
