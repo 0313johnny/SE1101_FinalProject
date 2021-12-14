@@ -24,7 +24,7 @@ def connectDB():
 
     try:
         host = "mongodb://wayne1224:wayne1224@sandbox-shard-00-00.qjd2q.mongodb.net:27017,sandbox-shard-00-01.qjd2q.mongodb.net:27017,sandbox-shard-00-02.qjd2q.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-bu8995-shard-0&authSource=admin&retryWrites=true&w=majority"
-        client = pymongo.MongoClient(host , serverSelectionTimeoutMS = 10000, ssl = True, ssl_cert_reqs = 'CERT_NONE') # Timeout 10s
+        client = pymongo.MongoClient(host , serverSelectionTimeoutMS = 10000) # Timeout 10s
         db = client["NTOU"]                       # choose database
         AccountDB = db["Account"]                 # choose collection
         ClassroomInfoDB = db["ClassroomInfo"]     # choose collection
@@ -39,7 +39,7 @@ def connectDB():
         client.close()
         return json.dumps(False)
 
-@app.route('/DB/checkDB')
+@app.route('/DB/checkDB' , methods = ['GET'])
 def checkDB():
     print("123")
     print(AccountDB)
@@ -50,7 +50,7 @@ def findAccount(userID):
     try:
         query = dict()
         query["userID"] = userID
-        
+      
         if AccountDB.count_documents(query) == 0:
             print("can not find this Account")
             return json.dumps(False)
@@ -67,7 +67,9 @@ def findAccount(userID):
 @app.route('/DB/insertAccount/data' , methods = ['POST'])
 def insertAccount(data):
     try:
-        pass
+        a = dict(data)
+        AccountDB.insert_one(a)
+
         
     except Exception as e:
         print("The error of function insertAccount() !!")
