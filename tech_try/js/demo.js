@@ -33,7 +33,26 @@ $("document").ready(function(){
             url: "http://127.0.0.1:5000/DB/findAccount/wayne1224", 
             dataType: "json",
             success: function(re){
-                console.log("success : "+re);
+                console.log(re);
+            },
+            error: function (thrownError) {
+                console.log(thrownError);
+              }
+        });
+          
+    });
+    $(".post").click(function(){
+        console.log("post");
+        var user = {};
+        
+        user.userID = "robin";
+        var data = JSON.stringify(user);
+        $.ajax({ 
+            type: "POST",
+            url: "http://127.0.0.1:5000/DB/insertAccount", 
+            data:data,
+            success: function(re){
+                console.log(re);
             },
             error: function (thrownError) {
                 console.log(thrownError);

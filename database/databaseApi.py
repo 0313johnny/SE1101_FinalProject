@@ -71,7 +71,7 @@ def findAccount(userID):
 
 @app.route('/DB/insertAccount' , methods = ['POST'])
 @cross_origin()
-def insertAccount(data):
+def insertAccount():
     try:
         data = json.loads(flask.request.get_data())
 
