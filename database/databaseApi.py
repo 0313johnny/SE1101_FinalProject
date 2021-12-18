@@ -1,12 +1,11 @@
 import flask
 import pymongo
 import json
-
+from flask_cors import cross_origin
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-resp = flask.Response()
-resp.headers['Access-Control-Allow-Origin'] = '*' # 設定任何伺服器都可以取得資料
+
 # Database
 @app.route('/')
 def index():
@@ -15,6 +14,7 @@ def index():
     return "connected successfully !!"
 
 @app.route('/DB/connectDB')
+@cross_origin()
 def connectDB():
     global db
     global AccountDB 
@@ -25,7 +25,6 @@ def connectDB():
     client = pymongo.MongoClient()
 
     try:
-        
         host = "mongodb://wayne1224:wayne1224@sandbox-shard-00-00.qjd2q.mongodb.net:27017,sandbox-shard-00-01.qjd2q.mongodb.net:27017,sandbox-shard-00-02.qjd2q.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-bu8995-shard-0&authSource=admin&retryWrites=true&w=majority"
         client = pymongo.MongoClient(host , serverSelectionTimeoutMS = 10000) # Timeout 10s
         db = client["NTOU"]                       # choose database
@@ -43,6 +42,7 @@ def connectDB():
         return json.dumps(False)
 
 @app.route('/DB/checkDB' , methods = ['GET'])
+@cross_origin()
 def checkDB():
     print("123")
     print(AccountDB)
@@ -50,6 +50,7 @@ def checkDB():
 
 # Account
 @app.route('/DB/findAccount/<string:userID>' , methods = ['GET'])
+@cross_origin()
 def findAccount(userID):
     try:
         query = dict()
@@ -69,6 +70,7 @@ def findAccount(userID):
         return json.dumps(False)
 
 @app.route('/DB/insertAccount' , methods = ['POST'])
+@cross_origin()
 def insertAccount(data):
     try:
         data = json.loads(flask.request.get_data())
