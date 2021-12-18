@@ -91,7 +91,39 @@ def insertAccount(data):
         return json.dumps(False)
 
 # ClassroomInfo
+classroomlist=[
+  { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
+  { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
+  { "classroomID":"B07" , "name": "一般教室_E化教室", "location": "INSB07","capacity": 30,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
+  { "classroomID":"303" , "name": "視聽教室_E化教室", "location": "INS303","capacity": 60,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
+  { "classroomID":"407" , "name": "研究生教室_E化教室", "location": "INS407","capacity": 15,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
+  { "classroomID":"409" , "name": "研討室_E化教室", "location": "INS409","capacity": 15,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
+  { "classroomID":"101" , "name": "視聽教室_階梯教室", "location": "INS101","capacity": 70,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
+  { "classroomID":"105" , "name": "視聽教室_階梯教室", "location": "INS105","capacity": 70,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
+  { "classroomID":"203" , "name": "個人電腦實驗室_教學實驗室", "location": "INS203","capacity": 80,"equipment": "投影機、擴大機、麥克風、喇叭、布幕、81台主機"},
+  { "classroomID":"205" , "name": "3D多媒體教學實驗室_教學實驗室", "location": "INS205","capacity": 25,"equipment": "投影機、擴大機、麥克風、喇叭、布幕、23台mac主機"},
+  { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment": "投影機、擴大機、麥克風、喇叭、布幕、53台主機"},
+  { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment": "擴大機、麥克風、喇叭、65台主機"}
+]
 
+classroom=ClassroomInfoDB.insert_many(classroomlist)
+
+@app.route('/DB/findClassroom/<string:classroomID>' , methods = ['GET'])
+def findClassroom(classroomID):
+    try:
+        classquery=dict()
+        classquery["classroomID"]=classroomID
+        if ClassroomInfoDB.count_documents(classquery) == 0:
+            print("can not find this class")
+            return json.dumps(False)
+        else:
+            data = ClassroomInfoDB.find_one(classquery)
+            
+            return json.dumps(data)
+    except Exception as e:
+        print("The error of function findClassroom() !!")
+        print(e)     
+        return json.dumps(False)
 # Appointment
 
 # Record
