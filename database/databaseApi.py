@@ -1,11 +1,11 @@
 import flask
 import pymongo
 import json
-import requests
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
+# Database
 @app.route('/')
 def index():
     print("connected successfully !!")
@@ -23,6 +23,9 @@ def connectDB():
     client = pymongo.MongoClient()
 
     try:
+        resp = flask.Response()
+        resp.headers['Access-Control-Allow-Origin'] = '*' # 設定任何伺服器都可以取得資料
+        
         host = "mongodb://wayne1224:wayne1224@sandbox-shard-00-00.qjd2q.mongodb.net:27017,sandbox-shard-00-01.qjd2q.mongodb.net:27017,sandbox-shard-00-02.qjd2q.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-bu8995-shard-0&authSource=admin&retryWrites=true&w=majority"
         client = pymongo.MongoClient(host , serverSelectionTimeoutMS = 10000) # Timeout 10s
         db = client["NTOU"]                       # choose database
@@ -45,6 +48,7 @@ def checkDB():
     print(AccountDB)
     return json.dumps(True)
 
+# Account
 @app.route('/DB/findAccount/<string:userID>' , methods = ['GET'])
 def findAccount(userID):
     try:
@@ -64,17 +68,31 @@ def findAccount(userID):
         print(e)     
         return json.dumps(False)
 
-@app.route('/DB/insertAccount/data' , methods = ['POST'])
+@app.route('/DB/insertAccount' , methods = ['POST'])
 def insertAccount(data):
     try:
-        a = dict(data)
-        AccountDB.insert_one(a)
+        data = json.loads(flask.request.get_data())
 
-        
+        query = dict()
+        query["userID"] = data["userID"]
+
+        # 在 Account 裡找不到 userID , 可以新增
+        if AccountDB.count_documents(query) == 0:
+            AccountDB.insert_one(data)
+            return json.dumps(True)
+        else:
+            return json.dumps(False)
+     
     except Exception as e:
         print("The error of function insertAccount() !!")
         print(e)     
         return json.dumps(False)
+
+# ClassroomInfo
+
+# Appointment
+
+# Record
 
 if __name__ == '__main__':
     app.run()
