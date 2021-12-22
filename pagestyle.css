@@ -1,89 +1,232 @@
+@charset "UTF-8";
 /*@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap');*/
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap');
-*{
-    font-family: 'Noto Sans TC', sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap");
+* {
+  font-family: "Noto Sans TC", sans-serif;
 }
 
 /*管理員分割面板*/
-.content{
-    float:right;
-    padding: 0px;
+.content {
+  float: right;
+  padding-left: 20rem;
+  padding-top: 70px;
 }
-.sidebar{
-    float:left;
-    background: #bfd1ec;
+
+.black_background {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 5;
 }
-.container_sp{
-    background: linear-gradient(0deg, #ffffff, rgb(255, 255, 255));
+
+.sidebar {
+  float: left;
+  background: #bfd1ec;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 20rem;
+  height: 100%;
+  padding: 1rem;
+  padding-top: 50px;
 }
-.classroomlist{
-    /*background: #DFDEE6;*/
-    background-image:url( 'pic/IB_1.png' ) ;
-    background-repeat:no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
+
+.container_sp {
+  background: linear-gradient(0deg, #ffffff, white);
 }
+
+.classroomlist {
+  /*width: 100%;
+  height: 100%;*/
+  background-image: url("pic/IB.jpeg");
+  background-color: blue;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
 /*教室列表CSS*/
-.card{
-    box-shadow : 0 .5rem 1rem rgba(0,0,0,.2);
-    transition:ease .5s;
-    border-radius:10px;
+.card_spec {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  transition: ease 0.5s;
+  border-radius: 10px;
 }
-.card:hover{
-    transform: scale(1.08);
+.card_spec:hover {
+  transform: scale(1.08);
 }
-.card ,h1{
-    text-align: center;
-    /*margin-top: 20px;*/
+
+.card, h1 {
+  text-align: center;
+  /*margin-top: 20px;*/
+}
+
+.card_show {
+  position: fixed;
+  left: 6%;
+  top: 10%;
+  width: 88%;
+  height: 86%;
+  z-index: 10;
+  animation-name: example;
+  animation-duration: 1s;
+}
+.card_show .card_body {
+  margin: 1rem;
+}
+.card_show .close_button {
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  width: 50px;
+  height: 50px;
+  background: #FFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.card_show .close_button span {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: #1863FF;
+  border-radius: 4px;
+  transition: 0.5s;
+  transform: rotate(315deg);
+}
+.card_show .close_button span:nth-child(1) {
+  transform: rotate(45deg);
+  width: 40px;
+}
+
+@keyframes example {
+  0% {
+    opacity: 0;
+  }
+  /*25%  {
+      background-color: yellow;
+  }
+  50%  {
+      background-color: blue;
+  }*/
+  100% {
+    opacity: 1;
+  }
 }
 .middle {
-    float: none;
-    display: inline-block;
-    vertical-align: middle;
+  float: none;
+  display: inline-block;
+  vertical-align: middle;
 }
-.circle{
-    border-radius:10px;
+
+.circle {
+  border-radius: 10px;
 }
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 /* Firefox */
 input[type=number] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
-#scroll-top{
-    width: 50px;
-    position: fixed;
-    top:-120%;
-    right:2rem;
-    /*padding:.5rem 1.5rem;*/
-    font-size: 4rem;
-    background: rgb(0, 0, 0);
-    color: #fff;
-    border-radius: .5rem;
-    transition: .5s linear;
-    z-index: 1000;
-}
-#scroll-top.active{
-    top:calc(100% - 8rem);
-}
-/*毛玻璃效果*/
-body ,classroomlist::before {
-    background: url( 'pic/IB_1.png' ) 0 / cover fixed;
-}
-.glass {
-    background: hsla(0,0%,100%,.5);
-    position: relative;
-    backdrop-filter: blur(6px);
-    overflow: hidden;
 
-    /* 其他樣式 */
-}/*
-.glass::before {
+/* 網頁捲軸【寬度】 */
+::-webkit-scrollbar {
+  width: 10px;
+  -webkit-border-radius: 10px;
+  display: none;
+}
+
+/* 網頁捲軸【背景】顏色 */
+::-webkit-scrollbar-track {
+  background: #448fc8;
+}
+
+/* 網頁捲軸【把手】顏色 */
+::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+/* 網頁捲軸【滑過時】把手的顏色 */
+::-webkit-scrollbar-thumb:hover {
+  background: #e1e5e8;
+}
+
+.up_button {
+  position: absolute;
+  right: 100px;
+  top: 200px;
+  width: 70px;
+  height: 70px;
+  background: #FFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.up_button span {
+  position: absolute;
+  width: 4px;
+  height: 40px;
+  background: black;
+  border-radius: 4px;
+  transition: 0.5s;
+}
+.up_button span:nth-child(1) {
+  transform: translateY(-10px) rotate(45deg);
+  height: 25px;
+  left: 25px;
+}
+.up_button span:nth-child(2) {
+  transform: translateY(-10px) rotate(135deg);
+  height: 25px;
+  right: 25px;
+}
+
+#scroll-top {
+  position: fixed;
+  top: -120%;
+  right: 2rem;
+  /*padding:.5rem 1.5rem;*/
+  font-size: 4rem;
+  border-radius: 0.5rem;
+  transition: 0.5s linear;
+  z-index: 1;
+}
+
+#scroll-top.active {
+  top: calc(100% - 8rem);
+}
+
+/*毛玻璃效果*/
+.body_spec, .classroomlist::before {
+  background: url("pic/IB.jpeg") 0/cover fixed;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+  overflow: hidden;
+  /* 其他樣式 */
+}
+
+/*.glass::before {
     position: absolute;
     top:0; right:0; bottom:0; left:0;
     backdrop-filter: blur(20px);
@@ -103,3 +246,283 @@ body ,classroomlist::before {
 物聯網實驗室	教學實驗室	電機一館314	65	擴大機、麥克風、喇叭、65台主機
 
 }*/
+.record table {
+  margin: 0;
+  border-radius: 6px;
+}
+.record table tr th {
+  border-bottom: 3px solid white;
+  width: 25%;
+  border-radius: 6px;
+}
+.record table tbody tr {
+  border-bottom: 3px solid white;
+  border-radius: 6px;
+  /*&:last-child {
+      border-bottom: 0px solid white;
+  }*/
+}
+.record table tbody tr td {
+  width: 25%;
+}
+
+.weekList {
+  padding-left: 0;
+}
+
+.no_display {
+  display: none;
+  transition: 0.1s;
+}
+
+.RWD_button {
+  display: none;
+}
+
+.show_left_top {
+  background: lightgreen;
+}
+
+.show_left_bottom {
+  margin-top: 25px;
+  background: lightblue;
+  height: calc(80% - 13rem);
+}
+
+.show_right {
+  background: rgba(209, 254, 184, 0.8);
+  padding-right: 1.5rem;
+  margin: 1rem;
+}
+.show_right table {
+  width: 100%;
+  white-space: nowrap;
+  table-layout: auto;
+}
+.show_right table thead tr th {
+  border-bottom: 3px solid white;
+  width: 12.5%;
+  max-width: 200px;
+}
+.show_right table tbody tr {
+  border-bottom: 3px solid white;
+  width: auto;
+}
+.show_right table tbody tr:last-child {
+  border-bottom: 0px solid white;
+}
+
+.classInfo {
+  padding-right: 0;
+}
+.classInfo .rows {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.classInfo .rows .container-fluid .info {
+  display: flex;
+  margin-bottom: 0.2rem;
+}
+.classInfo .rows .container-fluid .info h3 {
+  font-size: 1.5rem;
+  color: black;
+  line-height: 1.5;
+}
+.classInfo .rows .container-fluid .info p {
+  width: 100px;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.RWD_show {
+  display: none;
+}
+
+.RWD_noShow {
+  display: block;
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    left: -110%;
+  }
+
+  .content {
+    padding-left: 0rem;
+  }
+
+  .RWD_button {
+    display: block;
+  }
+
+  .RWD_word {
+    display: none;
+  }
+
+  .weekList {
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+  }
+
+  /*table tr td{
+      border: 1px solid #1c1f23!important;
+      width: 5rem;
+
+  }*/
+  .show_right {
+    margin-top: 25px;
+  }
+
+  .show_left_bottom {
+    height: auto;
+  }
+
+  .classInfo {
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+  }
+}
+@media (max-width: 767px) {
+  .RWD_show {
+    display: block;
+  }
+
+  .RWD_noShow {
+    display: none;
+  }
+
+  .card_show .card_body {
+    margin: 0.2rem;
+  }
+  .card_show .card_body .classInfo {
+    padding: 0;
+  }
+  .card_show .card_body .classInfo .show_left_top {
+    margin: 0;
+  }
+  .card_show .card_body .weekList {
+    padding: 0;
+  }
+
+  /*.card_show{
+      height: auto;
+  }*/
+}
+.scroll {
+  overflow: auto;
+}
+
+.paper {
+  background: linear-gradient(to left bottom, transparent 50%, rgba(0, 0, 0, 0.4) 0) no-repeat 100% 0/3em 1.73em, linear-gradient(-135deg, transparent 1.5em, #58a 0);
+}
+
+.toggle_button {
+  position: absolute;
+  right: 100px;
+  top: 100px;
+  width: 70px;
+  height: 70px;
+  background: #FFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.toggle_button span {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: #1863FF;
+  border-radius: 4px;
+  transition: 0.5s;
+}
+.toggle_button span:nth-child(1) {
+  transform: translateY(-15px);
+  width: 25px;
+  left: 15px;
+}
+.toggle_button span:nth-child(2) {
+  transform: translateY(15px);
+  width: 15px;
+  left: 15px;
+}
+.toggle_button:hover span:nth-child(1) {
+  width: 40px;
+  left: 15px;
+}
+.toggle_button:hover span:nth-child(2) {
+  width: 40px;
+  left: 15px;
+}
+.toggle_button.active span {
+  width: 40px;
+  height: 4px;
+  background: #1863FF;
+  border-radius: 4px;
+  transition: 0.5s;
+}
+.toggle_button.active span:nth-child(1) {
+  transform: translateY(0px) rotate(45deg);
+  width: 40px;
+}
+.toggle_button.active span:nth-child(2) {
+  transform: translateY(0px) rotate(315deg);
+  width: 40px;
+}
+.toggle_button.active span:nth-child(3) {
+  transform: translateX(60px);
+}
+
+.navbar-toggler .toggle_button {
+  background: #2c3034;
+  width: 50px;
+  height: 40px;
+  top: 8px;
+  right: 5px;
+}
+.navbar-toggler .toggle_button span {
+  position: absolute;
+  width: 30px;
+  height: 4px;
+  background: white;
+  border-radius: 4px;
+  transition: 0.5s;
+}
+.navbar-toggler .toggle_button span:nth-child(1) {
+  transform: translateY(-15px);
+  width: 20px;
+  left: 10px;
+}
+.navbar-toggler .toggle_button span:nth-child(2) {
+  transform: translateY(15px);
+  width: 15px;
+  left: 10px;
+}
+.navbar-toggler .toggle_button:hover span:nth-child(1) {
+  width: 30px;
+}
+.navbar-toggler .toggle_button:hover span:nth-child(2) {
+  width: 30px;
+}
+.navbar-toggler .toggle_button.active span {
+  /*width: 40px;
+  height: 4px;
+  background: #FFF;
+  border-radius: 4px;
+  transition: 0.5s;*/
+}
+.navbar-toggler .toggle_button.active span:nth-child(1) {
+  transform: translateY(0px) rotate(45deg);
+  width: 30px;
+}
+.navbar-toggler .toggle_button.active span:nth-child(2) {
+  transform: translateY(0px) rotate(315deg);
+  width: 30px;
+}
+.navbar-toggler .toggle_button.active span:nth-child(3) {
+  transform: translateX(60px);
+}
+
+/*# sourceMappingURL=pagestyle.css.map */
