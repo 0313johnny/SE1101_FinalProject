@@ -156,9 +156,10 @@ classroomlist=[
   { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment": "擴大機、麥克風、喇叭、65台主機"}
 ]
 
-# classroom=ClassroomInfoDB.insert_many(classroomlist)
+ClassroomInfoDB.insert_many(classroomlist)
 
 @app.route('/DB/findClassroom/<string:classroomID>' , methods = ['GET'])
+@cross_origin()
 def findClassroom(classroomID):
     try:
         classquery=dict()
