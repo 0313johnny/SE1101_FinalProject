@@ -11,10 +11,7 @@ $("document").ready(function(){
         password = $("input[name='Password']").val();
         checKPassword = $("input[name='checkPassword']").val();
         inputCAPTCHA = parseInt($("input[name='CAPTCHA']").val());
-        if(false){//以下為判定註冊資勛格式是否正確
-            alert("此信箱已註冊，請重新確認!!");
-        }
-        else if(password == ""){
+        if(password == ""){
             alert("密碼為必填資料!!");
         }
         else if(password != checKPassword){
@@ -25,15 +22,30 @@ $("document").ready(function(){
         }
         else{//註冊資訊正確，新增使用者
             var user = {};
-            user.email = email;
+            user.userId = email;
+            user.email = email + "@email.ntou.edu.tw";
             user.password = password;
+            user.authority = "user";
             console.log(user);
+            $.ajax({ 
+                type: "POST",
+                url: "http://127.0.0.1:5000/DB/insertAccount", 
+                data:user,
+                success: function(re){
+                    console.log("使用者"+email+"註冊成功!!請登入以使用預約功能。");
+                    //跳轉頁面回主頁
+                },
+                error: function (thrownError) {
+                    console.log(thrownError);
+                  }
+            });
+
         }
 
     });
     $("#send_CAPTCHA").click(function(){
         email = $("input[name='email']").val();
-        console.log(email);
+        console.log("email");
         if(email == ""){//email為空   之後預計添加 else if(email是否已被註冊) else if(email是否存在)
             alert("email為必填資料!!");
         }
