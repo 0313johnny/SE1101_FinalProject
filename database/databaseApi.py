@@ -6,13 +6,14 @@ from flask_cors import cross_origin
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-# Database
+## 確認伺服器已成功連接
 @app.route('/')
 def index():
     print("connected successfully !!")
-
     return "connected successfully !!"
 
+# Database
+## 連結資料庫 return True / False
 @app.route('/DB/connectDB')
 @cross_origin()
 def connectDB():
@@ -48,10 +49,13 @@ def checkDB():
     print(AccountDB)
     return json.dumps(True)
 
+############################################################################################################################################################
+
 # Account
-@app.route('/DB/findAccount/<string:userID>' , methods = ['GET'])
+## 用 userID 查詢帳號 , return Account / False
+@app.route('/DB/findAccountByID/<string:userID>' , methods = ['GET'])
 @cross_origin()
-def findAccount(userID):
+def findAccountByID(userID):
     try:
         query = dict()
         query["userID"] = userID
@@ -65,16 +69,38 @@ def findAccount(userID):
             return json.dumps(data)
 
     except Exception as e:
-        print("The error of function findAccount() !!")
+        print("The error of function findAccountByID() !!")
         print(e)     
         return json.dumps(False)
 
+## 用 email 查詢帳號 , return Account / False
+@app.route('/DB/findAccountByEmail/<string:email>' , methods = ['GET'])
+@cross_origin()
+def findAccountByEmail(email):
+    try:
+        query = dict()
+        query["email"] = email
+      
+        if AccountDB.count_documents(query) == 0:
+            print("can not find this Account")
+            return json.dumps(False)
+        else:
+            data = AccountDB.find_one(query)
+            del data['_id']
+            return json.dumps(data)
+
+    except Exception as e:
+        print("The error of function findAccountByEmail() !!")
+        print(e)     
+        return json.dumps(False)
+
+## 新增帳號 , return True / False
 @app.route('/DB/insertAccount' , methods = ['POST'])
 @cross_origin()
 def insertAccount():
     try:
         data = json.loads(flask.request.get_data())
-
+        
         query = dict()
         query["userID"] = data["userID"]
 
@@ -89,6 +115,30 @@ def insertAccount():
         print("The error of function insertAccount() !!")
         print(e)     
         return json.dumps(False)
+
+## 更新使用者權限 , return True / False
+@app.route('/DB/updateAuthority' , methods = ['PUT'])
+@cross_origin()
+def updateAuthority():
+    try:
+        data = json.loads(flask.request.get_data())
+
+        query = dict()
+        query["userID"] = data["userID"]
+      
+        if AccountDB.count_documents(query) == 0:
+            print("can not find this Account")
+            return json.dumps(False)
+        else:
+            AccountDB.update_one(query , {"$set" : {"authority" : data["authority"]}})
+            return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function updateAuthority() !!")
+        print(e)     
+        return json.dumps(False)
+
+############################################################################################################################################################
 
 # ClassroomInfo
 classroomlist=[
@@ -106,7 +156,7 @@ classroomlist=[
   { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment": "擴大機、麥克風、喇叭、65台主機"}
 ]
 
-classroom=ClassroomInfoDB.insert_many(classroomlist)
+# classroom=ClassroomInfoDB.insert_many(classroomlist)
 
 @app.route('/DB/findClassroom/<string:classroomID>' , methods = ['GET'])
 def findClassroom(classroomID):
@@ -124,7 +174,24 @@ def findClassroom(classroomID):
         print("The error of function findClassroom() !!")
         print(e)     
         return json.dumps(False)
+
+############################################################################################################################################################
+
 # Appointment
+## 新增預約 , return True / False
+@app.route('/DB/insertAppointment' , methods = ['POST'])
+@cross_origin()
+def insertAppointment():
+    try:
+        pass
+     
+    except Exception as e:
+        print("The error of function insertAppointment() !!")
+        print(e)     
+        return json.dumps(False)
+
+
+############################################################################################################################################################
 
 # Record
 
@@ -133,5 +200,12 @@ if __name__ == '__main__':
 
 # http://127.0.0.1:5000/DB/connectDB
 # http://127.0.0.1:5000/DB/checkDB
-# http://127.0.0.1:5000/DB/findAccount/wayne1224
+# http://127.0.0.1:5000/DB/findAccountByID/wayne1224
+# http://127.0.0.1:5000/DB/findAccountByEmail/waynewayne1224@gmail.com
+# http://127.0.0.1:5000/DB/insertAccount
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
+
+# POST = insert
+# GET = find , read
+# PUT = update
+# DELETE = delete
