@@ -1,4 +1,5 @@
 $("document").ready(function(){
+
     console.log(globle);
     
     $(".mail").click(function(){
