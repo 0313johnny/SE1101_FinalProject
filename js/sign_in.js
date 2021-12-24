@@ -1,24 +1,38 @@
 $("document").ready(function(){
-    $('#sign_in_btn').click(function(){
+    console.log("connect");
+    $.ajax({ 
+        type: "GET",
+        url: "http://127.0.0.1:5000/DB/connectDB", 
+        dataType: "json",
+        success: function(re){
+            console.log("success : "+re);
+        },
+        error: function (thrownError) {
+            console.log(thrownError);
+            }
+    });
+    $("#sign_in_btn").click(function(){
+        console.log("log in");
         var account = $("input[name='email']").val();
         var password = $("input[name='pswd']").val();
         $.ajax({ 
             type: "GET",
-            url: "http://127.0.0.1:5000/DB/findAccount/"+account, 
+            url: "http://127.0.0.1:5000/DB/findAccountByEmail/"+account, 
             dataType: "json",
             success: function(re){
                 if(re.password == password){
                     console.log("登入成功");
+                    window.location.replace("searchpage.html");
                     //跳轉頁面 儲存帳號相關資訊
                 }
                 else{
-                    alert("密碼錯誤。");
+                    alert("密碼或帳號錯誤。");
                     $("input[name='pswd']").val("");
                 }
                 console.log(re);
             },
             error: function (thrownError) {
-                alert("帳號錯誤!!");
+                alert("伺服器忙碌中請稍後再試。");
                 $("input[name='pswd']").val("");
               }
         });
