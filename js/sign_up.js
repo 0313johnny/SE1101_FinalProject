@@ -22,17 +22,25 @@ $("document").ready(function(){
         }
         else{//註冊資訊正確，新增使用者
             var user = {};
-            user.userId = email;
-            user.email = email + "@email.ntou.edu.tw";
-            user.password = password;
-            user.authority = "user";
+            user.userID = email;
+            //user.email = email + "@email.ntou.edu.tw";
+            //user.password = password;
+            //user.authority = "user";
+            var insertData = JSON.stringify(user);
             console.log(user);
             $.ajax({ 
                 type: "POST",
                 url: "http://127.0.0.1:5000/DB/insertAccount", 
-                data:user,
+                data:insertData,
                 success: function(re){
-                    console.log("使用者"+email+"註冊成功!!請登入以使用預約功能。");
+                    console.log(re);
+                    if(re == "true")
+                    {
+                        alert("使用者"+email+"註冊成功!!請登入以使用預約功能。");
+                        //window.location.replace("index.html");
+                    }   
+                    else
+                        alert("此信箱已註冊過，請更換信箱");
                     //跳轉頁面回主頁
                 },
                 error: function (thrownError) {
