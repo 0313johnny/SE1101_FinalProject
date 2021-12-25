@@ -140,46 +140,52 @@ def updateAuthority():
 ############################################################################################################################################################
 
 # ClassroomInfo
-<<<<<<< HEAD
-@app.route('/DB/insertClassroomInfo', method=['GET','POST'])
-=======
-@app.route('/DB/insertClassroomInfo',methods = ['GET','POST'])
->>>>>>> 7e5db688efed2589781f0721357a7a1019a7ae62
-@cross_origin()
-def insertClassroomInfo():
-    try:
-        classB10={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        classB12={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        classB07={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class303={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class407={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class409={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class101={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class105={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class203={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
-        class205={'投影機','擴大機','麥克風','喇叭','布幕','mac主機'}
-        class301={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
-        class314={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
-        classroomlist=[
-            { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50, "equipment": classB10},
-            { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": classB12},
-            { "classroomID":"B07" , "name": "一般教室_E化教室", "location": "INSB07","capacity": 30,"equipment":classB07 },
-            { "classroomID":"303" , "name": "視聽教室_E化教室", "location": "INS303","capacity": 60,"equipment":class303 },
-            { "classroomID":"407" , "name": "研究生教室_E化教室", "location": "INS407","capacity": 15,"equipment":class407 },
-            { "classroomID":"409" , "name": "研討室_E化教室", "location": "INS409","capacity": 15,"equipment":class409 },
-            { "classroomID":"101" , "name": "視聽教室_階梯教室", "location": "INS101","capacity": 70,"equipment":class101 },
-            { "classroomID":"105" , "name": "視聽教室_階梯教室", "location": "INS105","capacity": 70,"equipment":class105 },
-            { "classroomID":"203" , "name": "個人電腦實驗室_教學實驗室", "location": "INS203","capacity": 80,"equipment":class203 },
-            { "classroomID":"205" , "name": "3D多媒體教學實驗室_教學實驗室", "location": "INS205","capacity": 25,"equipment":class205 },
-            { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301},
-            { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
-        ]
-        ClassroomInfoDB.insert_many(classroomlist)
-        return json.dumps(True)
-    except Exception as e:
-        print("The error of function insertClassroomInfo() !!")
-        print(e)     
-        return json.dumps(False)
+# @app.route('/DB/insertClassroomInfo', method = ['GET' , 'POST'])
+# @cross_origin()
+# def insertClassroomInfo():
+#     try:
+#         classB10={
+#             "主機" : 1,
+#             "投影機" : 1,
+#             "擴大機" : 1,
+#             "麥克風" : 1,
+#             "喇叭" : 1,
+#             "布幕" : 1
+#         }
+
+#         classB12={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+#         classB07={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+#         class303={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+#         class407={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+#         class409={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+#         class101={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+#         class105={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+#         class203={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
+#         class205={'投影機','擴大機','麥克風','喇叭','布幕','mac主機'}
+#         class301={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
+#         class314={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
+
+#         classroomlist=[
+#             { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50, "equipment": classB10},
+#             { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": classB12},
+#             { "classroomID":"B07" , "name": "一般教室_E化教室", "location": "INSB07","capacity": 30,"equipment":classB07 },
+#             { "classroomID":"303" , "name": "視聽教室_E化教室", "location": "INS303","capacity": 60,"equipment":class303 },
+#             { "classroomID":"407" , "name": "研究生教室_E化教室", "location": "INS407","capacity": 15,"equipment":class407 },
+#             { "classroomID":"409" , "name": "研討室_E化教室", "location": "INS409","capacity": 15,"equipment":class409 },
+#             { "classroomID":"101" , "name": "視聽教室_階梯教室", "location": "INS101","capacity": 70,"equipment":class101 },
+#             { "classroomID":"105" , "name": "視聽教室_階梯教室", "location": "INS105","capacity": 70,"equipment":class105 },
+#             { "classroomID":"203" , "name": "個人電腦實驗室_教學實驗室", "location": "INS203","capacity": 80,"equipment":class203 },
+#             { "classroomID":"205" , "name": "3D多媒體教學實驗室_教學實驗室", "location": "INS205","capacity": 25,"equipment":class205 },
+#             { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301},
+#             { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
+#         ]
+
+#         ClassroomInfoDB.insert_many(classroomlist)
+#         return json.dumps(True)
+#     except Exception as e:
+#         print("The error of function insertClassroomInfo() !!")
+#         print(e)     
+#         return json.dumps(False)
 
 @app.route('/DB/findClassroom/<string:classroomID>' , methods = ['GET'])
 @cross_origin()
@@ -203,12 +209,12 @@ def findClassroom(classroomID):
 
 # Appointment
 ## 查詢空閒的教室 , return 教室列表(list) / False
-@app.route('/DB/findIdleClassroom' , methods = ['GET'])
+@app.route('/DB/findIdleClassroom' , methods = ['GET' , 'POST'])
 @cross_origin()
 def findIdleClassroom():
     try:
         data = json.loads(flask.request.get_data())
-        
+
         ### 查詢所有的教室列表
         classroomList = list()
 
@@ -224,7 +230,8 @@ def findIdleClassroom():
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
-                    classroomList.remove(a["classroomID"])
+                    if a["classroomID"] in classroomList:
+                        classroomList.remove(a["classroomID"])
 
         return json.dumps(classroomList)
 
@@ -295,7 +302,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertAccount
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
-# http://127.0.0.1:5000/DB/findReservingClassroom
+# http://127.0.0.1:5000/DB/findIdleClassroom
 # 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
