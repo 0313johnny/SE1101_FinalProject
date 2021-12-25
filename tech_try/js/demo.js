@@ -50,7 +50,7 @@ $("document").ready(function(){
         apoint.classroomID = "207"
         apoint.usingTime = {};
         apoint.usingTime.date = "2021-12-29";
-        apoint.usingTime.time = [4,5,6];
+        apoint.usingTime.Time = [4,5,6];
         apoint.usingTime.class = 3;
         apoint.purpose = "程式語言";
         apoint.status = "pending";
