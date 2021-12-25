@@ -22,6 +22,8 @@ $("document").ready(function(){
             success: function(re){
                 if(re.password == password){
                     console.log("登入成功");
+                    sign_in_user = re;
+                    console.log(typeof(sign_in_user));
                     window.location.replace("searchpage.html");
                     //跳轉頁面 儲存帳號相關資訊
                 }
@@ -29,7 +31,7 @@ $("document").ready(function(){
                     alert("密碼或帳號錯誤。");
                     $("input[name='pswd']").val("");
                 }
-                console.log(re);
+                
             },
             error: function (thrownError) {
                 alert("伺服器忙碌中請稍後再試。");
