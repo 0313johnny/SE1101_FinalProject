@@ -18,7 +18,7 @@ $("document").ready(function(){
         console.log(appointINFO);
         var data = JSON.stringify(appointINFO);
         $.ajax({ 
-            type: "GET",
+            type: "POST",
             url: "http://127.0.0.1:5000/DB/findIdleClassroom", 
             dataType: "json",
             data:data,
