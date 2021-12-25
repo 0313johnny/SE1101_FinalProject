@@ -46,7 +46,6 @@ def connectDB():
 @cross_origin()
 def checkDB():
     print("123")
-    print(AccountDB)
     return json.dumps(True)
 
 ############################################################################################################################################################
@@ -95,7 +94,7 @@ def findAccountByEmail(email):
         return json.dumps(False)
 
 ## 新增帳號 , return True / False
-@app.route('/DB/insertAccount' , methods = ['POST'])
+@app.route('/DB/insertAccount' , methods = ['GET' , 'POST'])
 @cross_origin()
 def insertAccount():
     try:
@@ -117,7 +116,7 @@ def insertAccount():
         return json.dumps(False)
 
 ## 更新使用者權限 , return True / False
-@app.route('/DB/updateAuthority' , methods = ['PUT'])
+@app.route('/DB/updateAuthority' , methods = ['GET' , 'PUT'])
 @cross_origin()
 def updateAuthority():
     try:
@@ -141,7 +140,11 @@ def updateAuthority():
 ############################################################################################################################################################
 
 # ClassroomInfo
+<<<<<<< HEAD
 @app.route('/DB/insertClassroomInfo', method=['GET','POST'])
+=======
+@app.route('/DB/insertClassroomInfo',methods = ['GET','POST'])
+>>>>>>> 7e5db688efed2589781f0721357a7a1019a7ae62
 @cross_origin()
 def insertClassroomInfo():
     try:
@@ -188,9 +191,9 @@ def findClassroom(classroomID):
             print("can not find this class")
             return json.dumps(False)
         else:
-            data = ClassroomInfoDB.find_one(classquery)
-            
+            data = ClassroomInfoDB.find_one(classquery)       
             return json.dumps(data)
+
     except Exception as e:
         print("The error of function findClassroom() !!")
         print(e)     
@@ -199,12 +202,77 @@ def findClassroom(classroomID):
 ############################################################################################################################################################
 
 # Appointment
+## 查詢空閒的教室 , return 教室列表(list) / False
+@app.route('/DB/findIdleClassroom' , methods = ['GET'])
+@cross_origin()
+def findIdleClassroom():
+    try:
+        data = json.loads(flask.request.get_data())
+        
+        ### 查詢所有的教室列表
+        classroomList = list()
+
+        for c in ClassroomInfoDB.find():
+            classroomList.append(c["classroomID"])
+
+        ### 根據日期和使用時間，找出空閒的教室
+        query = dict()
+        query["usingTime.date"] = data["usingTime"]["date"]
+
+        result = list(AppointmentDB.find(query))
+       
+        for a in result:
+            if a["usingTime"]["date"] == data["usingTime"]["date"]:
+                if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                    classroomList.remove(a["classroomID"])
+
+        return json.dumps(classroomList)
+
+    except Exception as e:
+        print("The error of function findIdleClassroom() !!")
+        print(e)     
+        return json.dumps(False) 
+
+## 計算借用者總共預約了幾間教室 , return 教室數量(int) / False
+@app.route('/DB/countUserAppointments/<string:userID>' , methods = ['GET'])
+@cross_origin()
+def countUserAppointments(userID):
+    try:
+        query = dict()
+        query["userID"] = userID
+
+        if AppointmentDB.count_documents(query) == 0:
+            print("can not find this Account")
+            return json.dumps(False)
+        else:
+            data = list(AppointmentDB.find(query))
+            return json.dumps(len(data))
+
+    except Exception as e:
+        print("The error of function countUserAppointments() !!")
+        print(e)     
+        return json.dumps(False)
+
 ## 新增預約 , return True / False
-@app.route('/DB/insertAppointment' , methods = ['POST'])
+@app.route('/DB/insertAppointment' , methods = ['GET' , 'POST'])
 @cross_origin()
 def insertAppointment():
     try:
-        pass
+        data = json.loads(flask.request.get_data())
+
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+
+        result = AppointmentDB.find(query)
+        
+        for a in result:
+            if a["usingTime"]["date"] == data["usingTime"]["date"]:
+                if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                    return json.dumps(False)
+
+        AppointmentDB.insert_one(data)
+
+        return json.dumps(True)
      
     except Exception as e:
         print("The error of function insertAppointment() !!")
@@ -219,11 +287,16 @@ def insertAppointment():
 if __name__ == '__main__':
     app.run()
 
+
 # http://127.0.0.1:5000/DB/connectDB
 # http://127.0.0.1:5000/DB/checkDB
 # http://127.0.0.1:5000/DB/findAccountByID/wayne1224
 # http://127.0.0.1:5000/DB/findAccountByEmail/waynewayne1224@gmail.com
 # http://127.0.0.1:5000/DB/insertAccount
+# http://127.0.0.1:5000/DB/insertAppointment
+# http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
+# http://127.0.0.1:5000/DB/findReservingClassroom
+# 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
 # POST = insert
