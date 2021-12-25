@@ -1,6 +1,7 @@
 
 
 $("document").ready(function(){
+    console.log("asdasdad");
     var CAPTCHA;//宣告驗證碼
     var email = new String;
     var password = new String;
@@ -23,9 +24,9 @@ $("document").ready(function(){
         else{//註冊資訊正確，新增使用者
             var user = {};
             user.userID = email;
-            //user.email = email + "@email.ntou.edu.tw";
-            //user.password = password;
-            //user.authority = "user";
+            user.email = email + "@email.ntou.edu.tw";
+            user.password = password;
+            user.authority = "user";
             var insertData = JSON.stringify(user);
             console.log(user);
             $.ajax({ 

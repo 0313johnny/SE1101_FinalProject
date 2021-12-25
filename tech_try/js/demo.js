@@ -45,13 +45,24 @@ $("document").ready(function(){
     });
     $(".post").click(function(){
         console.log("post");
-        var user = {};
+        var apoint = {};
+        apoint.userID = "ROBIN";
+        apoint.classroomID = "207"
+        apoint.usingTime = {};
+        apoint.usingTime.date = "2021-12-29";
+        apoint.usingTime.Time = [4,5,6];
+        apoint.usingTime.class = 3;
+        apoint.purpose = "程式語言";
+        apoint.status = "pending";
+        apoint.isFixed = false;
+        console.log(apoint);
         
-        user.userID = "robin";
-        var data = JSON.stringify(user);
+        
+        //user.userID = "robin";
+        var data = JSON.stringify(apoint);
         $.ajax({ 
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/insertAccount", 
+            url: "http://127.0.0.1:5000/DB/insertAppointment", 
             data:data,
             success: function(re){
                 console.log(re);
@@ -60,6 +71,5 @@ $("document").ready(function(){
                 console.log(thrownError);
               }
         });
-          
     });
 });
