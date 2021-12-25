@@ -141,7 +141,7 @@ def updateAuthority():
 ############################################################################################################################################################
 
 # ClassroomInfo
-@app.route('/DB/insertClassroomInfo')
+@app.route('/DB/insertClassroomInfo',methods = ['GET','POST'])
 @cross_origin()
 def insertClassroomInfo():
     try:
