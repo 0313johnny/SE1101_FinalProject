@@ -140,12 +140,8 @@ def updateAuthority():
 ############################################################################################################################################################
 
 # ClassroomInfo
-<<<<<<< HEAD
-@app.route('/DB/insertClassroomInfo', method=['GET','POST'])
-=======
 @app.route('/DB/insertClassroomInfo',methods = ['GET','POST'])
->>>>>>> 7e5db688efed2589781f0721357a7a1019a7ae62
-@cross_origin()
+
 def insertClassroomInfo():
     try:
         classB10={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
@@ -296,6 +292,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
+# http://127.0.0.1:5000/DB/findIdleClassroom
 # 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
