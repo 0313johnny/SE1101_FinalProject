@@ -141,23 +141,35 @@ def updateAuthority():
 ############################################################################################################################################################
 
 # ClassroomInfo
-@app.route('/DB/insertClassroomInfo')
+@app.route('/DB/insertClassroomInfo', method=['GET','POST'])
 @cross_origin()
 def insertClassroomInfo():
     try:
+        classB10={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        classB12={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        classB07={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        class303={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        class407={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        class409={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        class101={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        class105={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        class203={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
+        class205={'投影機','擴大機','麥克風','喇叭','布幕','mac主機'}
+        class301={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
+        class314={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
         classroomlist=[
-            { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
-            { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
-            { "classroomID":"B07" , "name": "一般教室_E化教室", "location": "INSB07","capacity": 30,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
-            { "classroomID":"303" , "name": "視聽教室_E化教室", "location": "INS303","capacity": 60,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
-            { "classroomID":"407" , "name": "研究生教室_E化教室", "location": "INS407","capacity": 15,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
-            { "classroomID":"409" , "name": "研討室_E化教室", "location": "INS409","capacity": 15,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
-            { "classroomID":"101" , "name": "視聽教室_階梯教室", "location": "INS101","capacity": 70,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
-            { "classroomID":"105" , "name": "視聽教室_階梯教室", "location": "INS105","capacity": 70,"equipment": "數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)"},
-            { "classroomID":"203" , "name": "個人電腦實驗室_教學實驗室", "location": "INS203","capacity": 80,"equipment": "投影機、擴大機、麥克風、喇叭、布幕、81台主機"},
-            { "classroomID":"205" , "name": "3D多媒體教學實驗室_教學實驗室", "location": "INS205","capacity": 25,"equipment": "投影機、擴大機、麥克風、喇叭、布幕、23台mac主機"},
-            { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment": "投影機、擴大機、麥克風、喇叭、布幕、53台主機"},
-            { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment": "擴大機、麥克風、喇叭、65台主機"}
+            { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50, "equipment": classB10},
+            { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": classB12},
+            { "classroomID":"B07" , "name": "一般教室_E化教室", "location": "INSB07","capacity": 30,"equipment":classB07 },
+            { "classroomID":"303" , "name": "視聽教室_E化教室", "location": "INS303","capacity": 60,"equipment":class303 },
+            { "classroomID":"407" , "name": "研究生教室_E化教室", "location": "INS407","capacity": 15,"equipment":class407 },
+            { "classroomID":"409" , "name": "研討室_E化教室", "location": "INS409","capacity": 15,"equipment":class409 },
+            { "classroomID":"101" , "name": "視聽教室_階梯教室", "location": "INS101","capacity": 70,"equipment":class101 },
+            { "classroomID":"105" , "name": "視聽教室_階梯教室", "location": "INS105","capacity": 70,"equipment":class105 },
+            { "classroomID":"203" , "name": "個人電腦實驗室_教學實驗室", "location": "INS203","capacity": 80,"equipment":class203 },
+            { "classroomID":"205" , "name": "3D多媒體教學實驗室_教學實驗室", "location": "INS205","capacity": 25,"equipment":class205 },
+            { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301},
+            { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
         ]
         ClassroomInfoDB.insert_many(classroomlist)
         return json.dumps(True)
