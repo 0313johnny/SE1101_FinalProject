@@ -140,7 +140,7 @@ def updateAuthority():
 ############################################################################################################################################################
 
 # ClassroomInfo
-###初始化教室資訊,insert static info
+## 初始化教室資訊,insert static info
 @app.route('/DB/initClassroomInfo', method=['GET','POST'])
 @cross_origin()
 def insertClassroomInfo():
@@ -267,7 +267,7 @@ def insertClassroomInfo():
         print(e)     
         return json.dumps(False)
 
-###搜尋教室功能，從DB抓data
+## 搜尋教室功能，從DB抓data
 @app.route('/DB/findClassroom/<string:classroomID>' , methods = ['GET'])
 @cross_origin()
 def findClassroom(classroomID):
@@ -376,16 +376,20 @@ def insertAppointment():
 if __name__ == '__main__':
     app.run()
 
-
+# Database
 # http://127.0.0.1:5000/DB/connectDB
 # http://127.0.0.1:5000/DB/checkDB
+
+# Account
 # http://127.0.0.1:5000/DB/findAccountByID/wayne1224
 # http://127.0.0.1:5000/DB/findAccountByEmail/waynewayne1224@gmail.com
 # http://127.0.0.1:5000/DB/insertAccount
+
+# Appointment
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
-# 
+
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
 # POST = insert
