@@ -371,7 +371,43 @@ def insertAppointment():
 
 ############################################################################################################################################################
 
-# Record
+#record
+#新增歷史資料
+@app.route('/DB/insertrecord', methods = ["GET" , "POST"])
+@cross_origin()
+def insertrecord():
+    try:
+        recordlist = [
+            {"classroomID":"B10","userID":"00857003 ", "usingTime":"306-308", "purpose":"機率論課程"},
+            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"微積分課程"},
+            {"classroomID":"303","userID":"00857027 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
+            {"classroomID":"105","userID":"00757025 ", "usingTime":"502-504" , "purpose":"作業系統課程"},
+            {"classroomID":"203","userID":"00857123 ", "usingTime":"102-104" , "purpose":"計算機系統設計課程"}
+        ]
+        RecordDB.insert_many(recordlist)
+        return json.dumps(recordlist)
+    except Exception as e:
+        print("The error of function insertrecord() !!")
+        print(e)     
+        return json.dumps(False)
+
+#用classroomID查詢歷史紀錄
+@app.route('/DB/findrecord/<string:userID>' , methods = ['GET'])
+@cross_origin()
+def findrecord(classroomID):
+   try:
+       recordquery=dict()
+       recordquery["classroomID"]=classroomID
+       if RecordDB.count_documents(recordquery) == 0:
+            print("can not find this class record")
+            return json.dumps(False)
+       else:
+            data = RecordDB.find_one(recordquery)
+            return json.dumps(data)
+   except Exception as e:
+       print("The error of function findrecord() !!")
+       print(e)     
+       return json.dumps(False)        
 
 if __name__ == '__main__':
     app.run()
