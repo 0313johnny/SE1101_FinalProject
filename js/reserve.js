@@ -1,3 +1,3 @@
 $("document").ready(function(){
-    globle = 1110;
+    console.log(sign_in_user);
 });
