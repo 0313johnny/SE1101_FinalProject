@@ -209,7 +209,7 @@ def findClassroom(classroomID):
 
 # Appointment
 ## 查詢空閒的教室 , return 教室列表(list) / False
-@app.route('/DB/findIdleClassroom' , methods = ['GET' , 'POST'])
+@app.route('/DB/findIdleClassroom' , methods = ['GET','POST'])
 @cross_origin()
 def findIdleClassroom():
     try:

@@ -13,12 +13,15 @@ $("document").ready(function(){
         {
             arry[i] = start + i;
         }
+        console.log(arry);
+        console.log(typeof(arry));
         appointINFO.usingTime.time = arry;
         appointINFO.usingTime.class = period;
         console.log(appointINFO);
         var data = JSON.stringify(appointINFO);
+        console.log(typeof(data));
         $.ajax({ 
-            type: "GET",
+            type: "POST",
             url: "http://127.0.0.1:5000/DB/findIdleClassroom", 
             dataType: "json",
             data:data,
