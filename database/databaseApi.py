@@ -140,31 +140,111 @@ def updateAuthority():
 ############################################################################################################################################################
 
 # ClassroomInfo
-@app.route('/DB/insertClassroomInfo', method = ['GET' , 'POST'])
+###初始化教室資訊,insert static info
+@app.route('/DB/initClassroomInfo', method=['GET','POST'])
 @cross_origin()
 def insertClassroomInfo():
     try:
+        ###set dict()
         classB10={
-            "主機" : 1,
-            "投影機" : 1,
-            "擴大機" : 1,
-            "麥克風" : 1,
-            "喇叭" : 1,
-            "布幕" : 1
+            "主機":1,
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1
         }
 
-        classB12={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        classB07={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class303={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class407={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class409={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class101={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class105={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
-        class203={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
-        class205={'投影機','擴大機','麥克風','喇叭','布幕','mac主機'}
-        class301={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
-        class314={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
+        classB12={
+            "主機":1,
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1
+        }
+        classB07={
+            "主機":1,
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1
+        }
+        class303={
+            "主機":1,
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1
+        }
+        class407={
+            "主機":1,
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1
+        }
+        class409={
+            "主機":1,
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1
+        }
+        class101={
+            "主機":1,
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1
+        }
+        class105={
+            "主機":1,
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1
+        }
+        class203={
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1,
+            "主機":81
+            }
+        class205={
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1,
+            "mac主機":23
+            }
+        class301={
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1,
+            "主機":53
+            }
+        class314={
+            "投影機":1,
+            "擴大機":1,
+            "麥克風":1,
+            "喇叭":1,
+            "布幕":1,
+            "主機":65
+            }
 
+        ### information list about each class
         classroomlist=[
             { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50, "equipment": classB10},
             { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": classB12},
@@ -179,20 +259,23 @@ def insertClassroomInfo():
             { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301},
             { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
         ]
-
+        ###insert to db
         ClassroomInfoDB.insert_many(classroomlist)
         return json.dumps(True)
     except Exception as e:
-        print("The error of function insertClassroomInfo() !!")
+        print("The error of function initClassroomInfo() !!")
         print(e)     
         return json.dumps(False)
 
+###搜尋教室功能，從DB抓data
 @app.route('/DB/findClassroom/<string:classroomID>' , methods = ['GET'])
 @cross_origin()
 def findClassroom(classroomID):
     try:
         classquery=dict()
         classquery["classroomID"]=classroomID
+
+        ###check if class is exist        
         if ClassroomInfoDB.count_documents(classquery) == 0:
             print("can not find this class")
             return json.dumps(False)
@@ -209,12 +292,12 @@ def findClassroom(classroomID):
 
 # Appointment
 ## 查詢空閒的教室 , return 教室列表(list) / False
-@app.route('/DB/findIdleClassroom' , methods = ['GET','POST'])
+@app.route('/DB/findIdleClassroom' , methods = ['GET'])
 @cross_origin()
 def findIdleClassroom():
     try:
         data = json.loads(flask.request.get_data())
-
+        
         ### 查詢所有的教室列表
         classroomList = list()
 
@@ -230,8 +313,7 @@ def findIdleClassroom():
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
-                    if a["classroomID"] in classroomList:
-                        classroomList.remove(a["classroomID"])
+                    classroomList.remove(a["classroomID"])
 
         return json.dumps(classroomList)
 
@@ -302,6 +384,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertAccount
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
+# http://127.0.0.1:5000/DB/findReservingClassroom
 # 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
