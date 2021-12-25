@@ -143,7 +143,7 @@ def updateAuthority():
 ###初始化教室資訊,insert static info
 @app.route('/DB/initClassroomInfo', method=['GET','POST'])
 @cross_origin()
-def insertClassroomInfo():
+def initClassroomInfo():
     try:
         ###set dict()
         classB10={
@@ -385,7 +385,8 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
-# 
+# http://127.0.0.1:5000/DB/initClassroomInfo
+
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
 # POST = insert
