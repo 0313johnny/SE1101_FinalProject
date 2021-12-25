@@ -10,7 +10,6 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script><!--        引入jquery函示庫-->
     <script  type="text/javascript" src="js/global.js"></script><!--        引入全域變數js-->
     <script  type="text/javascript" src="js/sign_in.js"></script><!--        引入登入js-->
-    <script  type="text/javascript" src="js/reserve.js"></script><!--        引入預約js-->
 </head>
 <body class="classroomlist">
 <!--Header-->
@@ -34,10 +33,7 @@
                     <a class="nav-link" href="javascript:void(0)">個人資料</a>
                 </li>
                 <li class="nav-item mt-1">
-                    <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#register" id = "sign_in">登入</a>
-                </li>
-                <li class="nav-item mt-1">
-                    <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#register" id = "sign_out">登入</a>
+                    <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#register">登入</a>
                 </li>
             </ul>
             <form class="d-flex mt-2">
@@ -124,6 +120,7 @@
                 <option value="12">12</option>
             </select>
             <button type="button" class="btn btn-primary" id = "search_btn">搜尋</button>
+
         </form>
         <h2 class="mt-5">以教室查詢</h2>
         <form action="/action_page.php">
