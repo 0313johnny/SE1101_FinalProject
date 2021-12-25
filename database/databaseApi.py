@@ -140,11 +140,19 @@ def updateAuthority():
 ############################################################################################################################################################
 
 # ClassroomInfo
-@app.route('/DB/insertClassroomInfo',methods = ['GET','POST'])
-
+@app.route('/DB/insertClassroomInfo', method = ['GET' , 'POST'])
+@cross_origin()
 def insertClassroomInfo():
     try:
-        classB10={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
+        classB10={
+            "主機" : 1,
+            "投影機" : 1,
+            "擴大機" : 1,
+            "麥克風" : 1,
+            "喇叭" : 1,
+            "布幕" : 1
+        }
+
         classB12={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
         classB07={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
         class303={'數位多功能講桌(含主機、投影機、擴大機、麥克風、喇叭、布幕)'}
@@ -156,6 +164,7 @@ def insertClassroomInfo():
         class205={'投影機','擴大機','麥克風','喇叭','布幕','mac主機'}
         class301={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
         class314={'投影機','擴大機','麥克風','喇叭','布幕','主機'}
+
         classroomlist=[
             { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50, "equipment": classB10},
             { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": classB12},
@@ -170,6 +179,7 @@ def insertClassroomInfo():
             { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301},
             { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
         ]
+
         ClassroomInfoDB.insert_many(classroomlist)
         return json.dumps(True)
     except Exception as e:
@@ -204,7 +214,7 @@ def findClassroom(classroomID):
 def findIdleClassroom():
     try:
         data = json.loads(flask.request.get_data())
-        
+
         ### 查詢所有的教室列表
         classroomList = list()
 
@@ -220,7 +230,8 @@ def findIdleClassroom():
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
-                    classroomList.remove(a["classroomID"])
+                    if a["classroomID"] in classroomList:
+                        classroomList.remove(a["classroomID"])
 
         return json.dumps(classroomList)
 
@@ -291,8 +302,6 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertAccount
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
-# http://127.0.0.1:5000/DB/findReservingClassroom
-# http://127.0.0.1:5000/DB/findIdleClassroom
 # 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
