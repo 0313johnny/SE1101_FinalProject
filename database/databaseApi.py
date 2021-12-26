@@ -354,6 +354,16 @@ def insertAppointment():
     try:
         data = json.loads(flask.request.get_data())
 
+        # data = {
+        #     "userID" : "wayne1224",
+        #     "classroomID" : "B07",
+        #     "usingTime" : {
+        #         "date" : "2021-12-25",
+        #         "time" : [1 , 2 , 3]
+        #     },
+        #     "status" : "pending"
+        # }
+
         query = dict()
         query["classroomID"] = data["classroomID"]
 
@@ -361,9 +371,14 @@ def insertAppointment():
         
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
-                if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                ### 相同時間、相同借用者，重複的預約
+                if a["usingTime"]["time"] == data["usingTime"]["time"] and a["userID"] == data["userID"]:
                     return json.dumps(False)
-
+                ### 此時段、此時間，已經有人成功預約了
+                elif [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                    if a["status"] != "pending":
+                        return json.dumps(False)
+                
         AppointmentDB.insert_one(data)
 
         return json.dumps(True)
@@ -380,6 +395,17 @@ def updateStatus():
     try:
         data = json.loads(flask.request.get_data())
         
+        # data = {
+        #     "userID" : "wayne1224",
+        #     "classroomID" : "B07",
+        #     "usingTime" : {
+        #         "date" : "2021-12-25",
+        #         "time" : [1 , 2 , 3]
+        #     },
+        #     "status" : "reserving"
+        # }
+
+        ### 更新預約狀態
         query = dict()
         query["userID"] = data["userID"]
         query["classroomID"] = data["classroomID"]
@@ -387,6 +413,17 @@ def updateStatus():
         query["usingTime.time"] = data["usingTime"]["time"]
 
         AppointmentDB.update_one(query , {"$set" : {"status" : data["status"]}})
+
+        ### 刪除其他相同時間的預約
+        query = dict()
+        query["usingTime.date"] = data["usingTime"]["date"]
+
+        result = list(AppointmentDB.find(query))
+
+        for a in result:
+            if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                if a["status"] == "pending":
+                    AppointmentDB.delete_one({"_id" : a["_id"]})
        
         return json.dumps(True)
 
@@ -454,6 +491,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
+# http://127.0.0.1:5000/DB/updateStatus
 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
