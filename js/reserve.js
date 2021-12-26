@@ -29,6 +29,7 @@ $("document").ready(function(){
                     var url = "http://127.0.0.1:5000/DB/findClassroom/"+value;
                     $.getJSON(url,function(result){
                         console.log(result);
+                        
 
                     });
                 });
