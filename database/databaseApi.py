@@ -2,6 +2,9 @@ import flask
 import pymongo
 import json
 from flask_cors import cross_origin
+import sys
+
+sys.path.append("database\\databaseApi.py")
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -141,7 +144,7 @@ def updateAuthority():
 
 # ClassroomInfo
 ## 初始化教室資訊,insert static info
-@app.route('/DB/initClassroomInfo', methods=['GET','POST'])
+@app.route('/DB/initClassroomInfo', methods=['GET' , 'POST'])
 @cross_origin()
 def initClassroomInfo():
     try:
@@ -293,7 +296,7 @@ def findClassroom(classroomID):
 
 # Appointment
 ## 查詢空閒的教室 , return 教室列表(list) / False
-@app.route('/DB/findIdleClassroom' , methods = ['GET','POST'])
+@app.route('/DB/findIdleClassroom' , methods = ['GET' , 'POST'])
 @cross_origin()
 def findIdleClassroom():
     try:
@@ -305,7 +308,7 @@ def findIdleClassroom():
         for c in ClassroomInfoDB.find():
             classroomList.append(c["classroomID"])
 
-        ### 根據日期和使用時間，找出空閒的教室
+        ### 根據日期、使用時間、預約狀態，找出空閒的教室
         query = dict()
         query["usingTime.date"] = data["usingTime"]["date"]
 
@@ -314,7 +317,8 @@ def findIdleClassroom():
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
-                    classroomList.remove(a["classroomID"])
+                    if a["status"] != "pending":
+                        classroomList.remove(a["classroomID"])
 
         return json.dumps(classroomList)
 
@@ -369,6 +373,27 @@ def insertAppointment():
         print(e)     
         return json.dumps(False)
 
+## 更改預約狀態，return True / False
+@app.route('/DB/updateStatus' , methods = ['GET' , 'PUT'])
+@cross_origin()
+def updateStatus():
+    try:
+        data = json.loads(flask.request.get_data())
+        
+        query = dict()
+        query["userID"] = data["userID"]
+        query["classroomID"] = data["classroomID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+
+        AppointmentDB.update_one(query , {"$set" : {"status" : data["status"]}})
+       
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function findIdleClassroom() !!")
+        print(e)     
+        return json.dumps(False) 
 
 ############################################################################################################################################################
 
