@@ -117,7 +117,7 @@
   width: 40px;
 }
 
-.card_edit {
+.card_edit, .card_request {
   position: fixed;
   left: calc(50% - 100px);
   top: 30%;
@@ -127,10 +127,10 @@
   animation-name: example;
   animation-duration: 1s;
 }
-.card_edit .card_body {
+.card_edit .card_body, .card_request .card_body {
   margin: 1rem;
 }
-.card_edit .card_body button {
+.card_edit .card_body button, .card_request .card_body button {
   margin: 2px;
   width: 100%;
 }
