@@ -4,6 +4,7 @@
 * {
   font-family: "Noto Sans TC", sans-serif;
 }
+
 /*管理員分割面板*/
 .content {
   float: right;
@@ -141,20 +142,28 @@
   width: 88%;
   height: 86%;
   z-index: 10;
+  padding: 0;
   animation-name: example;
   animation-duration: 1s;
+  overflow: auto;
 }
 .card_reserve .card_body {
-  margin: 2rem;
-  height: 60%;
+  margin: 1rem;
+  height: auto;
   background: lightgreen;
   border-radius: 15px;
+  overflow: unset;
+  padding: 1rem;
 }
 .card_reserve .card_end {
-  height: 40%;
-  margin: 2rem;
+  height: 100%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
   background: rgba(209, 254, 184, 0.8);
   border-radius: 15px;
+  overflow: unset;
 }
 .card_reserve .card_end button {
   width: 100%;
@@ -164,10 +173,11 @@
 }
 .card_reserve .close_button {
   position: absolute;
-  right: -20px;
-  top: -10px;
+  right: 20px;
+  top: 0px;
   width: 50px;
   height: 50px;
+  z-index: 100;
   background: #FFF;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
@@ -190,6 +200,7 @@
   transform: rotate(45deg);
   width: 40px;
 }
+
 @keyframes example {
   0% {
     opacity: 0;
@@ -527,6 +538,7 @@ input[type=number] {
 .table_button:hover {
   background-color: #f0f0f0;
 }
+
 .record table {
   margin: 0;
   border-radius: 6px;
@@ -739,6 +751,7 @@ input[type=number] {
 .navbar-toggler .toggle_button.active span:nth-child(3) {
   transform: translateX(60px);
 }
+
 .Test {
   padding: 0;
   margin: 10px;
@@ -873,4 +886,5 @@ input[type=number] {
       height: auto;
   }*/
 }
+
 /*# sourceMappingURL=pagestyle.css.map */
