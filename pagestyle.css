@@ -4,12 +4,11 @@
 * {
   font-family: "Noto Sans TC", sans-serif;
 }
-
 /*管理員分割面板*/
 .content {
   float: right;
   padding-left: 20rem;
-  padding-top: 70px;
+  padding-top: 40px;
 }
 
 .black_background {
@@ -20,6 +19,17 @@
   left: 0;
   top: 0;
   z-index: 5;
+}
+
+.grey_background {
+  background: whitesmoke;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  overflow: auto;
 }
 
 .sidebar {
@@ -43,7 +53,6 @@
   /*width: 100%;
   height: 100%;*/
   background-image: url("pic/IB.jpeg");
-  background-color: blue;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -107,6 +116,80 @@
   width: 40px;
 }
 
+.card_edit {
+  position: fixed;
+  left: calc(50% - 100px);
+  top: 30%;
+  width: 200px;
+  height: 250px;
+  z-index: 10;
+  animation-name: example;
+  animation-duration: 1s;
+}
+.card_edit .card_body {
+  margin: 1rem;
+}
+.card_edit .card_body button {
+  margin: 2px;
+  width: 100%;
+}
+
+.card_reserve {
+  position: fixed;
+  left: 6%;
+  top: 10%;
+  width: 88%;
+  height: 86%;
+  z-index: 10;
+  animation-name: example;
+  animation-duration: 1s;
+}
+.card_reserve .card_body {
+  margin: 2rem;
+  height: 60%;
+  background: lightgreen;
+  border-radius: 15px;
+}
+.card_reserve .card_end {
+  height: 40%;
+  margin: 2rem;
+  background: rgba(209, 254, 184, 0.8);
+  border-radius: 15px;
+}
+.card_reserve .card_end button {
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+  font-size: large;
+}
+.card_reserve .close_button {
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  width: 50px;
+  height: 50px;
+  background: #FFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.card_reserve .close_button span {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: #1863FF;
+  border-radius: 4px;
+  transition: 0.5s;
+  transform: rotate(315deg);
+}
+.card_reserve .close_button span:nth-child(1) {
+  transform: rotate(45deg);
+  width: 40px;
+}
 @keyframes example {
   0% {
     opacity: 0;
@@ -169,8 +252,8 @@ input[type=number] {
   position: absolute;
   right: 100px;
   top: 200px;
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   background: #FFF;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
@@ -191,12 +274,12 @@ input[type=number] {
 .up_button span:nth-child(1) {
   transform: translateY(-10px) rotate(45deg);
   height: 25px;
-  left: 25px;
+  left: 15px;
 }
 .up_button span:nth-child(2) {
   transform: translateY(-10px) rotate(135deg);
   height: 25px;
-  right: 25px;
+  right: 15px;
 }
 
 #scroll-top {
@@ -246,6 +329,204 @@ input[type=number] {
 物聯網實驗室	教學實驗室	電機一館314	65	擴大機、麥克風、喇叭、65台主機
 
 }*/
+.admin1 {
+  padding-top: 100px;
+  padding-left: 360px;
+}
+.admin1 .file_border {
+  border-radius: 10px;
+  background-color: white;
+  padding: 20px;
+  width: calc(100% - 40px);
+  height: 95%;
+}
+.admin1 .file_border table {
+  width: 100%;
+  position: relative;
+  margin: 0;
+  border-radius: 6px;
+}
+.admin1 .file_border table thead tr th {
+  text-align: center;
+  border-bottom: 3px solid #969696;
+  width: 13%;
+  border-radius: 6px;
+  min-width: 60px;
+}
+.admin1 .file_border table thead tr th:nth-child(5) {
+  text-align: left;
+  width: 40%;
+}
+.admin1 .file_border table thead tr th:last-child {
+  width: 8%;
+}
+.admin1 .file_border table tbody tr {
+  border-bottom: 3px solid #969696;
+}
+.admin1 .file_border table tbody tr td {
+  text-align: center;
+  width: auto;
+  overflow: hidden;
+}
+.admin1 .file_border table tbody tr td:nth-child(5) {
+  text-align: left;
+}
+
+.admin3 {
+  padding-top: 100px;
+  padding-left: 360px;
+}
+.admin3 .file_border {
+  border-radius: 10px;
+  background-color: white;
+  padding: 20px;
+  width: calc(100% - 40px);
+  height: 95%;
+}
+
+.admin4 {
+  padding-top: 75px;
+  padding-left: 350px;
+}
+.admin4 .file_border {
+  margin: 15px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
+  position: relative;
+  float: left;
+  padding: 20px;
+  width: calc(50% - 45px);
+  height: 45%;
+  overflow: hidden;
+}
+.admin4 .file_border table {
+  font-size: large;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  border-radius: 6px;
+}
+.admin4 .file_border table thead tr {
+  padding: 50px;
+}
+.admin4 .file_border table thead tr th {
+  text-align: center;
+  border-bottom: 3px solid #969696;
+  width: 13%;
+  border-radius: 6px;
+  min-width: 60px;
+}
+.admin4 .file_border table thead tr th:nth-child(5) {
+  text-align: left;
+  width: 40%;
+}
+.admin4 .file_border table thead tr th:last-child {
+  text-align: left;
+  width: 8%;
+}
+.admin4 .file_border table tbody tr {
+  height: 40px;
+  border-bottom: 3px solid #969696;
+  /*transition: 0.2s;
+  &:hover {
+      background-color: rgba(240,240,240,1);
+      transform: scale(1.15) translateX(25px);
+  }*/
+}
+.admin4 .file_border table tbody tr td {
+  text-align: center;
+  width: auto;
+  overflow: hidden;
+}
+.admin4 .file_border table tbody tr td:nth-child(5) {
+  text-align: left;
+}
+
+.edit_button {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  background-color: rgba(150, 150, 150, 0.2);
+  border-radius: 50px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.edit_button span {
+  width: 6px;
+  height: 6px;
+  border-radius: 10px;
+  background-color: black;
+  position: absolute;
+  top: 10px;
+}
+.edit_button span:nth-child(2) {
+  top: 20px;
+}
+.edit_button span:nth-child(3) {
+  top: 30px;
+}
+.edit_button:hover {
+  background-color: #969696;
+}
+
+.request_button {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  background-color: rgba(150, 150, 150, 0.2);
+  border-radius: 50px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.request_button span {
+  width: 6px;
+  height: 6px;
+  border-radius: 10px;
+  background-color: black;
+  position: absolute;
+  top: 10px;
+}
+.request_button span:nth-child(2) {
+  top: 20px;
+}
+.request_button span:nth-child(3) {
+  top: 30px;
+}
+.request_button:hover {
+  background-color: #969696;
+}
+
+.table_button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  align-content: center;
+  font-size: larger;
+  border-radius: 40px;
+  background-color: rgba(240, 240, 240, 0.3);
+  box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.bi-pencil-square {
+  position: relative;
+  left: 1px;
+}
+
+.table_button:hover {
+  background-color: #f0f0f0;
+}
 .record table {
   margin: 0;
   border-radius: 6px;
@@ -281,6 +562,7 @@ input[type=number] {
 
 .show_left_top {
   background: lightgreen;
+  color: black;
 }
 
 .show_left_bottom {
@@ -314,99 +596,24 @@ input[type=number] {
 
 .classInfo {
   padding-right: 0;
+  overflow: auto;
 }
-.classInfo .rows {
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
+
+.rows .container-fluid .info h3 {
+  float: left;
+  width: 40%;
 }
-.classInfo .rows .container-fluid .info {
-  display: flex;
-  margin-bottom: 0.2rem;
-}
-.classInfo .rows .container-fluid .info h3 {
-  font-size: 1.5rem;
-  color: black;
-  line-height: 1.5;
-}
-.classInfo .rows .container-fluid .info p {
-  width: 100px;
-  justify-content: center;
+.rows .container-fluid .info .right {
+  float: left;
+  width: 60%;
   font-size: 1.5rem;
 }
-
-.RWD_show {
-  display: none;
+.rows .container-fluid .info .row {
+  margin-bottom: 0;
+  float: left;
+  width: 60%;
 }
 
-.RWD_noShow {
-  display: block;
-}
-
-@media (max-width: 991px) {
-  .sidebar {
-    left: -110%;
-  }
-
-  .content {
-    padding-left: 0rem;
-  }
-
-  .RWD_button {
-    display: block;
-  }
-
-  .RWD_word {
-    display: none;
-  }
-
-  .weekList {
-    padding-left: calc(var(--bs-gutter-x) * 0.5);
-  }
-
-  /*table tr td{
-      border: 1px solid #1c1f23!important;
-      width: 5rem;
-
-  }*/
-  .show_right {
-    margin-top: 25px;
-  }
-
-  .show_left_bottom {
-    height: auto;
-  }
-
-  .classInfo {
-    padding-right: calc(var(--bs-gutter-x) * 0.5);
-  }
-}
-@media (max-width: 767px) {
-  .RWD_show {
-    display: block;
-  }
-
-  .RWD_noShow {
-    display: none;
-  }
-
-  .card_show .card_body {
-    margin: 0.2rem;
-  }
-  .card_show .card_body .classInfo {
-    padding: 0;
-  }
-  .card_show .card_body .classInfo .show_left_top {
-    margin: 0;
-  }
-  .card_show .card_body .weekList {
-    padding: 0;
-  }
-
-  /*.card_show{
-      height: auto;
-  }*/
-}
 .scroll {
   overflow: auto;
 }
@@ -422,7 +629,6 @@ input[type=number] {
   width: 70px;
   height: 70px;
   background: #FFF;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -475,8 +681,17 @@ input[type=number] {
   transform: translateX(60px);
 }
 
+.navbar {
+  /*top: 30px;
+  border-radius: 50px;
+  margin-right: 30px;
+  margin-left: 30px;*/
+  z-index: 5;
+}
+
 .navbar-toggler .toggle_button {
-  background: #2c3034;
+  background: #FFF;
+  border-radius: 50px;
   width: 50px;
   height: 40px;
   top: 8px;
@@ -486,7 +701,7 @@ input[type=number] {
   position: absolute;
   width: 30px;
   height: 4px;
-  background: white;
+  background: #1863FF;
   border-radius: 4px;
   transition: 0.5s;
 }
@@ -524,5 +739,138 @@ input[type=number] {
 .navbar-toggler .toggle_button.active span:nth-child(3) {
   transform: translateX(60px);
 }
+.Test {
+  padding: 0;
+  margin: 10px;
+  border: 0;
+  width: 300px;
+  height: 150px;
+  background: rgba(209, 254, 184, 0.8);
+  border-radius: 10px;
+}
+.Test table {
+  width: 100%;
+  height: 100%;
+}
+.Test table thead tr th {
+  color: gray;
+  width: 50%;
+}
+.Test table thead tr th:nth-child(1) {
+  width: 30%;
+}
+.Test table thead tr th:nth-child(2) {
+  width: 20%;
+}
+.Test table tbody {
+  border-top: 2px solid gray;
+}
+.Test table tbody tr td {
+  color: gray;
+}
 
+.RWD_show {
+  display: none;
+}
+
+.RWD_noShow {
+  display: block;
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    left: -110%;
+  }
+
+  .content {
+    padding-left: 0rem;
+  }
+
+  .admin1 {
+    padding-left: 40px;
+  }
+
+  .admin4 {
+    padding-left: 25px;
+  }
+  .admin4 .file_border {
+    margin: 15px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
+    position: relative;
+    float: left;
+    padding: 20px;
+    width: calc(100% - 55px);
+    height: 45%;
+    overflow: hidden;
+  }
+
+  .RWD_button {
+    display: block;
+  }
+
+  .RWD_word {
+    display: none;
+  }
+
+  .weekList {
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+  }
+
+  /*table tr td{
+      border: 1px solid #1c1f23!important;
+      width: 5rem;
+
+  }*/
+  .show_right {
+    margin-top: 25px;
+  }
+
+  .show_left_bottom {
+    height: auto;
+  }
+
+  .classInfo {
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+  }
+
+  /*.navbar{
+
+      top: 0px;
+      border-radius: 0px;
+      margin-right: 0px;
+      margin-left: 0px;
+
+  }
+  .navbar-toggler{
+      border-radius: 0;
+  }*/
+}
+@media (max-width: 767px) {
+  .RWD_show {
+    display: block;
+  }
+
+  .RWD_noShow {
+    display: none;
+  }
+
+  .card_show .card_body {
+    margin: 0.2rem;
+  }
+  .card_show .card_body .classInfo {
+    padding: 0;
+  }
+  .card_show .card_body .classInfo .show_left_top {
+    margin: 0;
+  }
+  .card_show .card_body .weekList {
+    padding: 0;
+  }
+
+  /*.card_show{
+      height: auto;
+  }*/
+}
 /*# sourceMappingURL=pagestyle.css.map */
