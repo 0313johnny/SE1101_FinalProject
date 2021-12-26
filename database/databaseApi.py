@@ -292,6 +292,48 @@ def findClassroom(classroomID):
         print(e)     
         return json.dumps(False)
 
+@app.route('/DB/insertClassroom' , methods = ['GET','POST'])
+@cross_origin()
+def insertClassroom():
+    try:
+       data = json.loads(flask.request.get_data())
+
+       classroomID=data['classroomID']
+       name=data['name']
+       location=data['location']
+       capacity=data['capacity']
+       equipment=data['equipment']
+       
+       classroomlist=dict()
+
+       classroomlist={"classroomID":classroomID,"name":name,"location":location,"capacity":capacity,"equipment":equipment}
+    
+       ClassroomInfoDB.insert_one(classroomlist)
+
+       return json.dumps(True)
+       
+    except Exception as e:
+        print("The error of function insertClassroom() !!")
+        print(e)     
+        return json.dumps(False)    
+
+@app.route('/DB/deleteClassroom' , methods = ['GET','DELETE'])
+@cross_origin()
+def deleteClassroom():
+    try:
+        data = json.loads(flask.request.get_data())
+        
+        query=dict()
+        query={"name":data['name']}
+
+        ClassroomInfoDB.delete_one(query)
+        
+        return json.dumps(True) 
+
+    except Exception as e:
+        print("The error of function deleteClassroom() !!")
+        print(e)     
+        return json.dumps(False)   
 ############################################################################################################################################################
 
 # Appointment
@@ -526,6 +568,8 @@ if __name__ == '__main__':
 #ClassroomInfo
 # http://127.0.0.1:5000/DB/initClassroomInfo
 # http://127.0.0.1:5000/DB/findClassroom
+# http://127.0.0.1:5000/DB/insertClassroom
+# http://127.0.0.1:5000/DB/deleteClassroom
 
 # Appointment
 # http://127.0.0.1:5000/DB/insertAppointment
