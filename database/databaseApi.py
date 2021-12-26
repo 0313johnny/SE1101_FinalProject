@@ -2,6 +2,9 @@ import flask
 import pymongo
 import json
 from flask_cors import cross_origin
+import sys
+
+sys.path.append("database\\databaseApi.py")
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -141,7 +144,7 @@ def updateAuthority():
 
 # ClassroomInfo
 ## 初始化教室資訊,insert static info
-@app.route('/DB/initClassroomInfo', methods=['GET','POST'])
+@app.route('/DB/initClassroomInfo', methods=['GET' , 'POST'])
 @cross_origin()
 def initClassroomInfo():
     try:
@@ -289,11 +292,53 @@ def findClassroom(classroomID):
         print(e)     
         return json.dumps(False)
 
+@app.route('/DB/insertClassroom' , methods = ['GET','POST'])
+@cross_origin()
+def insertClassroom():
+    try:
+       data = json.loads(flask.request.get_data())
+
+       classroomID=data['classroomID']
+       name=data['name']
+       location=data['location']
+       capacity=data['capacity']
+       equipment=data['equipment']
+       
+       classroomlist=dict()
+
+       classroomlist={"classroomID":classroomID,"name":name,"location":location,"capacity":capacity,"equipment":equipment}
+    
+       ClassroomInfoDB.insert_one(classroomlist)
+
+       return json.dumps(True)
+       
+    except Exception as e:
+        print("The error of function insertClassroom() !!")
+        print(e)     
+        return json.dumps(False)    
+
+@app.route('/DB/deleteClassroom' , methods = ['GET','DELETE'])
+@cross_origin()
+def deleteClassroom():
+    try:
+        data = json.loads(flask.request.get_data())
+        
+        query=dict()
+        query={"name":data['name']}
+
+        ClassroomInfoDB.delete_one(query)
+        
+        return json.dumps(True) 
+
+    except Exception as e:
+        print("The error of function deleteClassroom() !!")
+        print(e)     
+        return json.dumps(False)   
 ############################################################################################################################################################
 
 # Appointment
 ## 查詢空閒的教室 , return 教室列表(list) / False
-@app.route('/DB/findIdleClassroom' , methods = ['GET','POST'])
+@app.route('/DB/findIdleClassroom' , methods = ['GET' , 'POST'])
 @cross_origin()
 def findIdleClassroom():
     try:
@@ -305,7 +350,7 @@ def findIdleClassroom():
         for c in ClassroomInfoDB.find():
             classroomList.append(c["classroomID"])
 
-        ### 根據日期和使用時間，找出空閒的教室
+        ### 根據日期、使用時間、預約狀態，找出空閒的教室
         query = dict()
         query["usingTime.date"] = data["usingTime"]["date"]
 
@@ -314,12 +359,53 @@ def findIdleClassroom():
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
-                    classroomList.remove(a["classroomID"])
+                    if a["status"] != "pending":
+                        classroomList.remove(a["classroomID"])
 
         return json.dumps(classroomList)
 
     except Exception as e:
         print("The error of function findIdleClassroom() !!")
+        print(e)     
+        return json.dumps(False) 
+
+## 查詢所有狀態是 "pending" 的預約 , return appointment list / False
+@app.route('/DB/findPenging' , methods = ['GET'])
+@cross_origin()
+def findPenging():
+    try:
+        query = dict()
+        query["status"] = "pending"
+
+        result = list(AppointmentDB.find(query))
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+        
+        return json.dumps(result)
+
+    except Exception as e:
+        print("The error of function findPengingAppointment() !!")
+        print(e)     
+        return json.dumps(False) 
+
+## 查詢所有狀態不是 "pending" 的預約 , return appointment list / False
+@app.route('/DB/findNonPenging' , methods = ['GET'])
+@cross_origin()
+def findNonPenging():
+    try:
+        query = dict()
+        query["status"] = {"$ne" : "pending" }
+
+        result = list(AppointmentDB.find(query))
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+        
+        return json.dumps(result)
+
+    except Exception as e:
+        print("The error of function findPengingAppointment() !!")
         print(e)     
         return json.dumps(False) 
 
@@ -350,6 +436,16 @@ def insertAppointment():
     try:
         data = json.loads(flask.request.get_data())
 
+        # data = {
+        #     "userID" : "wayne1224",
+        #     "classroomID" : "B07",
+        #     "usingTime" : {
+        #         "date" : "2021-12-25",
+        #         "time" : [1 , 2 , 3]
+        #     },
+        #     "status" : "pending"
+        # }
+
         query = dict()
         query["classroomID"] = data["classroomID"]
 
@@ -357,9 +453,14 @@ def insertAppointment():
         
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
-                if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                ### 相同時間、相同借用者，重複的預約
+                if a["usingTime"]["time"] == data["usingTime"]["time"] and a["userID"] == data["userID"]:
                     return json.dumps(False)
-
+                ### 此時段、此時間，已經有人成功預約了
+                elif [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                    if a["status"] != "pending":
+                        return json.dumps(False)
+                
         AppointmentDB.insert_one(data)
 
         return json.dumps(True)
@@ -369,6 +470,49 @@ def insertAppointment():
         print(e)     
         return json.dumps(False)
 
+## 更改預約狀態，return True / False
+@app.route('/DB/updateStatus' , methods = ['GET' , 'PUT'])
+@cross_origin()
+def updateStatus():
+    try:
+        data = json.loads(flask.request.get_data())
+        
+        # data = {
+        #     "userID" : "wayne1224",
+        #     "classroomID" : "B07",
+        #     "usingTime" : {
+        #         "date" : "2021-12-25",
+        #         "time" : [1 , 2 , 3]
+        #     },
+        #     "status" : "reserving"
+        # }
+
+        ### 更新預約狀態
+        query = dict()
+        query["userID"] = data["userID"]
+        query["classroomID"] = data["classroomID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+
+        AppointmentDB.update_one(query , {"$set" : {"status" : data["status"]}})
+
+        ### 刪除其他相同時間的預約
+        query = dict()
+        query["usingTime.date"] = data["usingTime"]["date"]
+
+        result = list(AppointmentDB.find(query))
+
+        for a in result:
+            if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                if a["status"] == "pending":
+                    AppointmentDB.delete_one({"_id" : a["_id"]})
+       
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function updateStatus() !!")
+        print(e)     
+        return json.dumps(False) 
 
 ############################################################################################################################################################
 
@@ -422,13 +566,18 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertAccount
 
 #ClassroomInfo
-#http://127.0.0.1:5000/DB/initClassroomInfo
-#http://127.0.0.1:5000/DB/findClassroom
+# http://127.0.0.1:5000/DB/initClassroomInfo
+# http://127.0.0.1:5000/DB/findClassroom
+# http://127.0.0.1:5000/DB/insertClassroom
+# http://127.0.0.1:5000/DB/deleteClassroom
 
 # Appointment
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
+# http://127.0.0.1:5000/DB/findPenging
+# http://127.0.0.1:5000/DB/findNonPenging
+# http://127.0.0.1:5000/DB/updateStatus
 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
