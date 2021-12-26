@@ -281,6 +281,7 @@ def findClassroom(classroomID):
             return json.dumps(False)
         else:
             data = ClassroomInfoDB.find_one(classquery)       
+            del data['_id']
             return json.dumps(data)
 
     except Exception as e:
@@ -292,7 +293,7 @@ def findClassroom(classroomID):
 
 # Appointment
 ## 查詢空閒的教室 , return 教室列表(list) / False
-@app.route('/DB/findIdleClassroom' , methods = ['GET'])
+@app.route('/DB/findIdleClassroom' , methods = ['GET','POST'])
 @cross_origin()
 def findIdleClassroom():
     try:

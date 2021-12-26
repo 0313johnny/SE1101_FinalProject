@@ -24,6 +24,14 @@ $("document").ready(function(){
             data:data,
             success: function(re){
                 console.log(re);
+                $.each(re,function(index,value){
+                    console.log(value);
+                    var url = "http://127.0.0.1:5000/DB/findClassroom/"+value;
+                    $.getJSON(url,function(result){
+                        console.log(result);
+
+                    });
+                });
             },
             error: function (thrownError) {
                 console.log(thrownError);
