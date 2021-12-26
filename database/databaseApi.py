@@ -141,9 +141,9 @@ def updateAuthority():
 
 # ClassroomInfo
 ## 初始化教室資訊,insert static info
-@app.route('/DB/initClassroomInfo', method=['GET','POST'])
+@app.route('/DB/initClassroomInfo', methods=['GET','POST'])
 @cross_origin()
-def insertClassroomInfo():
+def initClassroomInfo():
     try:
         ###set dict()
         classB10={
@@ -419,6 +419,10 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/findAccountByID/wayne1224
 # http://127.0.0.1:5000/DB/findAccountByEmail/waynewayne1224@gmail.com
 # http://127.0.0.1:5000/DB/insertAccount
+
+#ClassroomInfo
+#http://127.0.0.1:5000/DB/initClassroomInfo
+#http://127.0.0.1:5000/DB/findClassroom
 
 # Appointment
 # http://127.0.0.1:5000/DB/insertAppointment
