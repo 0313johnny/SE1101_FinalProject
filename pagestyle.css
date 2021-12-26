@@ -4,7 +4,6 @@
 * {
   font-family: "Noto Sans TC", sans-serif;
 }
-
 /*管理員分割面板*/
 .content {
   float: right;
@@ -191,7 +190,6 @@
   transform: rotate(45deg);
   width: 40px;
 }
-
 @keyframes example {
   0% {
     opacity: 0;
@@ -529,7 +527,6 @@ input[type=number] {
 .table_button:hover {
   background-color: #f0f0f0;
 }
-
 .record table {
   margin: 0;
   border-radius: 6px;
@@ -742,7 +739,6 @@ input[type=number] {
 .navbar-toggler .toggle_button.active span:nth-child(3) {
   transform: translateX(60px);
 }
-
 .Test {
   padding: 0;
   margin: 10px;
@@ -877,5 +873,4 @@ input[type=number] {
       height: auto;
   }*/
 }
-
 /*# sourceMappingURL=pagestyle.css.map */
