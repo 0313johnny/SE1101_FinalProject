@@ -327,6 +327,46 @@ def findIdleClassroom():
         print(e)     
         return json.dumps(False) 
 
+## 查詢所有狀態是 "pending" 的預約 , return appointment list / False
+@app.route('/DB/findPenging' , methods = ['GET'])
+@cross_origin()
+def findPenging():
+    try:
+        query = dict()
+        query["status"] = "pending"
+
+        result = list(AppointmentDB.find(query))
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+        
+        return json.dumps(result)
+
+    except Exception as e:
+        print("The error of function findPengingAppointment() !!")
+        print(e)     
+        return json.dumps(False) 
+
+## 查詢所有狀態不是 "pending" 的預約 , return appointment list / False
+@app.route('/DB/findNonPenging' , methods = ['GET'])
+@cross_origin()
+def findNonPenging():
+    try:
+        query = dict()
+        query["status"] = {"$ne" : "pending" }
+
+        result = list(AppointmentDB.find(query))
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+        
+        return json.dumps(result)
+
+    except Exception as e:
+        print("The error of function findPengingAppointment() !!")
+        print(e)     
+        return json.dumps(False) 
+
 ## 計算借用者總共預約了幾間教室 , return 教室數量(int) / False
 @app.route('/DB/countUserAppointments/<string:userID>' , methods = ['GET'])
 @cross_origin()
@@ -428,7 +468,7 @@ def updateStatus():
         return json.dumps(True)
 
     except Exception as e:
-        print("The error of function findIdleClassroom() !!")
+        print("The error of function updateStatus() !!")
         print(e)     
         return json.dumps(False) 
 
@@ -484,13 +524,15 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertAccount
 
 #ClassroomInfo
-#http://127.0.0.1:5000/DB/initClassroomInfo
-#http://127.0.0.1:5000/DB/findClassroom
+# http://127.0.0.1:5000/DB/initClassroomInfo
+# http://127.0.0.1:5000/DB/findClassroom
 
 # Appointment
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
+# http://127.0.0.1:5000/DB/findPenging
+# http://127.0.0.1:5000/DB/findNonPenging
 # http://127.0.0.1:5000/DB/updateStatus
 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
