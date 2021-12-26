@@ -524,10 +524,17 @@ def insertrecord():
     try:
         recordlist = [
             {"classroomID":"B10","userID":"00857003 ", "usingTime":"306-308", "purpose":"機率論課程"},
-            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"微積分課程"},
-            {"classroomID":"303","userID":"00857027 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
-            {"classroomID":"105","userID":"00757025 ", "usingTime":"502-504" , "purpose":"作業系統課程"},
-            {"classroomID":"203","userID":"00857123 ", "usingTime":"102-104" , "purpose":"計算機系統設計課程"}
+            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"程式設計實習課程"},
+            {"classroomID":"B07","userID":"00857027 ", "usingTime":"102-104" , "purpose":"線性代數課程"},
+            {"classroomID":"303","userID":"00757025 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
+            {"classroomID":"407","userID":"00857041 ", "usingTime":"102-104" , "purpose":"計算機概論課程"},
+            {"classroomID":"409","userID":"00857004 ", "usingTime":"202-204" , "purpose":"資訊安全課程"},
+            {"classroomID":"101","userID":"00857003 ", "usingTime":"302-304" , "purpose":"計算機組織學課程"},
+            {"classroomID":"105","userID":"00857027 ", "usingTime":"406-408" , "purpose":"程式語言課程"},
+            {"classroomID":"203","userID":"00857025 ", "usingTime":"506-508" , "purpose":"計算機系統設計課程"},
+            {"classroomID":"205","userID":"00857004 ", "usingTime":"106-108" , "purpose":"微積分課程"},
+            {"classroomID":"301","userID":"00857027 ", "usingTime":"206-208" , "purpose":"資訊安全課程"},
+            {"classroomID":"314","userID":"00857041 ", "usingTime":"306-308" , "purpose":"程式設計課程"}
         ]
         RecordDB.insert_many(recordlist)
         return json.dumps(recordlist)
@@ -537,7 +544,7 @@ def insertrecord():
         return json.dumps(False)
 
 #用classroomID查詢歷史紀錄
-@app.route('/DB/findrecord/<string:userID>' , methods = ['GET'])
+@app.route('/DB/findrecord/<string:classroomID>' , methods = ['GET'])
 @cross_origin()
 def findrecord(classroomID):
    try:
@@ -551,8 +558,8 @@ def findrecord(classroomID):
             return json.dumps(data)
    except Exception as e:
        print("The error of function findrecord() !!")
-       print(e)     
-       return json.dumps(False)        
+       print(e)                                        
+       return json.dumps(False)       
 if __name__ == '__main__':
     app.run()
 
