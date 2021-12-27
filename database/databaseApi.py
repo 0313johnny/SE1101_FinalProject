@@ -430,12 +430,12 @@ def countUserAppointments(userID):
         return json.dumps(False)
 
 ## 新增預約 , return True / False
-@app.route('/DB/insertAppointment' , methods = ['GET' , 'POST'])
+@app.route('/DB/insertAppointment' , methods = ['GET','POST'])
 @cross_origin()
 def insertAppointment():
     try:
         data = json.loads(flask.request.get_data())
-
+        print(data)
         # data = {
         #     "userID" : "wayne1224",
         #     "classroomID" : "B07",
