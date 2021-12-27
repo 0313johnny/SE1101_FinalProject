@@ -59,6 +59,7 @@ $("document").ready(function(){
                             insertINFOCard += num[i + start - 1];
                         }
                         insertINFOCard += "堂</p></div>";
+                        insertINFOCard += "<div class='info'><h3>借用目的:</h3><p class='right'><input type='text' class='form-control' placeholder='輸入目的' name='text'></p></div>"
                         insertINFOCard += "<div class='info'><h3>確認申請:</h3><p class='right'><button type='button' class='btn'>發送</button></p></div></div></div></div></div>";
                         
 
@@ -74,6 +75,24 @@ $("document").ready(function(){
                             $(".card_edit").css("display", "none");
                             $(".card_reserve").css("display", "none");
                             $(".black_background").css("display", "none");
+                        });
+                        $().click(function(){
+                            var insertPurpose = $("input[name='date']").val();
+
+
+
+                            var data = JSON.stringify(apoint);
+                            $.ajax({ 
+                                type: "POST",
+                                url: "http://127.0.0.1:5000/DB/insertAppointment", 
+                                data:data,
+                                success: function(re){
+                                    console.log(re);
+                                },
+                                error: function (thrownError) {
+                                    console.log(thrownError);
+                                    }
+                            });
                         });
                     });
                     
