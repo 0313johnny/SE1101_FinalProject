@@ -27,6 +27,7 @@ $("document").ready(function(){
                 $.each(re,function(index,value){
                     var url = "http://127.0.0.1:5000/DB/findClassroom/"+value;
                     $.getJSON(url,function(result){
+                        console.log("show list");
                         var insertCard = "";//加入顯示給使用者看的列表
                         insertCard += "<div class='col-12 col-sm-6 col-md-3 p-1 reserve_card'>";
                         insertCard += "<div id='"+result.classroomID+"' class='card_spec card m-3 container_sp text-dark glass'><div class='card-body'>";
@@ -35,7 +36,7 @@ $("document").ready(function(){
                         var insertINFOCard = "";//點選後彈出的視窗
                         insertINFOCard += "<div class='card circle card_reserve'style='display:none' id = 'reserve_card_"+result.classroomID+"'>";
                         insertINFOCard += "<div class='close_button glass'><span></span><span></span><span></span></div>";
-                        insertINFOCard += "<div class='card_body container_sp text-dark row scroll'><div class='heading mb-3'><h1>教室資訊</h1></div>"
+                        insertINFOCard += "<div class='card_body container_sp text-dark row scroll'><div class='heading mb-3'><h1>教室資訊</h1></div>";
                         insertINFOCard += "<div class='rows'><div class='container-fluid'><div class='info'><h3>教室:</h3><p class='right'>"+result.classroomID+"</p></div><div class='info'><h3>座位:</h3><p class='right'>"+result.capacity+"</p></div><div class='info'><h3>器材:</h3></div><div class='row'>";
                         var eq = Object.keys(result.equipment);
                         for(var i = 0;i < eq.length;i++)
@@ -43,7 +44,7 @@ $("document").ready(function(){
                             insertINFOCard+="<p class='col-4 col-md-3 col-lg-4 col-xl-3'>"+eq[i]+"*"+result.equipment[eq[i]]+"</p>";
                         }
                         insertINFOCard += "</div></div></div></div>";
-
+                        //*** */
                         insertINFOCard += "<div class='card_end container_sp text-dark row scroll'><div class='heading mb-3'><h1>預約時間</h1></div>";
                         insertINFOCard += "<div class='rows'><div class='container-fluid'><div class='info'><h3>日期:</h3><p class='right'>"+appointINFO.usingTime.date+"</p></div>";
                         insertINFOCard += "<div class='info'><h3>時間:</h3><p class='right'>第";
