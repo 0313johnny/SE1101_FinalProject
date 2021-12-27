@@ -429,7 +429,7 @@ def insertAppointment():
         return json.dumps(False)
 
 ## 更改預約狀態，return True / False
-@app.route('/DB/updateStatus' , methods = ['GET' , 'PUT'])
+@app.route('/DB/updateStatus' , methods = ['GET' , 'PUT' , 'DELETE'])
 @cross_origin()
 def updateStatus():
     try:
@@ -451,6 +451,9 @@ def updateStatus():
         query["classroomID"] = data["classroomID"]
         query["usingTime.date"] = data["usingTime"]["date"]
         query["usingTime.time"] = data["usingTime"]["time"]
+
+        if AppointmentDB.count_documents(query) == 0:
+            return json.dumps(False)
 
         AppointmentDB.update_one(query , {"$set" : {"status" : data["status"]}})
 
@@ -474,8 +477,8 @@ def updateStatus():
 
 ############################################################################################################################################################
 
-#record
-#新增歷史資料
+# record
+## 新增歷史資料
 @app.route('/DB/insertrecord', methods = ["GET" , "POST"])
 @cross_origin()
 def insertrecord():
@@ -494,7 +497,7 @@ def insertrecord():
         print(e)     
         return json.dumps(False)
 
-#用classroomID查詢歷史紀錄
+## 用classroomID查詢歷史紀錄
 @app.route('/DB/findrecord/<string:userID>' , methods = ['GET'])
 @cross_origin()
 def findrecord(classroomID):
