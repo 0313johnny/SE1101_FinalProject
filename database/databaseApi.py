@@ -292,6 +292,48 @@ def findClassroom(classroomID):
         print(e)     
         return json.dumps(False)
 
+@app.route('/DB/insertClassroom' , methods = ['GET','POST'])
+@cross_origin()
+def insertClassroom():
+    try:
+       data = json.loads(flask.request.get_data())
+
+       classroomID=data['classroomID']
+       name=data['name']
+       location=data['location']
+       capacity=data['capacity']
+       equipment=data['equipment']
+       
+       classroomlist=dict()
+
+       classroomlist={"classroomID":classroomID,"name":name,"location":location,"capacity":capacity,"equipment":equipment}
+    
+       ClassroomInfoDB.insert_one(classroomlist)
+
+       return json.dumps(True)
+       
+    except Exception as e:
+        print("The error of function insertClassroom() !!")
+        print(e)     
+        return json.dumps(False)    
+
+@app.route('/DB/deleteClassroom' , methods = ['GET','DELETE'])
+@cross_origin()
+def deleteClassroom():
+    try:
+        data = json.loads(flask.request.get_data())
+        
+        query=dict()
+        query={"name":data['name']}
+
+        ClassroomInfoDB.delete_one(query)
+        
+        return json.dumps(True) 
+
+    except Exception as e:
+        print("The error of function deleteClassroom() !!")
+        print(e)     
+        return json.dumps(False)   
 ############################################################################################################################################################
 
 # Appointment
@@ -388,12 +430,12 @@ def countUserAppointments(userID):
         return json.dumps(False)
 
 ## 新增預約 , return True / False
-@app.route('/DB/insertAppointment' , methods = ['GET' , 'POST'])
+@app.route('/DB/insertAppointment' , methods = ['GET','POST'])
 @cross_origin()
 def insertAppointment():
     try:
         data = json.loads(flask.request.get_data())
-
+        
         # data = {
         #     "userID" : "wayne1224",
         #     "classroomID" : "B07",
@@ -485,10 +527,17 @@ def insertrecord():
     try:
         recordlist = [
             {"classroomID":"B10","userID":"00857003 ", "usingTime":"306-308", "purpose":"機率論課程"},
-            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"微積分課程"},
-            {"classroomID":"303","userID":"00857027 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
-            {"classroomID":"105","userID":"00757025 ", "usingTime":"502-504" , "purpose":"作業系統課程"},
-            {"classroomID":"203","userID":"00857123 ", "usingTime":"102-104" , "purpose":"計算機系統設計課程"}
+            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"程式設計實習課程"},
+            {"classroomID":"B07","userID":"00857027 ", "usingTime":"102-104" , "purpose":"線性代數課程"},
+            {"classroomID":"303","userID":"00757025 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
+            {"classroomID":"407","userID":"00857041 ", "usingTime":"102-104" , "purpose":"計算機概論課程"},
+            {"classroomID":"409","userID":"00857004 ", "usingTime":"202-204" , "purpose":"資訊安全課程"},
+            {"classroomID":"101","userID":"00857003 ", "usingTime":"302-304" , "purpose":"計算機組織學課程"},
+            {"classroomID":"105","userID":"00857027 ", "usingTime":"406-408" , "purpose":"程式語言課程"},
+            {"classroomID":"203","userID":"00857025 ", "usingTime":"506-508" , "purpose":"計算機系統設計課程"},
+            {"classroomID":"205","userID":"00857004 ", "usingTime":"106-108" , "purpose":"微積分課程"},
+            {"classroomID":"301","userID":"00857027 ", "usingTime":"206-208" , "purpose":"資訊安全課程"},
+            {"classroomID":"314","userID":"00857041 ", "usingTime":"306-308" , "purpose":"程式設計課程"}
         ]
         RecordDB.insert_many(recordlist)
         return json.dumps(recordlist)
@@ -497,8 +546,8 @@ def insertrecord():
         print(e)     
         return json.dumps(False)
 
-## 用classroomID查詢歷史紀錄
-@app.route('/DB/findrecord/<string:userID>' , methods = ['GET'])
+#用classroomID查詢歷史紀錄
+@app.route('/DB/findrecord/<string:classroomID>' , methods = ['GET'])
 @cross_origin()
 def findrecord(classroomID):
    try:
@@ -512,8 +561,8 @@ def findrecord(classroomID):
             return json.dumps(data)
    except Exception as e:
        print("The error of function findrecord() !!")
-       print(e)     
-       return json.dumps(False)        
+       print(e)                                        
+       return json.dumps(False)       
 if __name__ == '__main__':
     app.run()
 
@@ -529,6 +578,8 @@ if __name__ == '__main__':
 #ClassroomInfo
 # http://127.0.0.1:5000/DB/initClassroomInfo
 # http://127.0.0.1:5000/DB/findClassroom
+# http://127.0.0.1:5000/DB/insertClassroom
+# http://127.0.0.1:5000/DB/deleteClassroom
 
 # Appointment
 # http://127.0.0.1:5000/DB/insertAppointment

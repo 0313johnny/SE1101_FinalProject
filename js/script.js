@@ -31,19 +31,27 @@
         });
 
         $(".card_spec").click(function () { //card動畫設定
-
             $(".card_show").css("display", "");
             $(".black_background").css("display", "");
+        });
+        $(".reserve_card").click(function (e) { //card動畫設定
+            $(".reserve_card_" + e.target.id).css("display", "");
+            $(".black_background").css("display", "");
+            
         });
         $(".black_background").click(function (){
             $(".card_show").css("display", "none");
             $(".card_edit").css("display", "none");
-
+            $(".card_reserve").css("display", "none");
             $(".black_background").css("display", "none");
+            $(".card_request").css("display", "none");
         });
         $(".close_button").click(function (){
             $(".card_show").css("display", "none");
+            $(".card_edit").css("display", "none");
+            $(".card_reserve").css("display", "none");
             $(".black_background").css("display", "none");
+            $(".card_request").css("display", "none");
         });
         $(".edit_button").click(function () { //card動畫設定
             $(".card_edit").css("display", "");
@@ -55,6 +63,7 @@
         });
         $(".select_table_button").click(function (){
             $(".card_edit").css("display", "none");
+            $(".card_request").css("display", "none");
             $(".black_background").css("display", "none");
         });
     });
