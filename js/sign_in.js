@@ -1,4 +1,11 @@
 $("document").ready(function(){
+    if(sessionStorage.getItem('sign_in_user') != null)
+    {
+        $(".reserve_btn").css("display", "");
+        $(".sign_out_btn").css("display", "");
+        $(".sign_in_btn").css("display", "none");
+        $(".sign_out_btn").html("<a class='nav-link' href='javascript:void(0)'>使用者 : "+sessionStorage.getItem('sign_in_user')+"</a>");
+    }
     console.log("connect");
     $.ajax({ 
         type: "GET",
@@ -22,9 +29,14 @@ $("document").ready(function(){
             success: function(re){
                 if(re.password == password){
                     console.log("登入成功");
-                    sign_in_user = re;
+                    sign_in_user = re.userID;
                     console.log(typeof(sign_in_user));
-                    window.location.replace("searchpage.html");
+                    sessionStorage.setItem('sign_in_user', sign_in_user);
+                    $(".reserve_btn").css("display", "");
+                    $(".sign_out_btn").css("display", "");
+                    $(".sign_in_btn").css("display", "none");
+                    $(".sign_out_btn").html("<a class='nav-link' href='javascript:void(0)'>使用者 : "+re.userID+"</a>");
+                    //window.location.replace("searchpage.html");
                     //跳轉頁面 儲存帳號相關資訊
                 }
                 else{

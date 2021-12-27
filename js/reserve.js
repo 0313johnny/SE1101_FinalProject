@@ -7,7 +7,6 @@ $("document").ready(function(){
         appointINFO.usingTime.date = $("input[name='date']").val();
         var start = parseInt($("select[name='start_class']").val());
         var period = parseInt($("select[name='period']").val());
-        console.log(start +"    "+ period);
         var arry = [];
         for(var i = 0;i < period;i++)
         {
@@ -15,7 +14,6 @@ $("document").ready(function(){
         }
         appointINFO.usingTime.time = arry;
         appointINFO.usingTime.class = period;
-        console.log(appointINFO);
         var data = JSON.stringify(appointINFO);
         $.ajax({ 
             type: "POST",
@@ -23,12 +21,10 @@ $("document").ready(function(){
             dataType: "json",
             data:data,
             success: function(re){
-                console.log(re);
                 var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>教室列表</h1>";
                 $(".class_list").html(insertHTML);
                 $(".reserve_card_list").html("");
                 $.each(re,function(index,value){
-                    console.log(value);
                     var url = "http://127.0.0.1:5000/DB/findClassroom/"+value;
                     $.getJSON(url,function(result){
                         var insertCard = "";//加入顯示給使用者看的列表
@@ -59,8 +55,8 @@ $("document").ready(function(){
                             insertINFOCard += num[i + start - 1];
                         }
                         insertINFOCard += "堂</p></div>";
-                        insertINFOCard += "<div class='info'><h3>借用目的:</h3><p class='right'><input type='text' class='form-control' placeholder='輸入目的' name='text'></p></div>"
-                        insertINFOCard += "<div class='info'><h3>確認申請:</h3><p class='right'><button type='button' class='btn'>發送</button></p></div></div></div></div></div>";
+                        insertINFOCard += "<div class='info'><h3>借用目的:</h3><p class='right'><input type='text' class='form-control' placeholder='輸入目的(課程名稱)' name='text'></p></div>"
+                        insertINFOCard += "<div class='info'><h3>確認申請:</h3><p class='right'><button type='button' class='reserve_btn btn'>發送</button></p></div></div></div></div></div>";
                         
 
                         $(".class_list").append(insertCard);
@@ -76,20 +72,34 @@ $("document").ready(function(){
                             $(".card_reserve").css("display", "none");
                             $(".black_background").css("display", "none");
                         });
-                        $().click(function(){
-                            var insertPurpose = $("input[name='date']").val();
+                        $("#reserve_card_"+result.classroomID +" .reserve_btn").click(function(){//寄送預約申請
+                            var reserve = {};//$("input[name='date']").val();
+                            reserve.userID = sessionStorage.getItem('sign_in_user');
+                            reserve.classroomID = result.classroomID;
+                            reserve.usingTime = {};
+                            reserve.usingTime.date = appointINFO.usingTime.date;
+                            reserve.usingTime.time = appointINFO.usingTime.time;
+                            reserve.usingTime.class = appointINFO.usingTime.class;
+                            reserve.purpose = $("#reserve_card_"+result.classroomID +" input").val();
+                            reserve.status = "pending";
+                            reserve.isFixed = false;
+                            console.log(reserve);
 
-
-
-                            var data = JSON.stringify(apoint);
+                            
+                            var data = JSON.stringify(reserve);//物件轉json
                             $.ajax({ 
                                 type: "POST",
                                 url: "http://127.0.0.1:5000/DB/insertAppointment", 
                                 data:data,
                                 success: function(re){
-                                    console.log(re);
+                                    console.log(typeof(re));
+                                    if(re == "true")
+                                        alert("預約申請已提交，請耐心等待審核。");
+                                    else
+                                        alert("預約申請失敗，請重新嘗試。");
                                 },
                                 error: function (thrownError) {
+                                    alert(thrownError);
                                     console.log(thrownError);
                                     }
                             });
