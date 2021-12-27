@@ -435,7 +435,7 @@ def countUserAppointments(userID):
 def insertAppointment():
     try:
         data = json.loads(flask.request.get_data())
-        
+
         # data = {
         #     "userID" : "wayne1224",
         #     "classroomID" : "B07",
@@ -546,7 +546,7 @@ def insertrecord():
         print(e)     
         return json.dumps(False)
 
-#用classroomID查詢歷史紀錄
+## 用classroomID查詢歷史紀錄
 @app.route('/DB/findrecord/<string:classroomID>' , methods = ['GET'])
 @cross_origin()
 def findrecord(classroomID):
