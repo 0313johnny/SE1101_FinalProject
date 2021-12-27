@@ -517,6 +517,31 @@ def updateStatus():
         print(e)     
         return json.dumps(False) 
 
+## 刪除預約，return True / False
+@app.route('/DB/deleteAppointment' , methods = ['GET' , 'DELETE'])
+@cross_origin()
+def deleteAppointment():
+    try:
+        data = json.loads(flask.request.get_data())
+
+        query = dict()
+        query["userID"] = data["userID"]
+        query["classroomID"] = data["classroomID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+
+        if AppointmentDB.count_documents(query) == 0:
+            return json.dumps(False)
+
+        AppointmentDB.delete_one(query)
+        
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function deleteAppointment() !!")
+        print(e)     
+        return json.dumps(False) 
+
 ############################################################################################################################################################
 
 # record
@@ -588,6 +613,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/findPenging
 # http://127.0.0.1:5000/DB/findNonPenging
 # http://127.0.0.1:5000/DB/updateStatus
+# http://127.0.0.1:5000/DB/deleteAppointment
 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
