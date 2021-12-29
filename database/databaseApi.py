@@ -499,8 +499,9 @@ def updateStatus():
 
         AppointmentDB.update_one(query , {"$set" : {"status" : data["status"]}})
 
-        ### 刪除其他相同時間的預約
+        ### 刪除其他相同 教室 , 日期 , 時段 的預約
         query = dict()
+        query["classroomID"] = data["classroomID"]
         query["usingTime.date"] = data["usingTime"]["date"]
 
         result = list(AppointmentDB.find(query))
