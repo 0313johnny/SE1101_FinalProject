@@ -5,7 +5,7 @@ function move(moveto,removeID,object){
         url: "http://127.0.0.1:5000/DB/updateStatus", 
         data:data,
         success: function(re){
-            console.log(data);
+            //console.log(data);
             //$("#"+removeID).remove();
             $(moveto).append($("#"+removeID));
         },
@@ -18,7 +18,6 @@ function move(moveto,removeID,object){
 $("document").ready(function(){
     var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
     $("#admin4").click(function(){
-        console.log("keytrack");
         var url = "http://127.0.0.1:5000/DB/findNonPenging";
         $.getJSON(url,function(result){//取得所有預約成功的物件
             $("#not_taken_key").html("");
@@ -119,7 +118,6 @@ $("document").ready(function(){
                         url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                         data:data,
                         success: function(re){
-                            console.log(re);
                             $("#"+removeID).remove();
                             //$("#reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).remove();
                         },

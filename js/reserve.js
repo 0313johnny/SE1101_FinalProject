@@ -27,7 +27,6 @@ $("document").ready(function(){
                 $.each(re,function(index,value){
                     var url = "http://127.0.0.1:5000/DB/findClassroom/"+value;
                     $.getJSON(url,function(result){
-                        console.log("show list");
                         var insertCard = "";//加入顯示給使用者看的列表
                         insertCard += "<div class='col-12 col-sm-6 col-md-3 p-1 reserve_card'>";
                         insertCard += "<div id='"+result.classroomID+"' class='card_spec card m-3 container_sp text-dark glass'><div class='card-body'>";
@@ -84,7 +83,6 @@ $("document").ready(function(){
                             reserve.purpose = $("#reserve_card_"+result.classroomID +" input").val();
                             reserve.status = "pending";
                             reserve.isFixed = false;
-                            console.log(reserve);
 
                             
                             var data = JSON.stringify(reserve);//物件轉json
@@ -93,7 +91,7 @@ $("document").ready(function(){
                                 url: "http://127.0.0.1:5000/DB/insertAppointment", 
                                 data:data,
                                 success: function(re){
-                                    console.log(typeof(re));
+                                    //console.log(typeof(re));
                                     if(re == "true")
                                         alert("預約申請已提交，請耐心等待審核。");
                                     else
@@ -101,7 +99,7 @@ $("document").ready(function(){
                                 },
                                 error: function (thrownError) {
                                     alert(thrownError);
-                                    console.log(thrownError);
+                                    
                                     }
                             });
                         });
@@ -110,6 +108,7 @@ $("document").ready(function(){
                 });
             },
             error: function (thrownError) {
+                alert(thrownError);
                 console.log(thrownError);
               }
         });     
