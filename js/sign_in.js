@@ -52,4 +52,13 @@ $("document").ready(function(){
         });
         
     });
+    $(".sign_out_btn").click(function(){
+        console.log("s");
+        //window.confirm('您是否要登出');
+        if (confirm('您是否要登出') == true) {
+            sessionStorage.removeItem('sign_in_user');
+            location.reload();
+        }
+        
+    });
 });

@@ -38,7 +38,7 @@ $("document").ready(function(){
                     if(re == "true")
                     {
                         alert("使用者"+email+"註冊成功!!請登入以使用預約功能。");
-                        //window.location.replace("index.html");
+                        window.location.replace("index.html");
                     }   
                     else
                         alert("此信箱已註冊過，請更換信箱");
