@@ -13,7 +13,7 @@ $("document").ready(function(){
             }
     });
 
-    $("#admin1").click(function(){
+    $("#admin1").click(function(){//建立審核申請介面
         //拿所有是pending的預約並展示
         var pending_url = "http://127.0.0.1:5000/DB/findPenging";
         //wait_for_review_list
