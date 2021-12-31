@@ -306,7 +306,13 @@ def insertClassroom():
        
        classroomlist=dict()
 
-       classroomlist={"classroomID":classroomID,"name":name,"location":location,"capacity":capacity,"equipment":equipment}
+       classroomlist={
+           "classroomID":classroomID,
+           "name":name,
+           "location":location,
+           "capacity":capacity,
+           "equipment":equipment
+           }
     
        ClassroomInfoDB.insert_one(classroomlist)
 
@@ -333,7 +339,35 @@ def deleteClassroom():
     except Exception as e:
         print("The error of function deleteClassroom() !!")
         print(e)     
-        return json.dumps(False)   
+        return json.dumps(False) 
+
+@app.route('/DB/updateClassroom' , methods = ['GET' , 'PUT' , 'DELETE'])
+@cross_origin()
+def updateClassroom():  
+    try:
+        data = json.loads(flask.request.get_data())
+        query=dict()
+        query['classroomID']=data['classroomID']
+        query['name']=data['name']
+        query['location']=data['location']
+        query['capacity']=data['capacity']
+        query['equipment']=data['equipment']
+        
+        if ClassroomInfoDB.count_documents(query) == 0:
+            return json.dumps(False)
+
+        ClassroomInfoDB.update_one(query['classroomID'] , {"$set" : {"classroomID" : data['classroomID']}})
+        ClassroomInfoDB.update_one(query['name'] , {"$set" : {"name" : data['name']}})
+        ClassroomInfoDB.update_one(query['location'] , {"$set" : {"location" : data['location']}})
+        ClassroomInfoDB.update_one(query['capacity'] , {"$set" : {"capacity" : data['capacity']}})
+        ClassroomInfoDB.update_one(query['equipment'] , {"$set" : {"equipment" : data['equipment']}})
+
+        return json.dumps(True) 
+
+    except Exception as e:
+        print("The error of function updateClassroom() !!")
+        print(e)     
+        return json.dumps(False) 
 ############################################################################################################################################################
 
 # Appointment
