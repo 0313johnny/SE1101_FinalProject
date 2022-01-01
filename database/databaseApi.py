@@ -356,11 +356,11 @@ def updateClassroom():
         if ClassroomInfoDB.count_documents(query) == 0:
             return json.dumps(False)
 
-        ClassroomInfoDB.update_one(query['classroomID'] , {"$set" : {"classroomID" : data['classroomID']}})
-        ClassroomInfoDB.update_one(query['name'] , {"$set" : {"name" : data['name']}})
-        ClassroomInfoDB.update_one(query['location'] , {"$set" : {"location" : data['location']}})
-        ClassroomInfoDB.update_one(query['capacity'] , {"$set" : {"capacity" : data['capacity']}})
-        ClassroomInfoDB.update_one(query['equipment'] , {"$set" : {"equipment" : data['equipment']}})
+        ClassroomInfoDB.update_many(query , {"$set" : {"classroomID" : data['classroomID']}},
+                                            {"$set" : {"name" : data['name']}},
+                                            {"$set" : {"location" : data['location']}},
+                                            {"$set" : {"capacity" : data['capacity']}},
+                                            {"$set" : {"equipment" : data['equipment']}})
 
         return json.dumps(True) 
 
