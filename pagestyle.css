@@ -65,6 +65,7 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
   transition: ease 0.5s;
   border-radius: 10px;
+  cursor:pointer;
 }
 .card_spec:hover {
   transform: scale(1.08);
