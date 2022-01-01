@@ -53,10 +53,6 @@
             $(".black_background").css("display", "none");
             $(".card_request").css("display", "none");
         });
-        $(".edit_button").click(function () { //card動畫設定
-            $(".card_edit").css("display", "");
-            $(".black_background").css("display", "");
-        });
         
         $(".select_table_button").click(function (){
             $(".card_edit").css("display", "none");
