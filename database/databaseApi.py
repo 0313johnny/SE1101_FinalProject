@@ -640,6 +640,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/findClassroom
 # http://127.0.0.1:5000/DB/insertClassroom
 # http://127.0.0.1:5000/DB/deleteClassroom
+# http://127.0.0.1:5000/DB/updateClassroom
 
 # Appointment
 # http://127.0.0.1:5000/DB/insertAppointment
