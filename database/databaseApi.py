@@ -444,7 +444,7 @@ def findNonPenging():
         return json.dumps(False) 
 
 ## 計算借用者總共預約了幾間教室 , return 教室數量(int) / False
-@app.route('/DB/countUserAppointments/<string:userID>' , methods = ['GET'])
+@app.route('/DB/findUserAppointments/<string:userID>' , methods = ['GET'])
 @cross_origin()
 def findUserAppointments(userID):
     try:
@@ -644,7 +644,7 @@ if __name__ == '__main__':
 
 # Appointment
 # http://127.0.0.1:5000/DB/insertAppointment
-# http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
+# http://127.0.0.1:5000/DB/findUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
 # http://127.0.0.1:5000/DB/findPenging
 # http://127.0.0.1:5000/DB/findNonPenging
