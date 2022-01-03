@@ -65,82 +65,19 @@ $("document").ready(function(){
             alert("請先登入系統");
         }
         else{
-            var inserthtml = `
-            <div class="file_border">
-                        <h1>待審核的申請</h1>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th><span class="RWD_word">借用</span>日期</th>
-                                <th><span class="RWD_word">借用者</span>學號</th>
-                                <th>教室<span class="RWD_word">編號</span></th>
-                                <th><span class="RWD_word">借用</span>堂數</th>
-                                <th><span class="RWD_word">借用</span>目的</th>
-                                <th><span class="RWD_word">管理員</span>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody class = "wait_for_review_list">
-                            <tr>
-                                <td>00857004</td>
-                                <td>B10</td>
-                                <td>第一堂</td>
-                                <td>第三堂</td>
-                                <td>教學用途</td>
-                                <td>
-                                    <div class="request_button">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>00857004</td>
-                                <td>B10</td>
-                                <td>第一堂</td>
-                                <td>第三堂</td>
-                                <td>教學用途</td>
-                                <td>
-                                    <div class="request_button">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>00857004</td>
-                                <td>B10</td>
-                                <td>第一堂</td>
-                                <td>第三堂</td>
-                                <td>教學用途</td>
-                                <td>
-                                    <div class="request_button">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>00857004</td>
-                                <td>B10</td>
-                                <td>第一堂</td>
-                                <td>第三堂</td>
-                                <td>教學用途</td>
-                                <td>
-                                    <div class="request_button">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-            `
-            $(".reserve_list").html(inserthtml);
+            var url = "http://127.0.0.1:5000/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
+            $.getJSON(url,function(result){
+                console.log(result.lenght);
+                console.log(result);
+                if(result.lenght == 0){
+
+                }
+                else{
+
+                }
+
+            });
+            //$(".reserve_list").html(inserthtml);
 
         }
     });
