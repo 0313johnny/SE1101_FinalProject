@@ -377,12 +377,6 @@ def updateClassroom():
 def findIdleClassroom():
     try:
         data = json.loads(flask.request.get_data())
-        
-        ### 查詢所有的教室列表
-        classroomList = list()
-
-        for c in ClassroomInfoDB.find():
-            classroomList.append(c["classroomID"])
 
         ### 根據日期、使用時間、預約狀態，找出空閒的教室
         query = dict()
@@ -394,9 +388,12 @@ def findIdleClassroom():
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
                     if a["status"] != "pending":
-                        classroomList.remove(a["classroomID"])
+                        result.remove(a)
 
-        return json.dumps(classroomList)
+        for i in range(len(result)):
+            del result[i]["_id"]
+
+        return json.dumps(result)
 
     except Exception as e:
         print("The error of function findIdleClassroom() !!")
@@ -456,6 +453,10 @@ def findUserAppointments(userID):
             return json.dumps(False)
         else:
             data = list(AppointmentDB.find(query))
+
+            for i in range(len(data)):
+                del data[i]["_id"]
+
             return json.dumps(data)
 
     except Exception as e:
@@ -643,6 +644,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/updateClassroom
 
 # Appointment
+# http://127.0.0.1:5000/DB/findIdleClassroom
 # http://127.0.0.1:5000/DB/insertAppointment
 # http://127.0.0.1:5000/DB/findUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
