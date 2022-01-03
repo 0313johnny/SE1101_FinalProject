@@ -30,7 +30,6 @@ $("document").ready(function(){
                 if(re.password == password){
                     console.log("登入成功");
                     sign_in_user = re.userID;
-                    console.log(typeof(sign_in_user));
                     sessionStorage.setItem('sign_in_user', sign_in_user);
                     $(".reserve_btn").css("display", "");
                     $(".sign_out_btn").css("display", "");
@@ -60,5 +59,89 @@ $("document").ready(function(){
             location.reload();
         }
         
+    });
+    $(".user_info_btn").click(function(){
+        if(sessionStorage.getItem('sign_in_user') == null){
+            alert("請先登入系統");
+        }
+        else{
+            var inserthtml = `
+            <div class="file_border">
+                        <h1>待審核的申請</h1>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th><span class="RWD_word">借用</span>日期</th>
+                                <th><span class="RWD_word">借用者</span>學號</th>
+                                <th>教室<span class="RWD_word">編號</span></th>
+                                <th><span class="RWD_word">借用</span>堂數</th>
+                                <th><span class="RWD_word">借用</span>目的</th>
+                                <th><span class="RWD_word">管理員</span>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody class = "wait_for_review_list">
+                            <tr>
+                                <td>00857004</td>
+                                <td>B10</td>
+                                <td>第一堂</td>
+                                <td>第三堂</td>
+                                <td>教學用途</td>
+                                <td>
+                                    <div class="request_button">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>00857004</td>
+                                <td>B10</td>
+                                <td>第一堂</td>
+                                <td>第三堂</td>
+                                <td>教學用途</td>
+                                <td>
+                                    <div class="request_button">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>00857004</td>
+                                <td>B10</td>
+                                <td>第一堂</td>
+                                <td>第三堂</td>
+                                <td>教學用途</td>
+                                <td>
+                                    <div class="request_button">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>00857004</td>
+                                <td>B10</td>
+                                <td>第一堂</td>
+                                <td>第三堂</td>
+                                <td>教學用途</td>
+                                <td>
+                                    <div class="request_button">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            `
+            $(".reserve_list").html(inserthtml);
+
+        }
     });
 });
