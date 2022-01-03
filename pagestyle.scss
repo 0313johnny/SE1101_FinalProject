@@ -60,7 +60,7 @@
     box-shadow : 0 .5rem 1rem rgba(0,0,0,.2);
     transition:ease .5s;
     border-radius:10px;
-
+    cursor: pointer;
     &:hover{
         transform: scale(1.08);
     }
@@ -327,7 +327,56 @@ input[type=number] {
 物聯網實驗室	教學實驗室	電機一館314	65	擴大機、麥克風、喇叭、65台主機
 
 }*/
+.personal{
+    padding: 40px;
+    padding-top: 100px;
+    width: 100%;
+    //background-color: rgba(150,150,150,1);
+    position: absolute;
+    .file_border{
+        border-radius: 10px;
+        background-color: rgba(255,255,255,1);
+        height: 100%;
+        //width: calc(100% - 40px);
+        //height: 95%;
+        padding: 30px;
+        table{
+            width: 100%;
+            position: relative;
+            margin: 0;
+            border-radius: 6px;
+            thead tr th {
+                text-align: center;
+                border-bottom: 3px solid rgba(150,150,150,1);
+                width: 15%;
+                border-radius: 6px;
+                min-width: 60px;
+                &:nth-child(5) {
+                    width: 40%;
+                }
+                &:last-child {
+                    width: 15%;
+                }
+            }
+            tbody{
 
+                tr{
+                    border-bottom: 3px solid rgba(150,150,150,1);
+                    td {
+                        text-align: center;
+                        width: auto;
+                        overflow: hidden;
+                        &:nth-child(5) {
+                            text-align: left;
+                        }
+                    }
+
+                }
+            }
+
+        }
+    }
+}
 .admin1{
     padding-top: 100px;
     padding-left: 360px;
@@ -436,6 +485,53 @@ input[type=number] {
                         background-color: rgba(240,240,240,1);
                         transform: scale(1.15) translateX(25px);
                     }*/
+                    td {
+                        text-align: center;
+                        width: auto;
+                        overflow: hidden;
+                        &:nth-child(5) {
+                            text-align: left;
+                        }
+                    }
+
+                }
+            }
+
+        }
+    }
+}
+.admin5{
+    padding-top: 100px;
+    padding-left: 360px;
+    .file_border{
+        border-radius: 10px;
+        background-color: rgba(255,255,255,1);
+        padding: 20px;
+        width: calc(100% - 40px);
+        height: 95%;
+        table{
+            width: 100%;
+            position: relative;
+            margin: 0;
+            border-radius: 6px;
+            thead tr th {
+                text-align: center;
+                border-bottom: 3px solid rgba(150,150,150,1);
+                width: 13%;
+                border-radius: 6px;
+                min-width: 60px;
+                &:nth-child(5) {
+                    text-align: left;
+                    width: 40%;
+                }
+                &:last-child {
+                    width: 8%;
+                }
+            }
+            tbody{
+
+                tr{
+                    border-bottom: 3px solid rgba(150,150,150,1);
                     td {
                         text-align: center;
                         width: auto;
