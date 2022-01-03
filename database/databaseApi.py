@@ -397,8 +397,10 @@ def findIdleClassroom():
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
-                    if a["status"] != "pending" and a["classroomID"] in classroomList:
-                        classroomList.remove(a["classroomID"])
+                    if a["status"] != "pending":
+                        for c in classroomList:
+                            if a["classroomID"] in c["classroomID"]:
+                                classroomList.remove(c)
 
         for i in range(len(classroomList)):
             del classroomList[i]["_id"]
