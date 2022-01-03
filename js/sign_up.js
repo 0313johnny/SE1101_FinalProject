@@ -24,7 +24,7 @@ $("document").ready(function(){
         else{//註冊資訊正確，新增使用者
             var user = {};
             user.userID = email;
-            user.email = email + "@email.ntou.edu.tw";
+            user.email = email + "@mail.ntou.edu.tw";
             user.password = password;
             user.authority = "user";
             var insertData = JSON.stringify(user);
@@ -38,7 +38,7 @@ $("document").ready(function(){
                     if(re == "true")
                     {
                         alert("使用者"+email+"註冊成功!!請登入以使用預約功能。");
-                        //window.location.replace("index.html");
+                        window.location.replace("index.html");
                     }   
                     else
                         alert("此信箱已註冊過，請更換信箱");
@@ -63,7 +63,7 @@ $("document").ready(function(){
             console.log(CAPTCHA);
             Email.send({//寄出驗證碼
                 SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
-                To : email+'@email.ntou.edu.tw',
+                To : email+'@mail.ntou.edu.tw',
                 From : "ntoumailonly@gmail.com",
                 Subject : "ntou教室租借系統 驗證碼",
                 Body : "您的驗證碼是： " + CAPTCHA

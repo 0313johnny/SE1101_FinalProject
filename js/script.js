@@ -32,12 +32,9 @@
             $(".admin2").css("display","none")
             $(".admin3").css("display","none")
             $(".admin4").css("display","none")
-<<<<<<< Updated upstream
-            console.log(e.target.id);
-=======
             $(".admin5").css("display","none")
             //console.log(e.target.id);
->>>>>>> Stashed changes
+
             $("." + e.target.id).css("display","")
             /*$(".card_show").css("display", "");
             $(".black_background").css("display", "");*/
@@ -66,14 +63,7 @@
             $(".black_background").css("display", "none");
             $(".card_request").css("display", "none");
         });
-        $(".edit_button").click(function () { //card動畫設定
-            $(".card_edit").css("display", "");
-            $(".black_background").css("display", "");
-        });
-        $(".request_button").click(function () { //card動畫設定
-            $(".card_request").css("display", "");
-            $(".black_background").css("display", "");
-        });
+        
         $(".select_table_button").click(function (){
             $(".card_edit").css("display", "none");
             $(".card_request").css("display", "none");

@@ -306,7 +306,13 @@ def insertClassroom():
        
        classroomlist=dict()
 
-       classroomlist={"classroomID":classroomID,"name":name,"location":location,"capacity":capacity,"equipment":equipment}
+       classroomlist={
+           "classroomID":classroomID,
+           "name":name,
+           "location":location,
+           "capacity":capacity,
+           "equipment":equipment
+           }
     
        ClassroomInfoDB.insert_one(classroomlist)
 
@@ -333,7 +339,35 @@ def deleteClassroom():
     except Exception as e:
         print("The error of function deleteClassroom() !!")
         print(e)     
-        return json.dumps(False)   
+        return json.dumps(False) 
+
+@app.route('/DB/updateClassroom' , methods = ['GET' , 'PUT' , 'DELETE'])
+@cross_origin()
+def updateClassroom():  
+    try:
+        data = json.loads(flask.request.get_data())
+        query=dict()
+        query['classroomID']=data['classroomID']
+        query['name']=data['name']
+        query['location']=data['location']
+        query['capacity']=data['capacity']
+        query['equipment']=data['equipment']
+        
+        if ClassroomInfoDB.count_documents(query) == 0:
+            return json.dumps(False)
+
+        ClassroomInfoDB.update_many(query , {"$set" : {"classroomID" : data['classroomID']}},
+                                            {"$set" : {"name" : data['name']}},
+                                            {"$set" : {"location" : data['location']}},
+                                            {"$set" : {"capacity" : data['capacity']}},
+                                            {"$set" : {"equipment" : data['equipment']}})
+
+        return json.dumps(True) 
+
+    except Exception as e:
+        print("The error of function updateClassroom() !!")
+        print(e)     
+        return json.dumps(False) 
 ############################################################################################################################################################
 
 # Appointment
@@ -343,12 +377,16 @@ def deleteClassroom():
 def findIdleClassroom():
     try:
         data = json.loads(flask.request.get_data())
-        
-        ### 查詢所有的教室列表
-        classroomList = list()
 
-        for c in ClassroomInfoDB.find():
-            classroomList.append(c["classroomID"])
+        # data = {
+        #     "usingTime" : {
+        #         "date" : "2022-01-04",
+        #         "time" : [7]
+        #     }
+        # }
+
+        ### 查詢所有教室
+        classroomList = list(ClassroomInfoDB.find())
 
         ### 根據日期、使用時間、預約狀態，找出空閒的教室
         query = dict()
@@ -360,7 +398,12 @@ def findIdleClassroom():
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
                     if a["status"] != "pending":
-                        classroomList.remove(a["classroomID"])
+                        for c in classroomList:
+                            if a["classroomID"] in c["classroomID"]:
+                                classroomList.remove(c)
+
+        for i in range(len(classroomList)):
+            del classroomList[i]["_id"]
 
         return json.dumps(classroomList)
 
@@ -410,9 +453,9 @@ def findNonPenging():
         return json.dumps(False) 
 
 ## 計算借用者總共預約了幾間教室 , return 教室數量(int) / False
-@app.route('/DB/countUserAppointments/<string:userID>' , methods = ['GET'])
+@app.route('/DB/findUserAppointments/<string:userID>' , methods = ['GET'])
 @cross_origin()
-def countUserAppointments(userID):
+def findUserAppointments(userID):
     try:
         query = dict()
         query["userID"] = userID
@@ -422,7 +465,11 @@ def countUserAppointments(userID):
             return json.dumps(False)
         else:
             data = list(AppointmentDB.find(query))
-            return json.dumps(len(data))
+
+            for i in range(len(data)):
+                del data[i]["_id"]
+
+            return json.dumps(data)
 
     except Exception as e:
         print("The error of function countUserAppointments() !!")
@@ -430,7 +477,7 @@ def countUserAppointments(userID):
         return json.dumps(False)
 
 ## 新增預約 , return True / False
-@app.route('/DB/insertAppointment' , methods = ['GET' , 'POST'])
+@app.route('/DB/insertAppointment' , methods = ['GET','POST'])
 @cross_origin()
 def insertAppointment():
     try:
@@ -471,7 +518,7 @@ def insertAppointment():
         return json.dumps(False)
 
 ## 更改預約狀態，return True / False
-@app.route('/DB/updateStatus' , methods = ['GET' , 'PUT'])
+@app.route('/DB/updateStatus' , methods = ['GET' , 'PUT' , 'DELETE'])
 @cross_origin()
 def updateStatus():
     try:
@@ -494,10 +541,14 @@ def updateStatus():
         query["usingTime.date"] = data["usingTime"]["date"]
         query["usingTime.time"] = data["usingTime"]["time"]
 
+        if AppointmentDB.count_documents(query) == 0:
+            return json.dumps(False)
+
         AppointmentDB.update_one(query , {"$set" : {"status" : data["status"]}})
 
-        ### 刪除其他相同時間的預約
+        ### 刪除其他相同 教室 , 日期 , 時段 的預約
         query = dict()
+        query["classroomID"] = data["classroomID"]
         query["usingTime.date"] = data["usingTime"]["date"]
 
         result = list(AppointmentDB.find(query))
@@ -514,20 +565,52 @@ def updateStatus():
         print(e)     
         return json.dumps(False) 
 
+## 刪除預約，return True / False
+@app.route('/DB/deleteAppointment' , methods = ['GET' , 'DELETE'])
+@cross_origin()
+def deleteAppointment():
+    try:
+        data = json.loads(flask.request.get_data())
+
+        query = dict()
+        query["userID"] = data["userID"]
+        query["classroomID"] = data["classroomID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+
+        if AppointmentDB.count_documents(query) == 0:
+            return json.dumps(False)
+
+        AppointmentDB.delete_one(query)
+        
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function deleteAppointment() !!")
+        print(e)     
+        return json.dumps(False) 
+
 ############################################################################################################################################################
 
-#record
-#新增歷史資料
+# record
+## 新增歷史資料
 @app.route('/DB/insertrecord', methods = ["GET" , "POST"])
 @cross_origin()
 def insertrecord():
     try:
         recordlist = [
             {"classroomID":"B10","userID":"00857003 ", "usingTime":"306-308", "purpose":"機率論課程"},
-            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"微積分課程"},
-            {"classroomID":"303","userID":"00857027 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
-            {"classroomID":"105","userID":"00757025 ", "usingTime":"502-504" , "purpose":"作業系統課程"},
-            {"classroomID":"203","userID":"00857123 ", "usingTime":"102-104" , "purpose":"計算機系統設計課程"}
+            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"程式設計實習課程"},
+            {"classroomID":"B07","userID":"00857027 ", "usingTime":"102-104" , "purpose":"線性代數課程"},
+            {"classroomID":"303","userID":"00757025 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
+            {"classroomID":"407","userID":"00857041 ", "usingTime":"102-104" , "purpose":"計算機概論課程"},
+            {"classroomID":"409","userID":"00857004 ", "usingTime":"202-204" , "purpose":"資訊安全課程"},
+            {"classroomID":"101","userID":"00857003 ", "usingTime":"302-304" , "purpose":"計算機組織學課程"},
+            {"classroomID":"105","userID":"00857027 ", "usingTime":"406-408" , "purpose":"程式語言課程"},
+            {"classroomID":"203","userID":"00857025 ", "usingTime":"506-508" , "purpose":"計算機系統設計課程"},
+            {"classroomID":"205","userID":"00857004 ", "usingTime":"106-108" , "purpose":"微積分課程"},
+            {"classroomID":"301","userID":"00857027 ", "usingTime":"206-208" , "purpose":"資訊安全課程"},
+            {"classroomID":"314","userID":"00857041 ", "usingTime":"306-308" , "purpose":"程式設計課程"}
         ]
         RecordDB.insert_many(recordlist)
         return json.dumps(recordlist)
@@ -536,8 +619,8 @@ def insertrecord():
         print(e)     
         return json.dumps(False)
 
-#用classroomID查詢歷史紀錄
-@app.route('/DB/findrecord/<string:userID>' , methods = ['GET'])
+## 用classroomID查詢歷史紀錄
+@app.route('/DB/findrecord/<string:classroomID>' , methods = ['GET'])
 @cross_origin()
 def findrecord(classroomID):
    try:
@@ -551,8 +634,8 @@ def findrecord(classroomID):
             return json.dumps(data)
    except Exception as e:
        print("The error of function findrecord() !!")
-       print(e)     
-       return json.dumps(False)        
+       print(e)                                        
+       return json.dumps(False)       
 if __name__ == '__main__':
     app.run()
 
@@ -570,14 +653,17 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/findClassroom
 # http://127.0.0.1:5000/DB/insertClassroom
 # http://127.0.0.1:5000/DB/deleteClassroom
+# http://127.0.0.1:5000/DB/updateClassroom
 
 # Appointment
+# http://127.0.0.1:5000/DB/findIdleClassroom
 # http://127.0.0.1:5000/DB/insertAppointment
-# http://127.0.0.1:5000/DB/countUserAppointments/wayne1224
+# http://127.0.0.1:5000/DB/findUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
 # http://127.0.0.1:5000/DB/findPenging
 # http://127.0.0.1:5000/DB/findNonPenging
 # http://127.0.0.1:5000/DB/updateStatus
+# http://127.0.0.1:5000/DB/deleteAppointment
 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 

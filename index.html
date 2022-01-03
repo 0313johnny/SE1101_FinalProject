@@ -31,20 +31,19 @@
         <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav me-auto text-center">
                 <li class="nav-item mt-1">
-                    <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#search">預約教室</a>
+                    <a class="nav-link reserve_btn" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#search" style="display: none">預約教室</a>
                 </li>
                 <li class="nav-item mt-1">
-<<<<<<< Updated upstream
-                    <a class="nav-link" href="javascript:void(0)">個人資料</a>
-=======
                     <a id="personal" class="nav-link" href="javascript:void(0)">個人資料</a>
                 </li>
                 <li class="nav-item mt-1">
                     <a id="main_display" class="nav-link" href="javascript:void(0)">教室列表</a>
->>>>>>> Stashed changes
                 </li>
                 <li class="nav-item mt-1">
-                    <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#register">登入</a>
+                    <a class="nav-link sign_in_btn" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#register">登入</a>
+                </li>
+                <li class="nav-item mt-1 sign_out_btn" style="display: none">
+                    <a class="nav-link" href="javascript:void(0)"></a>
                 </li>
             </ul>
             <form class="d-flex mt-2">
@@ -68,7 +67,7 @@
             </div>
 
             <div class="form-floating mt-3 mb-3">
-                <input type="text" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
                 <label for="pwd">Password</label>
             </div>
             <div class="btn-group">
@@ -169,7 +168,7 @@
 <!--教室列表頁面-->
 <div class="container-fluid main_display">
 
-    <div class="row m-2 class_list">
+    <div class="row m-2 class_list reserve_list">
         <h1 class="mt-5 pt-3" style="color: white">教室列表</h1>
         <div class="col-12 col-sm-6 col-md-3 p-1">
             <div id="105" class="card_spec card m-3 container_sp text-dark glass">
