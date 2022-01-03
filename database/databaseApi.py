@@ -380,8 +380,8 @@ def findIdleClassroom():
 
         # data = {
         #     "usingTime" : {
-        #         "date" : "2021-12-29",
-        #         "time" : [5 , 6 , 7]
+        #         "date" : "2022-01-04",
+        #         "time" : [7]
         #     }
         # }
 
@@ -397,7 +397,7 @@ def findIdleClassroom():
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
-                    if a["status"] != "pending":
+                    if a["status"] != "pending" and a["classroomID"] in classroomList:
                         classroomList.remove(a["classroomID"])
 
         for i in range(len(classroomList)):
