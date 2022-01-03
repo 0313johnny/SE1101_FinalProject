@@ -378,6 +378,16 @@ def findIdleClassroom():
     try:
         data = json.loads(flask.request.get_data())
 
+        # data = {
+        #     "usingTime" : {
+        #         "date" : "2021-12-29",
+        #         "time" : [5 , 6 , 7]
+        #     }
+        # }
+
+        ### 查詢所有教室
+        classroomList = list(ClassroomInfoDB.find())
+
         ### 根據日期、使用時間、預約狀態，找出空閒的教室
         query = dict()
         query["usingTime.date"] = data["usingTime"]["date"]
@@ -388,12 +398,12 @@ def findIdleClassroom():
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
                     if a["status"] != "pending":
-                        result.remove(a)
+                        classroomList.remove(a["classroomID"])
 
-        for i in range(len(result)):
-            del result[i]["_id"]
+        for i in range(len(classroomList)):
+            del classroomList[i]["_id"]
 
-        return json.dumps(result)
+        return json.dumps(classroomList)
 
     except Exception as e:
         print("The error of function findIdleClassroom() !!")
