@@ -446,7 +446,7 @@ def findNonPenging():
 ## 計算借用者總共預約了幾間教室 , return 教室數量(int) / False
 @app.route('/DB/countUserAppointments/<string:userID>' , methods = ['GET'])
 @cross_origin()
-def countUserAppointments(userID):
+def findUserAppointments(userID):
     try:
         query = dict()
         query["userID"] = userID
@@ -456,7 +456,7 @@ def countUserAppointments(userID):
             return json.dumps(False)
         else:
             data = list(AppointmentDB.find(query))
-            return json.dumps(len(data))
+            return json.dumps(data)
 
     except Exception as e:
         print("The error of function countUserAppointments() !!")
