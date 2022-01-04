@@ -29,7 +29,8 @@ def connectDB():
     client = pymongo.MongoClient()
 
     try:
-        host = "mongodb://wayne1224:wayne1224@sandbox-shard-00-00.qjd2q.mongodb.net:27017,sandbox-shard-00-01.qjd2q.mongodb.net:27017,sandbox-shard-00-02.qjd2q.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-bu8995-shard-0&authSource=admin&retryWrites=true&w=majority"
+        #host = "mongodb://wayne1224:wayne1224@sandbox-shard-00-00.qjd2q.mongodb.net:27017,sandbox-shard-00-01.qjd2q.mongodb.net:27017,sandbox-shard-00-02.qjd2q.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-bu8995-shard-0&authSource=admin&retryWrites=true&w=majority"
+        host = "mongodb://wayne1224:wayne1224@sandbox-shard-00-00.qjd2q.mongodb.net:27017,sandbox-shard-00-01.qjd2q.mongodb.net:27017,sandbox-shard-00-02.qjd2q.mongodb.net:27017/myFirstDatabase?ssl=true&ssl_cert_reqs=CERT_NONE&replicaSet=atlas-bu8995-shard-0&authSource=admin&retryWrites=true&w=majority"
         client = pymongo.MongoClient(host , serverSelectionTimeoutMS = 10000) # Timeout 10s
         db = client["NTOU"]                       # choose database
         AccountDB = db["Account"]                 # choose collection
@@ -380,8 +381,8 @@ def findIdleClassroom():
 
         # data = {
         #     "usingTime" : {
-        #         "date" : "2021-12-29",
-        #         "time" : [5 , 6 , 7]
+        #         "date" : "2022-01-04",
+        #         "time" : [7]
         #     }
         # }
 
@@ -398,7 +399,9 @@ def findIdleClassroom():
             if a["usingTime"]["date"] == data["usingTime"]["date"]:
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
                     if a["status"] != "pending":
-                        classroomList.remove(a["classroomID"])
+                        for c in classroomList:
+                            if a["classroomID"] in c["classroomID"]:
+                                classroomList.remove(c)
 
         for i in range(len(classroomList)):
             del classroomList[i]["_id"]

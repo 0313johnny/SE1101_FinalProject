@@ -341,6 +341,49 @@ input[type=number] {
 物聯網實驗室	教學實驗室	電機一館314	65	擴大機、麥克風、喇叭、65台主機
 
 }*/
+.personal {
+  padding: 40px;
+  padding-top: 100px;
+  width: 100%;
+  position: absolute;
+}
+.personal .file_border {
+  border-radius: 10px;
+  background-color: white;
+  height: 100%;
+  padding: 30px;
+}
+.personal .file_border table {
+  width: 100%;
+  position: relative;
+  margin: 0;
+  border-radius: 6px;
+}
+.personal .file_border table thead tr th {
+  text-align: center;
+  border-bottom: 3px solid #969696;
+  width: 15%;
+  border-radius: 6px;
+  min-width: 60px;
+}
+.personal .file_border table thead tr th:nth-child(5) {
+  width: 40%;
+}
+.personal .file_border table thead tr th:last-child {
+  width: 15%;
+}
+.personal .file_border table tbody tr {
+  border-bottom: 3px solid #969696;
+}
+.personal .file_border table tbody tr td {
+  text-align: center;
+  width: auto;
+  overflow: hidden;
+}
+.personal .file_border table tbody tr td:nth-child(5) {
+  text-align: left;
+}
+
 .admin1 {
   padding-top: 100px;
   padding-left: 360px;
@@ -452,6 +495,49 @@ input[type=number] {
   overflow: hidden;
 }
 .admin4 .file_border table tbody tr td:nth-child(5) {
+  text-align: left;
+}
+
+.admin5 {
+  padding-top: 100px;
+  padding-left: 360px;
+}
+.admin5 .file_border {
+  border-radius: 10px;
+  background-color: white;
+  padding: 20px;
+  width: calc(100% - 40px);
+  height: 95%;
+}
+.admin5 .file_border table {
+  width: 100%;
+  position: relative;
+  margin: 0;
+  border-radius: 6px;
+}
+.admin5 .file_border table thead tr th {
+  text-align: center;
+  border-bottom: 3px solid #969696;
+  width: 13%;
+  border-radius: 6px;
+  min-width: 60px;
+}
+.admin5 .file_border table thead tr th:nth-child(5) {
+  text-align: left;
+  width: 40%;
+}
+.admin5 .file_border table thead tr th:last-child {
+  width: 8%;
+}
+.admin5 .file_border table tbody tr {
+  border-bottom: 3px solid #969696;
+}
+.admin5 .file_border table tbody tr td {
+  text-align: center;
+  width: auto;
+  overflow: hidden;
+}
+.admin5 .file_border table tbody tr td:nth-child(5) {
   text-align: left;
 }
 
