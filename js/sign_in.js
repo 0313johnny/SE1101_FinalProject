@@ -29,12 +29,19 @@ $("document").ready(function(){
             success: function(re){
                 if(re.password == password){
                     console.log("登入成功");
-                    sign_in_user = re.userID;
-                    sessionStorage.setItem('sign_in_user', sign_in_user);
-                    $(".reserve_btn").css("display", "");
-                    $(".sign_out_btn").css("display", "");
-                    $(".sign_in_btn").css("display", "none");
-                    $(".sign_out_btn").html("<a class='nav-link' href='javascript:void(0)'>使用者 : "+re.userID+"</a>");
+                    if(re.authority == "user"){
+                        sign_in_user = re.userID;
+                        sessionStorage.setItem('sign_in_user', sign_in_user);
+                        $(".reserve_btn").css("display", "");
+                        $(".sign_out_btn").css("display", "");
+                        $(".sign_in_btn").css("display", "none");
+                        $(".sign_out_btn").html("<a class='nav-link' href='javascript:void(0)'>使用者 : "+re.userID+"</a>");
+                        $("#register").bootstrapToggle();
+                    }
+                    else if(re.authority == "admin"){
+                        console.log("admin")
+                        $(window).attr('location','adminpage.html');
+                    }
                     //window.location.replace("searchpage.html");
                     //跳轉頁面 儲存帳號相關資訊
                 }
@@ -60,25 +67,71 @@ $("document").ready(function(){
         }
         
     });
-    $(".user_info_btn").click(function(){
+    $("#personal").click(function(){
+        var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
         if(sessionStorage.getItem('sign_in_user') == null){
             alert("請先登入系統");
         }
         else{
+            $("#user_reserve_list").html("");
             var url = "http://127.0.0.1:5000/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
             $.getJSON(url,function(result){
-                console.log(result.lenght);
+                var your_reserve = "";
+                console.log(result.length);
                 console.log(result);
-                if(result.lenght == 0){
+                if(result.length <= 0){
 
+                    your_reserve = "您未有任何申請或預約。";
+                    $("#user_reserve_list").html(your_reserve);
                 }
                 else{
-
+                    $.each(result,function(index,value){
+                        console.log(index);
+                        your_reserve = `
+                        <tr id = "${"personal_reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]}">
+                            <td>${value.usingTime.date}</td>
+                            <td>${value.userID}</td>
+                            <td>${value.classroomID}</td>
+                            <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
+                            <td>${value.purpose}</td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-danger" id = "${"cancel_btn_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]}">取消</button>
+                            </td>
+                        </tr>
+                        `;
+                        $("#user_reserve_list").append(your_reserve);
+                        $("#cancel_btn_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).click(function(){
+                            if (confirm('您是否要撤回此預約申請') == true) {
+                                var delete_reserve = {};
+                                delete_reserve.userID = value.userID;
+                                delete_reserve.classroomID = value.classroomID;
+                                delete_reserve.usingTime = {};
+                                delete_reserve.usingTime.date = value.usingTime.date;
+                                delete_reserve.usingTime.time = value.usingTime.time;
+                                delete_reserve.usingTime.class = value.usingTime.class;
+                                delete_reserve.isFixed = false;
+                                var data = JSON.stringify(delete_reserve);
+                                $.ajax({ 
+                                    type: "DELETE",
+                                    url: "http://127.0.0.1:5000/DB/deleteAppointment", 
+                                    data:data,
+                                    success: function(re){
+                                        $("#personal_reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).remove();
+                                        alert("您的預約申請以撤回。");
+                                        //$("#reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).remove();
+                                    },
+                                    error: function (thrownError) {
+                                        alert(thrownError);
+                                    }
+                                });
+                            }
+                            
+                        });
+                    });
                 }
 
             });
             //$(".reserve_list").html(inserthtml);
-
         }
     });
 });

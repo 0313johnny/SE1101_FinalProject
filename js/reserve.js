@@ -22,6 +22,8 @@ $("document").ready(function(){
             data:data,
             success: function(re){
                 console.log(re);
+                $(".main_display").css("display","");
+                $(".personal").css("display","none");
                 var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>可預約教室</h1>";
                 $(".class_list").html(insertHTML);
                 $(".reserve_card_list").html("");

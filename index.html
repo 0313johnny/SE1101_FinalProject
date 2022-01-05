@@ -130,7 +130,7 @@
                 <option value="11">11</option>
                 <option value="12">12</option>
             </select>
-            <button type="button" class="btn btn-primary" id = "search_btn">搜尋</button>
+            <button type="button" class="btn btn-primary" id = "search_btn" data-bs-toggle="offcanvas" data-bs-target="#search" >搜尋</button>
 
         </form>
         <h2 class="mt-5">以教室查詢</h2>
@@ -563,7 +563,7 @@
                 <th><span class="RWD_word">管理員</span>操作</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id = "user_reserve_list">
             <tr>
                 <td>00857004</td>
                 <td>B10</td>
@@ -571,7 +571,7 @@
                 <td>第三堂</td>
                 <td>教學用途</td>
                 <td>
-                    <button type="button" class="btn btn-success">取消</button>
+                    <button type="button" class="btn btn-success btn-danger">取消</button>
                 </td>
             </tr>
             <tr>
