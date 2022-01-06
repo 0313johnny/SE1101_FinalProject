@@ -261,9 +261,15 @@ def initClassroomInfo():
             { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301},
             { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
         ]
+        
         ###insert to db
-        ClassroomInfoDB.insert_many(classroomlist)
+        if ClassroomInfoDB.count_documents(classroomlist) == 0:
+            ClassroomInfoDB.insert_many(classroomlist)
+        else:
+            print('classroomlist has been existed')
+            
         return json.dumps(True)
+
     except Exception as e:
         print("The error of function initClassroomInfo() !!")
         print(e)     
@@ -337,15 +343,15 @@ def insertClassroom():
         print(e)     
         return json.dumps(False)    
 
-@app.route('/DB/deleteClassroom' , methods = ['GET','DELETE'])
+@app.route('/DB/deleteClassroom/<string:classroomID>' , methods = ['GET','DELETE'])
 @cross_origin()
-def deleteClassroom():
+def deleteClassroom(classroomID):
     try:
-        data = json.loads(flask.request.get_data())
         
         query=dict()
 
-        query["name"]=data['name']
+        query["classroomID"]=classroomID
+
         ClassroomInfoDB.delete_one(query)
         
         return json.dumps(True) 
@@ -646,22 +652,22 @@ def deleteAppointment():
 @cross_origin()
 def insertrecord():
     try:
-        recordlist=[
-            {"classroomID": "B10","userID": "00857003", "usingTime": "306-308", "purpose": "機率論課程"},
-            {"classroomID":"B12","userID":"00857004", "usingTime":"406-408" , "purpose":"程式設計實習課程"},
-            {"classroomID":"B07","userID":"00857027", "usingTime":"102-104" , "purpose":"線性代數課程"},
-            {"classroomID":"303","userID":"00757025", "usingTime":"402-404" , "purpose":"軟體工程課程"},
-            {"classroomID":"407","userID":"00857041", "usingTime":"102-104" , "purpose":"計算機概論課程"},
-            {"classroomID":"409","userID":"00857004", "usingTime":"202-204" , "purpose":"資訊安全課程"},
-            {"classroomID":"101","userID":"00857003", "usingTime":"302-304" , "purpose":"計算機組織學課程"},
-            {"classroomID":"105","userID":"00857027", "usingTime":"406-408" , "purpose":"程式語言課程"},
-            {"classroomID":"203","userID":"00857025", "usingTime":"506-508" , "purpose":"計算機系統設計課程"},
-            {"classroomID":"205","userID":"00857004", "usingTime":"106-108" , "purpose":"微積分課程"},
-            {"classroomID":"301","userID":"00857027", "usingTime":"206-208" , "purpose":"資訊安全課程"},
-            {"classroomID":"314","userID":"00857041", "usingTime":"306-308" , "purpose":"程式設計課程"}
+        recordlist = [
+            {"classroomID":"B10","userID":"00857003 ", "usingTime":"306-308", "purpose":"機率論課程"},
+            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"程式設計實習課程"},
+            {"classroomID":"B07","userID":"00857027 ", "usingTime":"102-104" , "purpose":"線性代數課程"},
+            {"classroomID":"303","userID":"00757025 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
+            {"classroomID":"407","userID":"00857041 ", "usingTime":"102-104" , "purpose":"計算機概論課程"},
+            {"classroomID":"409","userID":"00857004 ", "usingTime":"202-204" , "purpose":"資訊安全課程"},
+            {"classroomID":"101","userID":"00857003 ", "usingTime":"302-304" , "purpose":"計算機組織學課程"},
+            {"classroomID":"105","userID":"00857027 ", "usingTime":"406-408" , "purpose":"程式語言課程"},
+            {"classroomID":"203","userID":"00857025 ", "usingTime":"506-508" , "purpose":"計算機系統設計課程"},
+            {"classroomID":"205","userID":"00857004 ", "usingTime":"106-108" , "purpose":"微積分課程"},
+            {"classroomID":"301","userID":"00857027 ", "usingTime":"206-208" , "purpose":"資訊安全課程"},
+            {"classroomID":"314","userID":"00857041 ", "usingTime":"306-308" , "purpose":"程式設計課程"}
         ]
         RecordDB.insert_many(recordlist)
-        return json.dumps(True)
+        return json.dumps(recordlist)
     except Exception as e:
         print("The error of function insertrecord() !!")
         print(e)     
