@@ -34,7 +34,10 @@
                     <a class="nav-link reserve_btn" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#search" style="display: none">預約教室</a>
                 </li>
                 <li class="nav-item mt-1">
-                    <a class="nav-link user_info_btn" href="javascript:void(0)">個人資料</a>
+                    <a id="personal" class="nav-link" href="javascript:void(0)">個人資料</a>
+                </li>
+                <li class="nav-item mt-1">
+                    <a id="main_display" class="nav-link" href="javascript:void(0)">教室列表</a>
                 </li>
                 <li class="nav-item mt-1">
                     <a class="nav-link sign_in_btn" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#register">登入</a>
@@ -127,7 +130,7 @@
                 <option value="11">11</option>
                 <option value="12">12</option>
             </select>
-            <button type="button" class="btn btn-primary" id = "search_btn">搜尋</button>
+            <button type="button" class="btn btn-primary" id = "search_btn" data-bs-toggle="offcanvas" data-bs-target="#search" >搜尋</button>
 
         </form>
         <h2 class="mt-5">以教室查詢</h2>
@@ -163,7 +166,7 @@
 
 </div>
 <!--教室列表頁面-->
-<div class="container-fluid">
+<div class="container-fluid main_display">
 
     <div class="row m-2 class_list reserve_list">
         <h1 class="mt-5 pt-3" style="color: white">教室列表</h1>
@@ -543,6 +546,66 @@
     
 <div class="black_background" style="display: none">
 
+    </div>
+</div>
+<!--            個人資料-->
+<div class="grey_background personal" style="display:none ">
+    <div class="file_border">
+        <h1>未審核的申請</h1>
+        <table>
+            <thead>
+            <tr>
+                <th><span class="RWD_word">借用</span>日期</th>
+                <th><span class="RWD_word">借用者</span>學號</th>
+                <th>教室<span class="RWD_word">編號</span></th>
+                <th><span class="RWD_word">借用</span>堂數</th>
+                <th><span class="RWD_word">借用</span>目的</th>
+                <th><span class="RWD_word">管理員</span>操作</th>
+            </tr>
+            </thead>
+            <tbody id = "user_reserve_list">
+            <tr>
+                <td>00857004</td>
+                <td>B10</td>
+                <td>第一堂</td>
+                <td>第三堂</td>
+                <td>教學用途</td>
+                <td>
+                    <button type="button" class="btn btn-success btn-danger">取消</button>
+                </td>
+            </tr>
+            <tr>
+                <td>00857004</td>
+                <td>B10</td>
+                <td>第一堂</td>
+                <td>第三堂</td>
+                <td>教學用途</td>
+                <td>
+                    <button type="button" class="btn btn-success">取消</button>
+                </td>
+            </tr>
+            <tr>
+                <td>00857004</td>
+                <td>B10</td>
+                <td>第一堂</td>
+                <td>第三堂</td>
+                <td>教學用途</td>
+                <td>
+                    <button type="button" class="btn btn-success">取消</button>
+                </td>
+            </tr>
+            <tr>
+                <td>00857004</td>
+                <td>B10</td>
+                <td>第一堂</td>
+                <td>第三堂</td>
+                <td>教學用途</td>
+                <td>
+                    <button type="button" class="btn btn-success">取消</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <!--回到最上層按鈕-->

@@ -33,7 +33,7 @@ $("document").ready(function(){
                     <td>${value.usingTime.date}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
-                    <td>${num[parseInt(value.usingTime.time[0])]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1])]}</td>
+                    <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
                     <td>${value.purpose}</td>
                     <td>
                         <div class="request_button" id = "${"track_option_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]}">

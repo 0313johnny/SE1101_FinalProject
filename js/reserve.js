@@ -22,13 +22,15 @@ $("document").ready(function(){
             data:data,
             success: function(re){
                 console.log(re);
-                var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>教室列表</h1>";
+                $(".main_display").css("display","");
+                $(".personal").css("display","none");
+                var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>可預約教室</h1>";
                 $(".class_list").html(insertHTML);
                 $(".reserve_card_list").html("");
                 $.each(re,function(index,result){//取陣列
                     var insertCard = "";//加入顯示給使用者看的列
                     insertCard += "<div class='col-12 col-sm-6 col-md-3 p-1 reserve_card'>";
-                    insertCard += "<div id='"+result.classroomID+"' class='card_spec card m-3 container_sp text-dark glass'><div class='card-body'>";
+                    insertCard += "<div id='reserve_"+result.classroomID+"' class='card_spec card m-3 container_sp text-dark glass'><div class='card-body'>";
                     insertCard += "<h1>"+result.classroomID+"</h1><p>座位:"+result.capacity+"</p><p>器材:...</p></div></div></div>";
 
                     var insertINFOCard = "";//點選後彈出的視窗
@@ -60,7 +62,7 @@ $("document").ready(function(){
 
                     $(".class_list").append(insertCard);
                     $(".reserve_card_list").append(insertINFOCard);
-                    $("#"+result.classroomID).click(function (e) { //card動畫設定
+                    $("#reserve_"+result.classroomID).click(function (e) { //card動畫設定
                         $("#reserve_card_"+result.classroomID).css("display", "");
                         $(".black_background").css("display", "");
                         
@@ -98,7 +100,6 @@ $("document").ready(function(){
                             },
                             error: function (thrownError) {
                                 alert(thrownError);
-                                
                                 }
                         });
                     });
