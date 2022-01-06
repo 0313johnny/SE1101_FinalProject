@@ -65,7 +65,7 @@ $("document").ready(function(){
                 apoint.usingTime.date = value.usingTime.date;
                 apoint.usingTime.time = value.usingTime.time;
                 apoint.usingTime.class = value.usingTime.class;
-                apoint.isFixed = false;
+                apoint.isFixed = value.isFixed;
                 $("#card_edit_list").append(key_tracking_btn);//插入彈出操作介面
                 if(value.status == "reserving")//插入個狀態的鑰匙管理
                 {
@@ -113,18 +113,38 @@ $("document").ready(function(){
                 });//超時未還後觸發動作結束
                 $("#return_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).click(function (){//點選歸還鑰匙後觸發動作
                     var data = JSON.stringify(apoint);
-                    $.ajax({ 
-                        type: "DELETE",
-                        url: "http://127.0.0.1:5000/DB/deleteAppointment", 
-                        data:data,
-                        success: function(re){
-                            $("#"+removeID).remove();
-                            //$("#reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).remove();
-                        },
-                        error: function (thrownError) {
-                            alert(thrownError);
-                        }
-                    });
+                    console.log(apoint.isFixed);
+                    if(apoint.isFixed == false){
+                        $.ajax({ 
+                            type: "DELETE",
+                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
+                            data:data,
+                            success: function(re){
+                                $("#"+removeID).remove();
+                                //$("#reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).remove();
+                            },
+                            error: function (thrownError) {
+                                alert(thrownError);
+                            }
+                        });
+                    }
+                    else if(apoint.isFixed == true){
+                        apoint.status = "reserving";
+                        var data = JSON.stringify(apoint);
+                        $.ajax({ 
+                            type: "PUT",
+                            url: "http://127.0.0.1:5000/DB/updateStatus", 
+                            data:data,
+                            success: function(re){
+                                //console.log(data);
+                                //$("#"+removeID).remove();
+                            },
+                            error: function (thrownError) {
+                                alert(thrownError);
+                            }
+                        });
+                    }
+                    
                 });//歸還鑰匙觸發動作結束
 
             });

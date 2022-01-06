@@ -12,6 +12,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script><!--        引入email函示庫-->
     <script src="http://code.jquery.com/jquery-latest.js"></script><!--        引入jquery函示庫-->
+    <script  type="text/javascript" src="js/sign_in.js"></script><!--        引入登入js-->
+    <script  type="text/javascript" src="js/reserve.js"></script><!--        引入預約js-->
     <script  type="text/javascript" src="js/admin.js"></script><!--        引入預約審核js-->
     <script  type="text/javascript" src="js/key_tracking.js"></script><!--        引入鑰匙追蹤js-->
     <style>
@@ -46,7 +48,7 @@
                     <a class="nav-link" href="javascript:void(0)">個人資料</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">您好! 老趙管理員</a>
+                    <a class="nav-link admin_sign_out" href="javascript:void(0)">您好!管理員</a>
                 </li>
                 <li class="nav-item RWD_button">
                     <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#admin">管理系統</a>
@@ -72,37 +74,38 @@
                 <span class="input-group-text">日期</span>
             </div>
             選擇開始借用時間(課堂
-            <!--            <div class="input-group mb-3">-->
-            <select class="input-group mb-3 form-select mt-3">
-                <option>第一堂</option>
-                <option>第二堂</option>
-                <option>第三堂</option>
-                <option>第四堂</option>
-                <option>第五堂</option>
-                <option>第六堂</option>
-                <option>第七堂</option>
-                <option>第八堂</option>
-                <option>第九堂</option>
-                <option>第十堂</option>
-                <option>第十一堂</option>
-                <option>第十二堂</option>
-            </select>
+<!--            <div class="input-group mb-3">-->
+                <select class="input-group mb-3 form-select mt-3" name = "start_class">
+                    <option value="1">第一堂</option>
+                    <option value="2">第二堂</option>
+                    <option value="3">第三堂</option>
+                    <option value="4">第四堂</option>
+                    <option value="5">第五堂</option>
+                    <option value="6">第六堂</option>
+                    <option value="7">第七堂</option>
+                    <option value="8">第八堂</option>
+                    <option value="9">第九堂</option>
+                    <option value="10">第十堂</option>
+                    <option value="11">第十一堂</option>
+                    <option value="12">第十二堂</option>
+                </select>
             想要借多少堂
-            <select class="input-group mb-3 form-select mt-3">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
+            <select class="input-group mb-3 form-select mt-3" name = "period">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
             </select>
-            <button type="button" class="btn btn-primary">搜尋</button>
+            <button type="button" class="btn btn-primary" id = "search_btn" data-bs-toggle="offcanvas" data-bs-target="#search" >搜尋</button>
+
         </form>
         <h2 class="mt-5">以教室查詢</h2>
         <form action="/action_page.php">
@@ -130,7 +133,6 @@
                 <input type="text" class="form-control" placeholder="Search">
                 <button type="button" class="btn btn-primary">搜尋</button>
             </div>
-
 
         </form>
 
@@ -201,13 +203,13 @@
                         </li>
                     </a>
                     <a href="#" class="list-group-item-action admin_btn" style="text-decoration: none">
-                        <li id="admin3" class="list-group-item d-flex justify-content-between align-items-center">
-                            發布通知
+                        <li id="admin5" class="list-group-item d-flex justify-content-between align-items-center">
+                            更改預約資料
                         </li>
                     </a>
                     <a href="#" class="list-group-item-action admin_btn" style="text-decoration: none">
-                        <li id="admin5" class="list-group-item d-flex justify-content-between align-items-center">
-                            更改預約資料
+                        <li id="admin3" class="list-group-item d-flex justify-content-between align-items-center">
+                            發布通知
                         </li>
                     </a>
                 </ul>
