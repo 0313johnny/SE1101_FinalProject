@@ -30,16 +30,18 @@ $("document").ready(function(){
                 if(re.password == password){
                     console.log("登入成功");
                     if(re.authority == "user"){
-                        sign_in_user = re.userID;
+                        var sign_in_user = re.userID;
                         sessionStorage.setItem('sign_in_user', sign_in_user);
                         $(".reserve_btn").css("display", "");
                         $(".sign_out_btn").css("display", "");
                         $(".sign_in_btn").css("display", "none");
                         $(".sign_out_btn").html("<a class='nav-link' href='javascript:void(0)'>使用者 : "+re.userID+"</a>");
-                        $("#register").bootstrapToggle();
+                        location.reload();
                     }
                     else if(re.authority == "admin"){
-                        console.log("admin")
+                        var sign_in_user = re.userID;
+                        console.log("admin");
+                        sessionStorage.setItem('sign_in_user', sign_in_user);
                         $(window).attr('location','adminpage.html');
                     }
                     //window.location.replace("searchpage.html");
@@ -67,10 +69,20 @@ $("document").ready(function(){
         }
         
     });
-    $("#personal").click(function(){
+    $(".admin_sign_out").click(function(){
+        console.log("s");
+        //window.confirm('您是否要登出');
+        if (confirm('您是否要登出') == true) {
+            sessionStorage.removeItem('sign_in_user');
+            $(window).attr('location','index.html');
+        }
+        
+    });
+    $("#personal").click(function(e){
         var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
         if(sessionStorage.getItem('sign_in_user') == null){
             alert("請先登入系統");
+            e.preventDefault()
         }
         else{
             $("#user_reserve_list").html("");
@@ -80,13 +92,12 @@ $("document").ready(function(){
                 console.log(result.length);
                 console.log(result);
                 if(result.length <= 0){
-
                     your_reserve = "您未有任何申請或預約。";
                     $("#user_reserve_list").html(your_reserve);
                 }
                 else{
                     $.each(result,function(index,value){
-                        console.log(index);
+                        console.log(value.status);
                         your_reserve = `
                         <tr id = "${"personal_reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]}">
                             <td>${value.usingTime.date}</td>
@@ -94,11 +105,29 @@ $("document").ready(function(){
                             <td>${value.classroomID}</td>
                             <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
                             <td>${value.purpose}</td>
-                            <td>
-                                <button type="button" class="btn btn-success btn-danger" id = "${"cancel_btn_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]}">取消</button>
-                            </td>
-                        </tr>
+                            
                         `;
+                        if(value.status == "pending"){
+                            your_reserve += `
+                                <td>
+                                    <button type="button" class="btn btn-success btn-danger" id = "${"cancel_btn_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]}">取消<span class="RWD_word">預約</span></button>
+                                </td>
+                            `;
+                        }
+                        else if(value.status == "reserving"){
+                            your_reserve += `<td>預約成功</td>`;
+
+                        }
+                        else if(value.status == "absent"){
+                            your_reserve += `<td>逾時未取鑰匙</td>`;
+                        }
+                        else if(value.status == "using"){
+                            your_reserve += `<td>教室使用中</td>`;
+                        }
+                        else if(value.status == "overtime"){
+                            your_reserve += `<td>超時未還鑰匙</td>`;
+                        }
+                        your_reserve    +=  "</tr>";
                         $("#user_reserve_list").append(your_reserve);
                         $("#cancel_btn_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).click(function(){
                             if (confirm('您是否要撤回此預約申請') == true) {
@@ -128,6 +157,8 @@ $("document").ready(function(){
                             
                         });
                     });
+                    $(".main_display").css("display","none")
+                    $(".personal").css("display","")
                 }
 
             });

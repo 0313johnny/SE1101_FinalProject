@@ -45,18 +45,21 @@ $("document").ready(function(){
     });
     $(".post").click(function(){
         console.log("post");
-        var apoint = {};
-        apoint.usingTime = {};
-        apoint.usingTime.date = "2022-1-02";
-        apoint.usingTime.time = [5,6];
-        apoint.usingTime.class = 2;
-        console.log(apoint);
+        var classroom = {};
+        classroom.classroomID = "C101";
+        classroom.name = "一般教室_生物實驗室";
+        classroom.location = "C101";
+        classroom.capacity = "50";
+        classroom.equipment = {};
+        classroom.equipment.主機 = 1;
+        classroom.equipment.投影機 = 1;
+        classroom.equipment.擴大機 = 1;
+        classroom.equipment.喇叭 = 1;
         
-        
-        var data = JSON.stringify(apoint);
+        var data = JSON.stringify(classroom);
         $.ajax({ 
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/findIdleClassroom", 
+            url: "http://127.0.0.1:5000/DB/insertClassroom", 
             data:data,
             success: function(re){
                 console.log(re);
