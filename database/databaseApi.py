@@ -293,6 +293,21 @@ def findClassroom(classroomID):
         print(e)     
         return json.dumps(False)
 
+@app.route('/DB/findAllClassroom' , methods = ['GET'])
+@cross_origin()
+def findAllClassroom():
+    try:
+        classroomList = list(ClassroomInfoDB.find())
+
+        for i in range(len(classroomList)):
+            del classroomList[i]["_id"]
+
+        return json.dumps(classroomList)
+    except Exception as e:
+        print("The error of function findAllClassroom() !!")
+        print(e)     
+        return json.dumps(False)
+
 @app.route('/DB/insertClassroom' , methods = ['GET','POST'])
 @cross_origin()
 def insertClassroom():
@@ -331,8 +346,8 @@ def deleteClassroom():
         data = json.loads(flask.request.get_data())
         
         query=dict()
-        query={"name":data['name']}
 
+        query["name"]=data['name']
         ClassroomInfoDB.delete_one(query)
         
         return json.dumps(True) 
@@ -357,11 +372,16 @@ def updateClassroom():
         if ClassroomInfoDB.count_documents(query) == 0:
             return json.dumps(False)
 
-        ClassroomInfoDB.update_many(query , {"$set" : {"classroomID" : data['classroomID']}},
-                                            {"$set" : {"name" : data['name']}},
-                                            {"$set" : {"location" : data['location']}},
-                                            {"$set" : {"capacity" : data['capacity']}},
-                                            {"$set" : {"equipment" : data['equipment']}})
+        ClassroomInfoDB.update_one(query , {
+                                            "$set" :{
+                                                "classroomID" : data['classroomID'],
+                                                "name" : data['name'],
+                                                "location" : data['location'],
+                                                "capacity" : data['capacity'],
+                                                "equipment" : data['equipment']
+                                                }                                           
+                                            })
+                                           
 
         return json.dumps(True) 
 
@@ -655,6 +675,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertClassroom
 # http://127.0.0.1:5000/DB/deleteClassroom
 # http://127.0.0.1:5000/DB/updateClassroom
+# http://127.0.0.1:5000/DB/findAllClassroom
 
 # Appointment
 # http://127.0.0.1:5000/DB/findIdleClassroom
