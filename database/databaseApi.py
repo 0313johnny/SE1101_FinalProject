@@ -2,9 +2,7 @@ import flask
 import pymongo
 import json
 from flask_cors import cross_origin
-import sys
-
-sys.path.append("database\\databaseApi.py")
+from datetime import date
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -438,7 +436,7 @@ def findPenging():
 def findNonPenging():
     try:
         query = dict()
-        query["status"] = {"$ne" : "pending" }
+        query["status"] = {"$ne" : "pending"}
 
         result = list(AppointmentDB.find(query))
 
@@ -448,7 +446,36 @@ def findNonPenging():
         return json.dumps(result)
 
     except Exception as e:
-        print("The error of function findPengingAppointment() !!")
+        print("The error of function findNonPenging() !!")
+        print(e)     
+        return json.dumps(False) 
+
+## 回傳當日 non pending 和 isFixed == True
+@app.route('/DB/findTodayNonPenging' , methods = ['GET'])
+@cross_origin()
+def findTodayNonPenging():
+    try:
+        ### 查詢當日 non pending
+        query = dict()
+        query["status"] = {"$ne" : "pending"}
+        query["usingTime.date"] = date.today().strftime("%Y-%m-%d")
+
+        result = list(AppointmentDB.find(query))
+
+        ### 查詢當日 isFixed == True
+        query = dict()
+        query["usingTime.weekday"] = date.today().weekday()
+        query["isFixed"] = True
+
+        result.extend(list(AppointmentDB.find(query)))
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+        
+        return json.dumps(result)
+
+    except Exception as e:
+        print("The error of function findTodayNonPenging() !!")
         print(e)     
         return json.dumps(False) 
 
@@ -636,6 +663,7 @@ def findrecord(classroomID):
        print("The error of function findrecord() !!")
        print(e)                                        
        return json.dumps(False)       
+
 if __name__ == '__main__':
     app.run()
 
@@ -662,6 +690,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/findReservingClassroom
 # http://127.0.0.1:5000/DB/findPenging
 # http://127.0.0.1:5000/DB/findNonPenging
+# http://127.0.0.1:5000/DB/findTodayNonPenging
 # http://127.0.0.1:5000/DB/updateStatus
 # http://127.0.0.1:5000/DB/deleteAppointment
 
