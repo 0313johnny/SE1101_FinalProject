@@ -19,12 +19,21 @@ function getWeek(fromDate){
         result.push(new Date(sunday));
     }
     return result;
-    // 回傳一陣列 [0]是日 [6]是六
 }
-// Example
+// example
 // var week = getWeek(new Date('2012/10/10'));
-// console.log(week[0]); //=> Sun Oct 07 2012 00:00:00
-// console.log(week[6]); //=> Sat Oct 13 2012 00:00:00
+// console.log(week[0]);  => Sun Oct 07 2012 00:00:00
+// console.log(week[6]);  => Sat Oct 13 2012 00:00:00
+
+var thisWeek = getWeek(new Date(getTodayDate()));
+console.log(getTodayDate());
+console.log('本周日:' + thisWeek[0]);
+console.log('本周一:' + thisWeek[1]);
+console.log('本周二:' + thisWeek[2]);
+console.log('本周三:' + thisWeek[3]);
+console.log('本周四:' + thisWeek[4]);
+console.log('本周五:' + thisWeek[5]);
+console.log('本周六:' + thisWeek[6]);
 
 $("document").ready(function(){
     let classroomList;
@@ -306,7 +315,7 @@ $("document").ready(function(){
                         </div>
                     </div>`;
 
-            }
+            });
         },
         error: function (thrownError) {
             console.log("Failed to get the list.");
@@ -321,4 +330,4 @@ $("document").ready(function(){
 
 
 
-}
+});
