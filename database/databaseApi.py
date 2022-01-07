@@ -265,10 +265,10 @@ def initClassroomInfo():
         ###insert to db
         if ClassroomInfoDB.count_documents(classroomlist) == 0:
             ClassroomInfoDB.insert_many(classroomlist)
+            return json.dumps(True)
         else:
             print('classroomlist has been existed')
-            
-        return json.dumps(True)
+            return json.dumps(False)
 
     except Exception as e:
         print("The error of function initClassroomInfo() !!")
