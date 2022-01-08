@@ -313,6 +313,21 @@ def findClassroom(classroomID):
         print(e)     
         return json.dumps(False)
 
+@app.route('/DB/findAllClassroomID/<string:classroomID>' , methods = ['GET'])
+@cross_origin()
+def findAllClassroomID(classroomID):
+    try:
+        query=dict()
+        query=ClassroomInfoDB.find(classroomID).sort("classroomID")
+
+        return json.dumps(query)
+
+
+    except Exception as e:
+        print("The error of function findAllClassroomID() !!")
+        print(e)     
+        return json.dumps(False)
+
 @app.route('/DB/findAllClassroom' , methods = ['GET'])
 @cross_origin()
 def findAllClassroom():
@@ -733,6 +748,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/deleteClassroom
 # http://127.0.0.1:5000/DB/updateClassroom
 # http://127.0.0.1:5000/DB/findAllClassroom
+# http://127.0.0.1:5000/DB/findAllClassroomID
 
 # Appointment
 # http://127.0.0.1:5000/DB/findIdleClassroom
