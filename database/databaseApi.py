@@ -450,7 +450,7 @@ def findIdleClassroom():
         result = list(AppointmentDB.find(query))
        
         for a in result:
-            if a["usingTime"]["date"] == data["usingTime"]["date"]:
+            if a["usingTime"]["date"] == data["usingTime"]["date"] or (a["isFixed"] == True and a["usingTime"]["weekday"] == data["usingTime"]["weekday"]):
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
                     if a["status"] != "pending":
                         for c in classroomList:
@@ -591,7 +591,7 @@ def insertAppointment():
                 elif [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
                     if a["status"] != "pending":
                         return json.dumps(False)
-                
+              
         AppointmentDB.insert_one(data)
 
         return json.dumps(True)
@@ -600,6 +600,8 @@ def insertAppointment():
         print("The error of function insertAppointment() !!")
         print(e)     
         return json.dumps(False)
+
+
 
 ## 更改預約狀態，return True / False
 @app.route('/DB/updateStatus' , methods = ['GET' , 'PUT' , 'DELETE'])
