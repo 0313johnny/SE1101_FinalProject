@@ -562,7 +562,7 @@ def findUserAppointments(userID):
         return json.dumps(False)
 
 ## 透過 classroomID , 日期 , 星期 去找預約 , return 預約列表 , False
-@app.route('/DB/findNonPendingByClassroom' , methods = ['GET'])
+@app.route('/DB/findNonPendingByClassroom' , methods = ['GET' , "POST"])
 @cross_origin()
 def findNonPendingByClassroom():
     try:
@@ -830,6 +830,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/findTodayNonPenging
 # http://127.0.0.1:5000/DB/updateStatus
 # http://127.0.0.1:5000/DB/deleteAppointment
+# http://127.0.0.1:5000/DB/findNonPendingByClassroom
 
 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。

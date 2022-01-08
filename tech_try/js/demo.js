@@ -55,11 +55,14 @@ $("document").ready(function(){
         classroom.equipment.投影機 = 1;
         classroom.equipment.擴大機 = 1;
         classroom.equipment.喇叭 = 1;
-        
-        var data = JSON.stringify(classroom);
-        $.ajax({ 
+        var date = {};
+        date.classroomID = "B12";
+        date.date = "2022-01-15";
+        date.weekday = "5";
+        var data = JSON.stringify(date);
+        $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/insertClassroom", 
+            url: "http://127.0.0.1:5000/DB/findNonPendingByClassroom", 
             data:data,
             success: function(re){
                 console.log(re);
