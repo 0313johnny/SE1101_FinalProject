@@ -436,7 +436,8 @@ def findIdleClassroom():
         # data = {
         #     "usingTime" : {
         #         "date" : "2022-01-04",
-        #         "time" : [7]
+        #         "time" : [7],
+        #         "weekday" : 0
         #     }
         # }
 
@@ -560,8 +561,8 @@ def findUserAppointments(userID):
         print(e)     
         return json.dumps(False)
 
-## 新增預約 , return True / False
-@app.route('/DB/insertAppointment' , methods = ['GET','POST'])
+## 新增非固定預約 , return True / False
+@app.route('/DB/insertAppointment' , methods = ['GET' , 'POST'])
 @cross_origin()
 def insertAppointment():
     try:
@@ -583,7 +584,7 @@ def insertAppointment():
         result = AppointmentDB.find(query)
         
         for a in result:
-            if a["usingTime"]["date"] == data["usingTime"]["date"]:
+            if (a["isFixed"] == False and a["usingTime"]["date"] == data["usingTime"]["date"]) or (a["isFixed"] == True and a["usingTime"]["weekday"] == data["usingTime"]["weekday"]):
                 ### 相同時間、相同借用者，重複的預約
                 if a["usingTime"]["time"] == data["usingTime"]["time"] and a["userID"] == data["userID"]:
                     return json.dumps(False)
@@ -598,6 +599,41 @@ def insertAppointment():
      
     except Exception as e:
         print("The error of function insertAppointment() !!")
+        print(e)     
+        return json.dumps(False)
+
+## 新增固定預約 , return True / False
+@app.route('/DB/insertFixed' , methods = ['GET' , 'POST' , 'DELETE'])
+@cross_origin()
+def insertFixed():
+    try:
+        data = json.loads(flask.request.get_data()) # 因為是固定預約 date == ""
+
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+
+        result = AppointmentDB.find(query)
+        deleteList = list()
+        
+        for a in result:
+            if a["usingTime"]["weekday"] == data["usingTime"]["weekday"]:
+                if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                    if a["status"] != "pending":
+                        return json.dumps(False)
+                    elif a["status"] == "pending":
+                        deleteList.append(a["_id"])
+
+        ### 把其他同時間 status == pending 的預約刪除
+        for d in deleteList:
+            query = dict()
+            query["_id"] = d["_id"]
+
+            AppointmentDB.delete_one(query)
+        
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function insertFixed() !!")
         print(e)     
         return json.dumps(False)
 
@@ -663,6 +699,7 @@ def deleteAppointment():
         query["usingTime.time"] = data["usingTime"]["time"]
         query["usingTime.weekday"] = data["usingTime"]["weekday"]
         query["status"] = data["status"]
+
         if AppointmentDB.count_documents(query) == 0:
             return json.dumps(False)
 
@@ -752,6 +789,7 @@ if __name__ == '__main__':
 # Appointment
 # http://127.0.0.1:5000/DB/findIdleClassroom
 # http://127.0.0.1:5000/DB/insertAppointment
+# http://127.0.0.1:5000/DB/insertFixed
 # http://127.0.0.1:5000/DB/findUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
 # http://127.0.0.1:5000/DB/findPenging
@@ -759,6 +797,7 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/findTodayNonPenging
 # http://127.0.0.1:5000/DB/updateStatus
 # http://127.0.0.1:5000/DB/deleteAppointment
+
 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
