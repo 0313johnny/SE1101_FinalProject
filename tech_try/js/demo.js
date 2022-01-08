@@ -55,11 +55,14 @@ $("document").ready(function(){
         classroom.equipment.投影機 = 1;
         classroom.equipment.擴大機 = 1;
         classroom.equipment.喇叭 = 1;
-        
-        var data = JSON.stringify(classroom);
-        $.ajax({ 
+        var date = {};
+        date.classroomID = "B12";
+        date.date = "2022-01-15";
+        date.weekday = "5";
+        var data = JSON.stringify(date);
+        $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/insertClassroom", 
+            url: "http://127.0.0.1:5000/DB/findNonPendingByClassroom", 
             data:data,
             success: function(re){
                 console.log(re);
@@ -70,23 +73,22 @@ $("document").ready(function(){
         });
     });
     $(".put").click(function(){
-        console.log("post");
-        var apoint = {};
-        apoint.userID = "ROBIN";
-        apoint.classroomID = "207"
-        apoint.usingTime = {};
-        apoint.usingTime.date = "2021-12-29";
-        apoint.usingTime.time = [4,5,6];
-        apoint.usingTime.class = 3;
-        apoint.purpose = "程式語言";
-        apoint.status = "reserving";
-        apoint.isFixed = false;
-        console.log(apoint);
+        console.log("put");
+        var classroom = {};
+        classroom.classroomID = "C101";
+        classroom.name = "一般教室_生物實驗室";
+        classroom.location = "C101";
+        classroom.capacity = "60";
+        classroom.equipment = {};
+        classroom.equipment.主機 = 1;
+        classroom.equipment.投影機 = 1;
+        classroom.equipment.擴大機 = 1;
+        classroom.equipment.喇叭 = 1;
         //user.userID = "robin";
-        var data = JSON.stringify(apoint);
+        var data = JSON.stringify(classroom);
         $.ajax({ 
             type: "PUT",
-            url: "http://127.0.0.1:5000/DB/updateStatus", 
+            url: "http://127.0.0.1:5000/DB/updateClassroom", 
             data:data,
             success: function(re){
                 console.log(re);

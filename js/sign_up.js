@@ -28,13 +28,11 @@ $("document").ready(function(){
             user.password = password;
             user.authority = "user";
             var insertData = JSON.stringify(user);
-            console.log(user);
             $.ajax({ 
                 type: "POST",
                 url: "http://127.0.0.1:5000/DB/insertAccount", 
                 data:insertData,
                 success: function(re){
-                    console.log(re);
                     if(re == "true")
                     {
                         alert("使用者"+email+"註冊成功!!請登入以使用預約功能。");
@@ -54,13 +52,11 @@ $("document").ready(function(){
     });
     $("#send_CAPTCHA").click(function(){
         email = $("input[name='email']").val();
-        console.log("email");
         if(email == ""){//email為空   之後預計添加 else if(email是否已被註冊) else if(email是否存在)
             alert("email為必填資料!!");
         }
         else{
             CAPTCHA = Math.floor(Math.random()*899999+100000);//隨機產生一六位驗證碼
-            console.log(CAPTCHA);
             Email.send({//寄出驗證碼
                 SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
                 To : email+'@mail.ntou.edu.tw',

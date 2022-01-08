@@ -31,6 +31,7 @@ function DB_operate(object,btn_id){
 }
 $("document").ready(function(){
     var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
+    var week_ch = ["一","二","三","四","五","六","日"];
     console.log("connect");//connectDB
     $.ajax({ 
         type: "GET",
@@ -86,7 +87,6 @@ $("document").ready(function(){
                 $(".wait_for_review_list").append(insert_pending_HTML);//插入待申請預約
                 $("#card_request_list").append(pending_btn);//插入待審核按鈕
                 $("#option_"+ID_composition).click(function () { //彈出選擇介面
-                    console.log("request");
                     $("#act_"+ID_composition).css("display", "");
                     $(".black_background").css("display", "");
                 });
@@ -96,7 +96,6 @@ $("document").ready(function(){
                     $(".black_background").css("display", "none");
                 });
                 $("#success_"+ID_composition).click(function(){//同意申請
-                    console.log("suc");
                     var apoint = {};
                     var email_text = "";
                     apoint.userID = value.userID;
@@ -105,9 +104,9 @@ $("document").ready(function(){
                     apoint.usingTime.date = value.usingTime.date;
                     apoint.usingTime.time = value.usingTime.time;
                     apoint.usingTime.class = value.usingTime.class;
+                    apoint.usingTime.weekday = value.usingTime.weekday;
                     apoint.status = "reserving";
                     apoint.isFixed = false;
-                    console.log(apoint);
                     email_text += `${apoint.userID}，您的預約申請已經通過，請於申請時間前往系辦拿取鑰匙。\n教室 :${apoint.classroomID}
                     \n日期 : ${apoint.usingTime.date}
                     \n堂數 : 第${num[parseInt(value.usingTime.time[0]) - 1]}堂 ~ 第${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}堂`
@@ -117,15 +116,20 @@ $("document").ready(function(){
                         url: "http://127.0.0.1:5000/DB/updateStatus", 
                         data:data,
                         success: function(re){
-                            console.log(re);
-                            Email.send({//寄出預約成功通知
-                                SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
-                                To : apoint.userID+'@mail.ntou.edu.tw',
-                                From : "ntoumailonly@gmail.com",
-                                Subject : "您的預約申請已經通過",
-                                Body : email_text
-                            }).then(alert("申請成功通知已寄出。"));
-                            $("#admin1").click();
+                            if(re == "true"){
+                                Email.send({//寄出預約成功通知
+                                    SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
+                                    To : apoint.userID+'@mail.ntou.edu.tw',
+                                    From : "ntoumailonly@gmail.com",
+                                    Subject : "您的預約申請已經通過",
+                                    Body : email_text
+                                }).then(alert("申請成功通知已寄出。"));
+                                $("#admin1").click();
+                            }
+                            else{
+                                alert("操作失敗，可能提交者已取消申請。");
+                                $("#admin1").click();
+                            }
                             //$("#reserve_"+value.usingTime.date+"_"+value.usingTime.weekday+"_"+value.classroomID+"_"+value.usingTime.time[0]).remove();
                         },
                         error: function (thrownError) {
@@ -134,7 +138,6 @@ $("document").ready(function(){
                     });
                 });//申請同意結束
                 $("#fail_"+ID_composition).click(function(){//拒絕申請
-                    console.log("delete");
                     var apoint = {};
                     var email_text = "";
                     apoint.userID = value.userID;
@@ -145,7 +148,6 @@ $("document").ready(function(){
                     apoint.usingTime.class = value.usingTime.class;
                     apoint.status = "reserving";
                     apoint.isFixed = false;
-                    console.log(apoint);
                     email_text += `${apoint.userID}，您的預約申請未通過，請重新提交申請或前往系辦詢問。\n教室 :${apoint.classroomID}
                     \n日期 : ${apoint.usingTime.date}
                     \n堂數 : 第${num[parseInt(value.usingTime.time[0]) - 1]}堂 ~ 第${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}堂`
@@ -156,8 +158,7 @@ $("document").ready(function(){
                             url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
-                                console.log(re);
-                                if(re){
+                                if(re == "true"){
                                     Email.send({//寄出預約成功通知
                                         SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
                                         To : apoint.userID+'@email.ntou.edu.tw',
@@ -184,10 +185,20 @@ $("document").ready(function(){
             
         });//取得所有待審核預約json完成
     });//預約審核介面設定完成
-    $("#admin5").click(function(){
+    $("#admin5").click(function(){//建立預約管理介面
         $("#reserve_admin_list").html("");
         $("#card_edit_list").html("");
         var url = "http://127.0.0.1:5000/DB/findNonPenging";
+        $.getJSON("http://127.0.0.1:5000/DB/findAllClassroom",function(result){//插入可選擇教室id
+            $("select[name='classroomID']").html("");
+            $.each(result,function(index,classroom){
+                var select_unit = "";
+                select_unit = `
+                    <option value="${classroom.classroomID}">${classroom.classroomID}</option>
+                `
+                $("select[name='classroomID']").append(select_unit);
+            });
+        });
         $.getJSON(url,function(result){
             $.each(result,function(index,value){//為所有物件建立介面
                 var status_text = "";
@@ -199,9 +210,10 @@ $("document").ready(function(){
                     case 'overtime': status_text = "超時未還鑰匙";break;
                 }
                 var insert_reserve_admin_HTML = "";
+                console.log(value.isFixed);
                 insert_reserve_admin_HTML +=
                 `<tr id = "${"reserve_admin_"+ID_composition}" class = "reserve_admin">
-                    <td>${value.usingTime.date}</td>
+                    <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:value.usingTime.date}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
                     <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
@@ -287,8 +299,13 @@ $("document").ready(function(){
                             url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
-                                alert("該預約已刪除。");
-                                $("#"+removeID).remove();
+                                if(re = "true"){
+                                    alert("該預約已刪除。");
+                                    $("#"+removeID).remove();
+                                }
+                                else{
+                                    alert("刪除失敗，請重新嘗試。");
+                                }
                             },
                             error: function (thrownError) {
                                 alert(thrownError);
@@ -301,5 +318,46 @@ $("document").ready(function(){
             });
         });
 
+    });
+    $("#insert_isFixed_reserve").click(function(){
+            var reserve = {};
+            reserve.userID = "管理員";
+            reserve.classroomID = $("select[name='classroomID']").val();
+            reserve.usingTime = {};
+            reserve.usingTime.date = "";
+            reserve.usingTime.weekday = parseInt($("select[name='reserve_week']").val());
+            var start = parseInt($("select[name='reserve_start_class']").val());
+            var period = parseInt($("select[name='reserve_period']").val());
+            var arry = [];
+            for(var i = 0;i < period;i++)
+            {
+                arry[i] = start + i;
+            }
+            reserve.usingTime.time = arry;
+            reserve.usingTime.class = period;
+            reserve.purpose = $("input[name='purpose']").val();
+            reserve.status = "reserving";
+            reserve.isFixed = true;
+            if(start + period > 13){
+                alert("學校並沒有開到12堂課之後，請重新填寫時段。");
+                return;
+            }
+            var data = JSON.stringify(reserve);//物件轉json
+            $.ajax({ 
+                type: "POST",
+                url: "http://127.0.0.1:5000/DB/insertFixed", 
+                data:data,
+                success: function(re){
+                    if(re == "true"){
+                        alert("已新增一筆固定預約。");
+                        $("#admin5").click();
+                    }
+                    else
+                        alert("新增失敗，請重新嘗試。");
+                },
+                error: function (thrownError) {
+                    alert(thrownError);
+                }
+            });
     });
 });

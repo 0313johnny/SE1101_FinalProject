@@ -7,7 +7,13 @@ function move(moveto,removeID,object){
         success: function(re){
             //console.log(data);
             //$("#"+removeID).remove();
-            $(moveto).append($("#"+removeID));
+            if(re == "true"){
+                $(moveto).append($("#"+removeID));
+            }
+            else{
+                alert("操作失敗，請重新嘗試。");
+            }
+            
         },
         error: function (thrownError) {
             alert(thrownError);
@@ -121,7 +127,12 @@ $("document").ready(function(){
                             url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
-                                $("#"+removeID).remove();
+                                if(re == "true"){
+                                    $("#"+removeID).remove();
+                                }
+                                else{
+                                    alert("操作失敗，請重新嘗試。");
+                                }
                                 //$("#reserve_"+ID_composition).remove();
                             },
                             error: function (thrownError) {

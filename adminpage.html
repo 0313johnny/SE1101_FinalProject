@@ -14,7 +14,7 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script><!--        引入jquery函示庫-->
     <script  type="text/javascript" src="js/sign_in.js"></script><!--        引入登入js-->
     <script  type="text/javascript" src="js/reserve.js"></script><!--        引入預約js-->
-    <script  type="text/javascript" src="js/admin.js"></script><!--        引入預約審核js-->
+    <script  type="text/javascript" src="js/admin.js"></script><!--        引入預約管理js-->
     <script  type="text/javascript" src="js/key_tracking.js"></script><!--        引入鑰匙追蹤js-->
     <style>
         #menu {
@@ -700,11 +700,11 @@
                 <!--            顯示更改預約畫面-->
                 <div class="grey_background admin5" style="display: none">
                     <div class="file_border">
-                        <div class = "file_header">
-                            <h1>可更改的申請</h1>
-                        </div>
                         <table>
                             <thead>
+                            <div class = "file_header">
+                                <h1>新增固定課程</h1>
+                            </div>
                             <tr>
                                 <th><span class="RWD_word">借用</span>星期</th>
                                 <th>教室<span class="RWD_word">編號</span></th>
@@ -714,15 +714,15 @@
                             </tr>
                             <tr><!--            新增預約欄位-->
                                 <th><select class="input-group mb-3 form-select mt-3" name = "reserve_week">
-                                    <option value="1">星期一</option>
-                                    <option value="2">星期二</option>
-                                    <option value="3">星期三</option>
-                                    <option value="4">星期四</option>
-                                    <option value="5">星期五</option>
-                                    <option value="6">星期六</option>
-                                    <option value="7">星期日</option>
+                                    <option value="0">星期一</option>
+                                    <option value="1">星期二</option>
+                                    <option value="2">星期三</option>
+                                    <option value="3">星期四</option>
+                                    <option value="4">星期五</option>
+                                    <option value="5">星期六</option>
+                                    <option value="6">星期日</option>
                                 </select></th>
-                                <th><select class="input-group mb-3 form-select mt-3" name = "reserve_period"></select></th>
+                                <th><select class="input-group mb-3 form-select mt-3" name = "classroomID"></select></th>
                                 <th><select class="input-group mb-3 form-select mt-3" name = "reserve_start_class">
                                     <option value="1">第一堂</option>
                                     <option value="2">第二堂</option>
@@ -752,8 +752,11 @@
                                     <option value="12">12</option>
                                 </select></th>
                                 <th><input type="text" class="form-control" id="" placeholder="Enter purpose" name="purpose"></th>
-                                <th><button type="button" class = "mb-2 btn btn-primary add">新增</button></th>
+                                <th><button type="button" class = "mb-2 btn btn-primary add" id = "insert_isFixed_reserve">新增</button></th>
                             </tr>
+                            <div class = "file_header">
+                                <h1>可更改的申請</h1>
+                            </div>
                             <tr>
                                 <th><span class="RWD_word">借用</span>日期</th>
                                 <th><span class="RWD_word">借用者</span>學號</th>

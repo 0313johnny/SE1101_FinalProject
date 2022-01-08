@@ -1,9 +1,7 @@
 $("document").ready(function(){
     //console.log(sign_in_user);
     $("#search_btn").click(function(event){
-        console.log("search");
         var today = new Date();
-        
         var appointINFO = {};
         appointINFO.usingTime = {};
         appointINFO.usingTime.date = $("input[name='date']").val();
@@ -18,23 +16,22 @@ $("document").ready(function(){
             alert("日期不可為空。");
             return;
         }
-        else if(day.getDate() == today.getDate() && day.getMonth() == today.getMonth()){
+        else if(day.getDate() == today.getDate( ) && day.getMonth() == today.getMonth()){
             
             alert("現在才想到要借教室不覺得太晚了嗎？下次請早！");
             return;
         }
         else if(Date.parse(appointINFO.usingTime.date) < today){
-            console.log(today);
-            console.log(day);
             alert("時間旅行是不合法的，詳情請見時空管理法第三章第一節！");
             return;
         }
-        console.log(day.getDate() == today.getDate());
         var arry = [];
         for(var i = 0;i < period;i++)
         {
             arry[i] = start + i;
         }
+        var day = new Date(Date.parse(appointINFO.usingTime.date.replace(/-/g, '/')));
+        appointINFO.usingTime.weekday = (day.getDay()+6)%7;
         appointINFO.usingTime.time = arry;
         appointINFO.usingTime.class = period;
         var data = JSON.stringify(appointINFO);
@@ -98,9 +95,11 @@ $("document").ready(function(){
                     $("#reserve_card_"+result.classroomID +" .reserve_btn").click(function(){//寄送預約申請
                         var url = "http://127.0.0.1:5000/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
                         $.getJSON(url,function(num){
-                            var reserve_num;
-                            reserve_num = num.length;
-                            if(reserve_num < 5){
+                            var reserve_num = num.length;
+                            
+                            console.log(reserve_num);
+                            
+                            if(true){
                                 var reserve = {};//$("input[name='date']").val();
                                 reserve.userID = sessionStorage.getItem('sign_in_user');
                                 reserve.classroomID = result.classroomID;
@@ -113,6 +112,7 @@ $("document").ready(function(){
                                 reserve.purpose = $("#reserve_card_"+result.classroomID +" input").val();
                                 reserve.status = "pending";
                                 reserve.isFixed = false;
+                                console.log(reserve);
                                 var data = JSON.stringify(reserve);//物件轉json
                                 $.ajax({ 
                                     type: "POST",

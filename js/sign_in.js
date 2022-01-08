@@ -28,7 +28,6 @@ $("document").ready(function(){
             dataType: "json",
             success: function(re){
                 if(re.password == password){
-                    console.log("登入成功");
                     if(re.authority == "user"){
                         var sign_in_user = re.userID;
                         sessionStorage.setItem('sign_in_user', sign_in_user);
@@ -124,7 +123,6 @@ $("document").ready(function(){
                         your_reserve    +=  "</tr>";
                         $("#user_reserve_list").append(your_reserve);
                         $("#cancel_btn_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]+"_"+value.usingTime.time[value.usingTime.time.length - 1]).click(function(){
-                            console.log("#cancel_btn_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]+"_"+value.usingTime.time[value.usingTime.time.length - 1]);
                             if (confirm('您是否要撤回此預約申請') == true) {
                                 var delete_reserve = {};
                                 delete_reserve.userID = value.userID;
@@ -141,16 +139,13 @@ $("document").ready(function(){
                                     url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                                     data:data,
                                     success: function(re){
-                                        if(re == true){
-                                            console.log(delete_reserve);
-                                            console.log(re);
+                                        if(re == "true"){
                                             $("#personal_reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).remove();
                                             alert("您的預約申請以撤回。");
                                         }
                                         else{
                                             alert("此申請可能已經通過或被拒絕。");
                                             $("#personal").click();
-
                                         }
                                         //$("#reserve_"+value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0]).remove();
                                     },
