@@ -415,8 +415,7 @@ def updateClassroom():
                                                 "equipment" : data['equipment']
                                                 }                                           
                                             })
-                                           
-
+                                
         return json.dumps(True) 
 
     except Exception as e:
@@ -692,6 +691,7 @@ def updateStatus():
         query["userID"] = data["userID"]
         query["classroomID"] = data["classroomID"]
         query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.weekday"] = data["usingTime"]["weekday"]
         query["usingTime.time"] = data["usingTime"]["time"]
 
         if AppointmentDB.count_documents(query) == 0:
