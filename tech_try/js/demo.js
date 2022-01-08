@@ -56,7 +56,7 @@ $("document").ready(function(){
         classroom.equipment.擴大機 = 1;
         classroom.equipment.喇叭 = 1;
         var date = {};
-        date.classroomID = "B12";
+        date.classroomID = "B10";
         date.date = "2022-01-15";
         date.weekday = "5";
         var data = JSON.stringify(date);

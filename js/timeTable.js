@@ -19,7 +19,7 @@ function getWeek(fromDate){
         result.push(new Date(sunday));
     }
     return result;
-
+}
 // test
 var thisWeek = getWeek(new Date(getTodayDate()));
 console.log(getTodayDate());
