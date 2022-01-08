@@ -631,7 +631,8 @@ def deleteAppointment():
         query["classroomID"] = data["classroomID"]
         query["usingTime.date"] = data["usingTime"]["date"]
         query["usingTime.time"] = data["usingTime"]["time"]
-
+        query["usingTime.weekday"] = data["usingTime"]["weekday"]
+        query["status"] = data["status"]
         if AppointmentDB.count_documents(query) == 0:
             return json.dumps(False)
 
