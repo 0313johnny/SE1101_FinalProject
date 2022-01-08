@@ -19,10 +19,6 @@
     }*/
     //jquery
     $(document).ready(function () {
-        $("#personal").click(function (e) {
-            $(".main_display").css("display","none")
-            $(".personal").css("display","")
-        });
         $("#main_display").click(function (e) {
             $(".main_display").css("display","")
             $(".personal").css("display","none")

@@ -1,12 +1,35 @@
 $("document").ready(function(){
     //console.log(sign_in_user);
-    $("#search_btn").click(function(){
+    $("#search_btn").click(function(event){
         console.log("search");
+        var today = new Date();
+        
         var appointINFO = {};
         appointINFO.usingTime = {};
         appointINFO.usingTime.date = $("input[name='date']").val();
         var start = parseInt($("select[name='start_class']").val());
         var period = parseInt($("select[name='period']").val());
+        var day = new Date(Date.parse(appointINFO.usingTime.date));
+        if(start + period > 13){
+            alert("學校並沒有開到12堂課之後，請重新填寫時段。");
+            return;
+        }
+        else if(appointINFO.usingTime.date == ""){
+            alert("日期不可為空。");
+            return;
+        }
+        else if(day.getDate() == today.getDate() && day.getMonth() == today.getMonth()){
+            
+            alert("現在才想到要借教室不覺得太晚了嗎？下次請早！");
+            return;
+        }
+        else if(Date.parse(appointINFO.usingTime.date) < today){
+            console.log(today);
+            console.log(day);
+            alert("時間旅行是不合法的，詳情請見時空管理法第三章第一節！");
+            return;
+        }
+        console.log(day.getDate() == today.getDate());
         var arry = [];
         for(var i = 0;i < period;i++)
         {
@@ -21,7 +44,8 @@ $("document").ready(function(){
             dataType: "json",
             data:data,
             success: function(re){
-                console.log(re);
+                $(".main_display").css("display","");
+                $(".personal").css("display","none");
                 var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>可預約教室</h1>";
                 $(".class_list").html(insertHTML);
                 $(".reserve_card_list").html("");
@@ -29,7 +53,7 @@ $("document").ready(function(){
                     var insertCard = "";//加入顯示給使用者看的列
                     insertCard += "<div class='col-12 col-sm-6 col-md-3 p-1 reserve_card'>";
                     insertCard += "<div id='reserve_"+result.classroomID+"' class='card_spec card m-3 container_sp text-dark glass'><div class='card-body'>";
-                    insertCard += "<h1>"+result.classroomID+"</h1><p>座位:"+result.capacity+"</p><p>器材:...</p></div></div></div>";
+                    insertCard += "<h1>"+result.classroomID+"</h1><p>座位："+result.capacity+"</p><p>器材：……</p></div></div></div>";
 
                     var insertINFOCard = "";//點選後彈出的視窗
                     insertINFOCard += "<div class='card circle card_reserve'style='display:none' id = 'reserve_card_"+result.classroomID+"'>";
@@ -72,33 +96,43 @@ $("document").ready(function(){
                         $(".black_background").css("display", "none");
                     });
                     $("#reserve_card_"+result.classroomID +" .reserve_btn").click(function(){//寄送預約申請
-                        var reserve = {};//$("input[name='date']").val();
-                        reserve.userID = sessionStorage.getItem('sign_in_user');
-                        reserve.classroomID = result.classroomID;
-                        reserve.usingTime = {};
-                        reserve.usingTime.date = appointINFO.usingTime.date;
-                        reserve.usingTime.time = appointINFO.usingTime.time;
-                        reserve.usingTime.class = appointINFO.usingTime.class;
-                        reserve.purpose = $("#reserve_card_"+result.classroomID +" input").val();
-                        reserve.status = "pending";
-                        reserve.isFixed = false;
-
-                        
-                        var data = JSON.stringify(reserve);//物件轉json
-                        $.ajax({ 
-                            type: "POST",
-                            url: "http://127.0.0.1:5000/DB/insertAppointment", 
-                            data:data,
-                            success: function(re){
-                                //console.log(typeof(re));
-                                if(re == "true")
-                                    alert("預約申請已提交，請耐心等待審核。");
-                                else
-                                    alert("預約申請失敗，請重新嘗試。");
-                            },
-                            error: function (thrownError) {
-                                alert(thrownError);
-                                }
+                        var url = "http://127.0.0.1:5000/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
+                        $.getJSON(url,function(num){
+                            var reserve_num;
+                            reserve_num = num.length;
+                            if(reserve_num < 5){
+                                var reserve = {};//$("input[name='date']").val();
+                                reserve.userID = sessionStorage.getItem('sign_in_user');
+                                reserve.classroomID = result.classroomID;
+                                reserve.usingTime = {};
+                                reserve.usingTime.date = appointINFO.usingTime.date;
+                                reserve.usingTime.time = appointINFO.usingTime.time;
+                                reserve.usingTime.class = appointINFO.usingTime.class;
+                                var day = new Date(Date.parse(reserve.usingTime.date.replace(/-/g, '/')));
+                                reserve.usingTime.weekday = (day.getDay()+6)%7;
+                                reserve.purpose = $("#reserve_card_"+result.classroomID +" input").val();
+                                reserve.status = "pending";
+                                reserve.isFixed = false;
+                                var data = JSON.stringify(reserve);//物件轉json
+                                $.ajax({ 
+                                    type: "POST",
+                                    url: "http://127.0.0.1:5000/DB/insertAppointment", 
+                                    data:data,
+                                    success: function(re){
+                                        //console.log(typeof(re));
+                                        if(re == "true")
+                                            alert("預約申請已提交，請耐心等待審核。");
+                                        else
+                                            alert("預約申請失敗，請重新嘗試。");
+                                    },
+                                    error: function (thrownError) {
+                                        alert(thrownError);
+                                        }
+                                });
+                            }
+                            else{
+                                alert("您的預約以達操作上限(5)，請直接前往系辦申請借用或結束目前已完成之預約。");
+                            }
                         });
                     });
                     

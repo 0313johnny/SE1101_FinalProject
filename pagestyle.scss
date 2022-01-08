@@ -348,14 +348,15 @@ input[type=number] {
             thead tr th {
                 text-align: center;
                 border-bottom: 3px solid rgba(150,150,150,1);
-                width: 15%;
+                width: 10%;
                 border-radius: 6px;
-                min-width: 60px;
+                min-width: 50px;
                 &:nth-child(5) {
+                    text-align: left;
                     width: 40%;
                 }
                 &:last-child {
-                    width: 15%;
+                    width: 10%;
                 }
             }
             tbody{
@@ -509,6 +510,17 @@ input[type=number] {
         padding: 20px;
         width: calc(100% - 40px);
         height: 95%;
+        .file_header{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            button{
+                position: relative;
+                left: calc(40% - 50px);
+            }
+        }
         table{
             width: 100%;
             position: relative;

@@ -2,9 +2,7 @@ import flask
 import pymongo
 import json
 from flask_cors import cross_origin
-import sys
-
-sys.path.append("database\\databaseApi.py")
+from datetime import date
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -249,23 +247,45 @@ def initClassroomInfo():
             }
 
         ### information list about each class
-        classroomlist=[
-            { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50, "equipment": classB10},
-            { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": classB12},
-            { "classroomID":"B07" , "name": "一般教室_E化教室", "location": "INSB07","capacity": 30,"equipment":classB07 },
-            { "classroomID":"303" , "name": "視聽教室_E化教室", "location": "INS303","capacity": 60,"equipment":class303 },
-            { "classroomID":"407" , "name": "研究生教室_E化教室", "location": "INS407","capacity": 15,"equipment":class407 },
-            { "classroomID":"409" , "name": "研討室_E化教室", "location": "INS409","capacity": 15,"equipment":class409 },
-            { "classroomID":"101" , "name": "視聽教室_階梯教室", "location": "INS101","capacity": 70,"equipment":class101 },
-            { "classroomID":"105" , "name": "視聽教室_階梯教室", "location": "INS105","capacity": 70,"equipment":class105 },
-            { "classroomID":"203" , "name": "個人電腦實驗室_教學實驗室", "location": "INS203","capacity": 80,"equipment":class203 },
-            { "classroomID":"205" , "name": "3D多媒體教學實驗室_教學實驗室", "location": "INS205","capacity": 25,"equipment":class205 },
-            { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301},
-            { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
-        ]
+        query=dict()
+        query["B10"]={ "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50, "equipment": classB10}
+        query["B12"]={ "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": classB12}
+        query["B07"]={ "classroomID":"B07" , "name": "一般教室_E化教室", "location": "INSB07","capacity": 30,"equipment":classB07 }
+        query["303"]={ "classroomID":"303" , "name": "視聽教室_E化教室", "location": "INS303","capacity": 60,"equipment":class303 }
+        query["407"]={ "classroomID":"407" , "name": "研究生教室_E化教室", "location": "INS407","capacity": 15,"equipment":class407 }
+        query["409"]={ "classroomID":"409" , "name": "研討室_E化教室", "location": "INS409","capacity": 15,"equipment":class409 }
+        query["101"]={ "classroomID":"101" , "name": "視聽教室_階梯教室", "location": "INS101","capacity": 70,"equipment":class101 }
+        query["105"]={ "classroomID":"105" , "name": "視聽教室_階梯教室", "location": "INS105","capacity": 70,"equipment":class105 }
+        query["203"]={ "classroomID":"203" , "name": "個人電腦實驗室_教學實驗室", "location": "INS203","capacity": 80,"equipment":class203 }
+        query["205"]={ "classroomID":"205" , "name": "3D多媒體教學實驗室_教學實驗室", "location": "INS205","capacity": 25,"equipment":class205 }
+        query["301"]={ "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301}
+        query["314"]= { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
+
+        # classroomlist=[
+        #    { "classroomID":"B10" , "name": "一般教室_E化教室", "location": "B10","capacity": 50, "equipment": classB10},
+        #    { "classroomID":"B12" , "name": "一般教室_E化教室", "location": "B12","capacity": 50,"equipment": classB12},
+        #    { "classroomID":"B07" , "name": "一般教室_E化教室", "location": "INSB07","capacity": 30,"equipment":classB07 },
+        #    { "classroomID":"303" , "name": "視聽教室_E化教室", "location": "INS303","capacity": 60,"equipment":class303 },
+        #    { "classroomID":"407" , "name": "研究生教室_E化教室", "location": "INS407","capacity": 15,"equipment":class407 },
+        #    { "classroomID":"409" , "name": "研討室_E化教室", "location": "INS409","capacity": 15,"equipment":class409 },
+        #    { "classroomID":"101" , "name": "視聽教室_階梯教室", "location": "INS101","capacity": 70,"equipment":class101 },
+        #    { "classroomID":"105" , "name": "視聽教室_階梯教室", "location": "INS105","capacity": 70,"equipment":class105 },
+        #    { "classroomID":"203" , "name": "個人電腦實驗室_教學實驗室", "location": "INS203","capacity": 80,"equipment":class203 },
+        #    { "classroomID":"205" , "name": "3D多媒體教學實驗室_教學實驗室", "location": "INS205","capacity": 25,"equipment":class205 },
+        #    { "classroomID":"301" , "name": "電子電路/數位邏輯教學實驗室/VLSI設計實習室/RFID資訊應用與安全實驗室_教學實驗室", "location": "INS301","capacity": 53,"equipment":class301},
+        #    { "classroomID":"314" , "name": "物聯網實驗室_教學實驗室", "location": "電機一館314","capacity": 65,"equipment":class314}
+        #]
+        
         ###insert to db
-        ClassroomInfoDB.insert_many(classroomlist)
-        return json.dumps(True)
+        if ClassroomInfoDB.count_documents(query)==0:
+            for i in range(len(query)):
+                ClassroomInfoDB.insert_one(query[i])
+            return json.dumps(True)
+        else:
+            print("error of initClassroomInfo()!!")
+            return json.dumps(False)
+
+
     except Exception as e:
         print("The error of function initClassroomInfo() !!")
         print(e)     
@@ -290,6 +310,40 @@ def findClassroom(classroomID):
 
     except Exception as e:
         print("The error of function findClassroom() !!")
+        print(e)     
+        return json.dumps(False)
+
+@app.route('/DB/findAllClassroomID' , methods = ['GET'])
+@cross_origin()
+def findAllClassroomID():
+    try:
+        classroomIDList = list(ClassroomInfoDB.find().sort("classroomID"))
+
+        for i in range(len(classroomIDList)):
+            del classroomIDList[i]["_id"]
+            del classroomIDList[i]["name"]
+            del classroomIDList[i]["location"]
+            del classroomIDList[i]["capacity"]
+            del classroomIDList[i]["equipment"]
+
+        return json.dumps(classroomIDList)
+    except Exception as e:
+        print("The error of function findAllClassroomID() !!")
+        print(e)     
+        return json.dumps(False)
+
+@app.route('/DB/findAllClassroom' , methods = ['GET'])
+@cross_origin()
+def findAllClassroom():
+    try:
+        classroomList = list(ClassroomInfoDB.find())
+
+        for i in range(len(classroomList)):
+            del classroomList[i]["_id"]
+
+        return json.dumps(classroomList)
+    except Exception as e:
+        print("The error of function findAllClassroom() !!")
         print(e)     
         return json.dumps(False)
 
@@ -324,14 +378,14 @@ def insertClassroom():
         print(e)     
         return json.dumps(False)    
 
-@app.route('/DB/deleteClassroom' , methods = ['GET','DELETE'])
+@app.route('/DB/deleteClassroom/<string:classroomID>' , methods = ['GET','DELETE'])
 @cross_origin()
-def deleteClassroom():
+def deleteClassroom(classroomID):
     try:
-        data = json.loads(flask.request.get_data())
         
         query=dict()
-        query={"name":data['name']}
+
+        query["classroomID"]=classroomID
 
         ClassroomInfoDB.delete_one(query)
         
@@ -349,19 +403,19 @@ def updateClassroom():
         data = json.loads(flask.request.get_data())
         query=dict()
         query['classroomID']=data['classroomID']
-        query['name']=data['name']
-        query['location']=data['location']
-        query['capacity']=data['capacity']
-        query['equipment']=data['equipment']
         
         if ClassroomInfoDB.count_documents(query) == 0:
             return json.dumps(False)
 
-        ClassroomInfoDB.update_many(query , {"$set" : {"classroomID" : data['classroomID']}},
-                                            {"$set" : {"name" : data['name']}},
-                                            {"$set" : {"location" : data['location']}},
-                                            {"$set" : {"capacity" : data['capacity']}},
-                                            {"$set" : {"equipment" : data['equipment']}})
+        ClassroomInfoDB.update_one(query , {
+                                            "$set" :{
+                                                "name" : data['name'],
+                                                "location" : data['location'],
+                                                "capacity" : data['capacity'],
+                                                "equipment" : data['equipment']
+                                                }                                           
+                                            })
+                                           
 
         return json.dumps(True) 
 
@@ -382,7 +436,8 @@ def findIdleClassroom():
         # data = {
         #     "usingTime" : {
         #         "date" : "2022-01-04",
-        #         "time" : [7]
+        #         "time" : [7],
+        #         "weekday" : 0
         #     }
         # }
 
@@ -390,13 +445,13 @@ def findIdleClassroom():
         classroomList = list(ClassroomInfoDB.find())
 
         ### 根據日期、使用時間、預約狀態，找出空閒的教室
-        query = dict()
-        query["usingTime.date"] = data["usingTime"]["date"]
+        # query = dict()
+        # query["usingTime.date"] = data["usingTime"]["date"]
 
-        result = list(AppointmentDB.find(query))
+        result = list(AppointmentDB.find())
        
         for a in result:
-            if a["usingTime"]["date"] == data["usingTime"]["date"]:
+            if a["usingTime"]["date"] == data["usingTime"]["date"] or (a["isFixed"] == True and a["usingTime"]["weekday"] == data["usingTime"]["weekday"]):
                 if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
                     if a["status"] != "pending":
                         for c in classroomList:
@@ -439,7 +494,7 @@ def findPenging():
 def findNonPenging():
     try:
         query = dict()
-        query["status"] = {"$ne" : "pending" }
+        query["status"] = {"$ne" : "pending"}
 
         result = list(AppointmentDB.find(query))
 
@@ -449,11 +504,40 @@ def findNonPenging():
         return json.dumps(result)
 
     except Exception as e:
-        print("The error of function findPengingAppointment() !!")
+        print("The error of function findNonPenging() !!")
         print(e)     
         return json.dumps(False) 
 
-## 計算借用者總共預約了幾間教室 , return 教室數量(int) / False
+## 回傳當日 non pending 和 isFixed == True
+@app.route('/DB/findTodayNonPenging' , methods = ['GET'])
+@cross_origin()
+def findTodayNonPenging():
+    try:
+        ### 查詢當日 non pending
+        query = dict()
+        query["status"] = {"$ne" : "pending"}
+        query["usingTime.date"] = date.today().strftime("%Y-%m-%d")
+
+        result = list(AppointmentDB.find(query))
+
+        ### 查詢當日 isFixed == True
+        query = dict()
+        query["usingTime.weekday"] = date.today().weekday()
+        query["isFixed"] = True
+
+        result.extend(list(AppointmentDB.find(query)))
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+        
+        return json.dumps(result)
+
+    except Exception as e:
+        print("The error of function findTodayNonPenging() !!")
+        print(e)     
+        return json.dumps(False) 
+
+## 查詢借用者總共預約了哪些教室 , return 教室列表 / False
 @app.route('/DB/findUserAppointments/<string:userID>' , methods = ['GET'])
 @cross_origin()
 def findUserAppointments(userID):
@@ -477,8 +561,42 @@ def findUserAppointments(userID):
         print(e)     
         return json.dumps(False)
 
-## 新增預約 , return True / False
-@app.route('/DB/insertAppointment' , methods = ['GET','POST'])
+## 透過 classroomID , 日期 , 星期 去找預約 , return 預約列表 , False
+@app.route('/DB/findNonPendingByClassroom' , methods = ['GET'])
+@cross_origin()
+def findNonPendingByClassroom():
+    try:
+        data = json.loads(flask.request.get_data())
+        
+        # data = {
+        #     "classroomID" : "B07",
+        #     "date" : "2022-01-08",
+        #     "weekday" : "5"
+        # }
+
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        
+        result = AppointmentDB.find(query)
+        nonPending = list()
+
+        for a in result:
+            if a["usingTime"]["date"] == data["date"] or (a["usingTime"]["weekday"] == data["weekday"] and a["isFixed"] == True):
+                if a["status"] != "pending":
+                    nonPending.append(a)
+
+        for i in range(len(nonPending)):
+            del nonPending[i]["_id"]
+
+        return json.dumps(nonPending)
+
+    except Exception as e:
+        print("The error of function findNonPendingByClassroom() !!")
+        print(e)     
+        return json.dumps(False)
+
+## 新增非固定預約 , return True / False
+@app.route('/DB/insertAppointment' , methods = ['GET' , 'POST'])
 @cross_origin()
 def insertAppointment():
     try:
@@ -500,7 +618,7 @@ def insertAppointment():
         result = AppointmentDB.find(query)
         
         for a in result:
-            if a["usingTime"]["date"] == data["usingTime"]["date"]:
+            if (a["isFixed"] == False and a["usingTime"]["date"] == data["usingTime"]["date"]) or (a["isFixed"] == True and a["usingTime"]["weekday"] == data["usingTime"]["weekday"]):
                 ### 相同時間、相同借用者，重複的預約
                 if a["usingTime"]["time"] == data["usingTime"]["time"] and a["userID"] == data["userID"]:
                     return json.dumps(False)
@@ -508,13 +626,47 @@ def insertAppointment():
                 elif [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
                     if a["status"] != "pending":
                         return json.dumps(False)
-                
+              
         AppointmentDB.insert_one(data)
 
         return json.dumps(True)
      
     except Exception as e:
         print("The error of function insertAppointment() !!")
+        print(e)     
+        return json.dumps(False)
+
+## 新增固定預約 , return True / False
+@app.route('/DB/insertFixed' , methods = ['GET' , 'POST' , 'DELETE'])
+@cross_origin()
+def insertFixed():
+    try:
+        data = json.loads(flask.request.get_data()) # 因為是固定預約 date == ""
+
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+
+        result = AppointmentDB.find(query)
+        deleteList = list()
+        
+        for a in result:
+            if a["usingTime"]["weekday"] == data["usingTime"]["weekday"]:
+                if [i for i in a["usingTime"]["time"] if i in data["usingTime"]["time"]]:
+                    if a["status"] != "pending":
+                        return json.dumps(False)
+                    elif a["status"] == "pending":
+                        deleteList.append(dict(a))
+
+        AppointmentDB.insert_one(data)
+
+        ### 把其他同時間 status == pending 的預約刪除
+        for d in deleteList:
+            AppointmentDB.delete_one(d)
+        
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function insertFixed() !!")
         print(e)     
         return json.dumps(False)
 
@@ -578,6 +730,8 @@ def deleteAppointment():
         query["classroomID"] = data["classroomID"]
         query["usingTime.date"] = data["usingTime"]["date"]
         query["usingTime.time"] = data["usingTime"]["time"]
+        query["usingTime.weekday"] = data["usingTime"]["weekday"]
+        query["status"] = data["status"]
 
         if AppointmentDB.count_documents(query) == 0:
             return json.dumps(False)
@@ -599,22 +753,28 @@ def deleteAppointment():
 @cross_origin()
 def insertrecord():
     try:
-        recordlist = [
-            {"classroomID":"B10","userID":"00857003 ", "usingTime":"306-308", "purpose":"機率論課程"},
-            {"classroomID":"B12","userID":"00857004 ", "usingTime":"406-408" , "purpose":"程式設計實習課程"},
-            {"classroomID":"B07","userID":"00857027 ", "usingTime":"102-104" , "purpose":"線性代數課程"},
-            {"classroomID":"303","userID":"00757025 ", "usingTime":"402-404" , "purpose":"軟體工程課程"},
-            {"classroomID":"407","userID":"00857041 ", "usingTime":"102-104" , "purpose":"計算機概論課程"},
-            {"classroomID":"409","userID":"00857004 ", "usingTime":"202-204" , "purpose":"資訊安全課程"},
-            {"classroomID":"101","userID":"00857003 ", "usingTime":"302-304" , "purpose":"計算機組織學課程"},
-            {"classroomID":"105","userID":"00857027 ", "usingTime":"406-408" , "purpose":"程式語言課程"},
-            {"classroomID":"203","userID":"00857025 ", "usingTime":"506-508" , "purpose":"計算機系統設計課程"},
-            {"classroomID":"205","userID":"00857004 ", "usingTime":"106-108" , "purpose":"微積分課程"},
-            {"classroomID":"301","userID":"00857027 ", "usingTime":"206-208" , "purpose":"資訊安全課程"},
-            {"classroomID":"314","userID":"00857041 ", "usingTime":"306-308" , "purpose":"程式設計課程"}
+        recordlist=[
+            {"classroomID":"B10","userID":"00857003", "usingTime":"306-308", "purpose":"機率論課程"},
+            {"classroomID":"B12","userID":"00857004", "usingTime":"406-408" , "purpose":"程式設計實習課程"},
+            {"classroomID":"B07","userID":"00857027", "usingTime":"102-104" , "purpose":"線性代數課程"},
+            {"classroomID":"303","userID":"00757025", "usingTime":"402-404" , "purpose":"軟體工程課程"},
+            {"classroomID":"407","userID":"00857041", "usingTime":"102-104" , "purpose":"計算機概論課程"},
+            {"classroomID":"409","userID":"00857004", "usingTime":"202-204" , "purpose":"資訊安全課程"},
+            {"classroomID":"101","userID":"00857003", "usingTime":"302-304" , "purpose":"計算機組織學課程"},
+            {"classroomID":"105","userID":"00857027", "usingTime":"406-408" , "purpose":"程式語言課程"},
+            {"classroomID":"203","userID":"00857025", "usingTime":"506-508" , "purpose":"計算機系統設計課程"},
+            {"classroomID":"205","userID":"00857004", "usingTime":"106-108" , "purpose":"微積分課程"},
+            {"classroomID":"301","userID":"00857027", "usingTime":"206-208" , "purpose":"資訊安全課程"},
+            {"classroomID":"314","userID":"00857041", "usingTime":"306-308" , "purpose":"程式設計課程"}
         ]
-        RecordDB.insert_many(recordlist)
-        return json.dumps(recordlist)
+
+        if RecordDB.count_documents(recordlist) == 0:
+            RecordDB.insert_many(recordlist)
+            return json.dumps(True)
+        else:
+            print('recordlist has been existed')
+            return json.dumps(False) 
+
     except Exception as e:
         print("The error of function insertrecord() !!")
         print(e)     
@@ -637,6 +797,7 @@ def findrecord(classroomID):
        print("The error of function findrecord() !!")
        print(e)                                        
        return json.dumps(False)       
+
 if __name__ == '__main__':
     app.run()
 
@@ -655,16 +816,21 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertClassroom
 # http://127.0.0.1:5000/DB/deleteClassroom
 # http://127.0.0.1:5000/DB/updateClassroom
+# http://127.0.0.1:5000/DB/findAllClassroom
+# http://127.0.0.1:5000/DB/findAllClassroomID
 
 # Appointment
 # http://127.0.0.1:5000/DB/findIdleClassroom
 # http://127.0.0.1:5000/DB/insertAppointment
+# http://127.0.0.1:5000/DB/insertFixed
 # http://127.0.0.1:5000/DB/findUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
 # http://127.0.0.1:5000/DB/findPenging
 # http://127.0.0.1:5000/DB/findNonPenging
+# http://127.0.0.1:5000/DB/findTodayNonPenging
 # http://127.0.0.1:5000/DB/updateStatus
 # http://127.0.0.1:5000/DB/deleteAppointment
+
 
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
