@@ -12,13 +12,14 @@ function getTodayDate() {
 // API要用的是 YYYY-MM-dd
 // TODO
 
-function getWeek(fromDate){
-    var sunday = new Date(fromDate.setDate(fromDate.getDate()-fromDate.getDay()))
-        ,result = [new Date(sunday)];
-    while (sunday.setDate(sunday.getDate()+1) && sunday.getDay()!==0) {
+function getWeek(fromDate) {
+    var sunday = new Date(fromDate.setDate(fromDate.getDate() - fromDate.getDay()))
+        , result = [new Date(sunday)];
+    while (sunday.setDate(sunday.getDate() + 1) && sunday.getDay() !== 0) {
         result.push(new Date(sunday));
     }
     return result;
+}
 
 // test
 var thisWeek = getWeek(new Date(getTodayDate()));
@@ -31,15 +32,15 @@ console.log('本周四:' + thisWeek[4]);
 console.log('本周五:' + thisWeek[5]);
 console.log('本周六:' + thisWeek[6]);
 
-$("document").ready(function(){
-    //let classroomList;
+$("document").ready(function() {
+    // let classroomList;
 
     // Get the list of all classrooms
     $.ajax({
         type: "GET",
         url: "http://127.0.0.1:5000/DB/findAllClassroom",
         dataType: "json",
-        success: function(result){
+        success: function (result) {
             console.log("Get the list successful.");
             console.log(result);
             //classroomList = result;
@@ -52,7 +53,7 @@ $("document").ready(function(){
             let pageTitle = "'<h1 class='mt-5 pt-3' style='color: white'>教室列表</h1>";
             $(".class_list").append(pageTitle);
 
-            $.each(result,function(index, classrooms){
+            $.each(result, function (index, classrooms) {
 
                 let equipmentsList = Object.keys(classrooms.equipment);
 
@@ -93,12 +94,12 @@ $("document").ready(function(){
                                                 </div>
                                                 <div class="info"><h3>器材：</h3></div>
                                                 <div class="row">`;
-                                            for(var i = 0 ; i < equipmentsList.length ; i++){
-                                                infoWindow +=  `<p class="col-4 col-md-3 col-lg-4 col-xl-3">
-                                                                    ${equipmentsList[i]}*${classrooms.equipment[equipmentsList[i]]}
-                                                                </p>`;
-                                            }
-                                infoWindow +=  `</div>
+                for (var i = 0; i < equipmentsList.length; i++) {
+                    infoWindow += `<p class="col-4 col-md-3 col-lg-4 col-xl-3">
+                                        ${equipmentsList[i]}*${classrooms.equipment[equipmentsList[i]]}
+                                    </p>`;
+                }
+                infoWindow += `</div>
                                             </div>
                                         </div>
                                     </div>
@@ -321,13 +322,13 @@ $("document").ready(function(){
                 $(".classroom_card_list").append(infoWindow);
 
                 // card動畫設定
-                $("#classroom_"+classrooms.classroomID).click(function (e) {
-                    $("#classroomInfoWindow_"+classrooms.classroomID).css("display", "");
+                $("#classroom_" + classrooms.classroomID).click(function (e) {
+                    $("#classroomInfoWindow_" + classrooms.classroomID).css("display", "");
                     $(".black_background").css("display", "");
                 });
 
                 // card關閉按鈕設定
-                $(".classroom_card_list .close_button").click(function (){
+                $(".classroom_card_list .close_button").click(function () {
                     $(".card_show").css("display", "none");
                     $(".card_edit").css("display", "none");
                     $(".card_reserve").css("display", "none");
@@ -341,4 +342,5 @@ $("document").ready(function(){
             alert(thrownError);
         }
     });
+
 });
