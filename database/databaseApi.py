@@ -313,16 +313,13 @@ def findClassroom(classroomID):
         print(e)     
         return json.dumps(False)
 
-@app.route('/DB/findAllClassroomID/<string:classroomID>' , methods = ['GET'])
+@app.route('/DB/findAllClassroomID' , methods = ['GET'])
 @cross_origin()
-def findAllClassroomID(classroomID):
+def findAllClassroomID():
     try:
-        query=dict()
-        query=ClassroomInfoDB.find(classroomID).sort("classroomID")
+        classroomIDList = list(ClassroomInfoDB.find("classroomID").sort("classroomID"))
 
-        return json.dumps(query)
-
-
+        return json.dumps(classroomIDList)
     except Exception as e:
         print("The error of function findAllClassroomID() !!")
         print(e)     
@@ -399,17 +396,12 @@ def updateClassroom():
         data = json.loads(flask.request.get_data())
         query=dict()
         query['classroomID']=data['classroomID']
-        query['name']=data['name']
-        query['location']=data['location']
-        query['capacity']=data['capacity']
-        query['equipment']=data['equipment']
         
         if ClassroomInfoDB.count_documents(query) == 0:
             return json.dumps(False)
 
         ClassroomInfoDB.update_one(query , {
                                             "$set" :{
-                                                "classroomID" : data['classroomID'],
                                                 "name" : data['name'],
                                                 "location" : data['location'],
                                                 "capacity" : data['capacity'],
