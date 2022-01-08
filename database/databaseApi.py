@@ -623,6 +623,8 @@ def insertFixed():
                     elif a["status"] == "pending":
                         deleteList.append(a["_id"])
 
+        AppointmentDB.insert_one(data)
+
         ### 把其他同時間 status == pending 的預約刪除
         for d in deleteList:
             query = dict()
