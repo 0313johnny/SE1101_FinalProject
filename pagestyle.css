@@ -352,6 +352,7 @@ input[type=number] {
   background-color: white;
   height: 100%;
   padding: 30px;
+  overflow: auto;
 }
 .personal .file_border table {
   width: 100%;
@@ -395,6 +396,7 @@ input[type=number] {
   padding: 20px;
   width: calc(100% - 40px);
   height: 95%;
+  overflow: auto;
 }
 .admin1 .file_border table {
   width: 100%;
@@ -442,7 +444,7 @@ input[type=number] {
 
 .admin4 {
   padding-top: 75px;
-  padding-left: 350px;
+  padding-left: 320px;
 }
 .admin4 .file_border {
   margin: 15px;
@@ -451,16 +453,16 @@ input[type=number] {
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
   position: relative;
   float: left;
-  padding: 20px;
-  width: calc(50% - 45px);
-  height: 45%;
-  overflow: hidden;
+  padding: 10px;
+  width: calc(50% - 30px);
+  height: 46%;
+  overflow: auto;
 }
 .admin4 .file_border table {
+  margin: 0;
   font-size: large;
   width: 100%;
   position: relative;
-  margin: 0;
   border-radius: 6px;
 }
 .admin4 .file_border table thead tr {
@@ -509,6 +511,18 @@ input[type=number] {
   padding: 20px;
   width: calc(100% - 40px);
   height: 95%;
+  overflow: auto;
+}
+.admin5 .file_border .file_header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.admin5 .file_border .file_header button {
+  position: relative;
+  left: calc(40% - 50px);
 }
 .admin5 .file_border .file_header {
   width: 100%;
@@ -899,6 +913,18 @@ input[type=number] {
   }
 
   .admin1 {
+    padding-left: 40px;
+  }
+
+  .admin2 {
+    padding-left: 40px;
+  }
+
+  .admin3 {
+    padding-left: 40px;
+  }
+
+  .admin5 {
     padding-left: 40px;
   }
 
