@@ -317,7 +317,14 @@ def findClassroom(classroomID):
 @cross_origin()
 def findAllClassroomID():
     try:
-        classroomIDList = list(ClassroomInfoDB.find("classroomID").sort("classroomID"))
+        classroomIDList = list(ClassroomInfoDB.find().sort("classroomID"))
+
+        for i in range(len(classroomIDList)):
+            del classroomIDList[i]["_id"]
+            del classroomIDList[i]["name"]
+            del classroomIDList[i]["location"]
+            del classroomIDList[i]["capacity"]
+            del classroomIDList[i]["equipment"]
 
         return json.dumps(classroomIDList)
     except Exception as e:
