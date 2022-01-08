@@ -537,7 +537,7 @@ def findTodayNonPenging():
         print(e)     
         return json.dumps(False) 
 
-## 計算借用者總共預約了幾間教室 , return 教室數量(int) / False
+## 查詢借用者總共預約了哪些教室 , return 教室列表 / False
 @app.route('/DB/findUserAppointments/<string:userID>' , methods = ['GET'])
 @cross_origin()
 def findUserAppointments(userID):
@@ -558,6 +558,40 @@ def findUserAppointments(userID):
 
     except Exception as e:
         print("The error of function countUserAppointments() !!")
+        print(e)     
+        return json.dumps(False)
+
+## 透過 classroomID , 日期 , 星期 去找預約 , return 預約列表 , False
+@app.route('/DB/findNonPendingByClassroom' , methods = ['GET'])
+@cross_origin()
+def findNonPendingByClassroom():
+    try:
+        data = json.loads(flask.request.get_data())
+        
+        # data = {
+        #     "classroomID" : "B07",
+        #     "date" : "2022-01-08",
+        #     "weekday" : "5"
+        # }
+
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        
+        result = AppointmentDB.find(query)
+        nonPending = list()
+
+        for a in result:
+            if a["usingTime"]["date"] == data["date"] or (a["usingTime"]["weekday"] == data["weekday"] and a["isFixed"] == True):
+                if a["status"] != "pending":
+                    nonPending.append(a)
+
+        for i in range(len(nonPending)):
+            del nonPending[i]["_id"]
+
+        return json.dumps(nonPending)
+
+    except Exception as e:
+        print("The error of function findNonPendingByClassroom() !!")
         print(e)     
         return json.dumps(False)
 
