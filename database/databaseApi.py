@@ -444,10 +444,10 @@ def findIdleClassroom():
         classroomList = list(ClassroomInfoDB.find())
 
         ### 根據日期、使用時間、預約狀態，找出空閒的教室
-        query = dict()
-        query["usingTime.date"] = data["usingTime"]["date"]
+        # query = dict()
+        # query["usingTime.date"] = data["usingTime"]["date"]
 
-        result = list(AppointmentDB.find(query))
+        result = list(AppointmentDB.find())
        
         for a in result:
             if a["usingTime"]["date"] == data["usingTime"]["date"] or (a["isFixed"] == True and a["usingTime"]["weekday"] == data["usingTime"]["weekday"]):
@@ -600,8 +600,6 @@ def insertAppointment():
         print("The error of function insertAppointment() !!")
         print(e)     
         return json.dumps(False)
-
-
 
 ## 更改預約狀態，return True / False
 @app.route('/DB/updateStatus' , methods = ['GET' , 'PUT' , 'DELETE'])
