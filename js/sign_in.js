@@ -9,7 +9,7 @@ $("document").ready(function(){
     console.log("connect");
     $.ajax({ 
         type: "GET",
-        url: "https://se1101-finalp-roject.herokuapp.com/DB/connectDB", 
+        url: "http://127.0.0.1:5000/DB/connectDB", 
         dataType: "json",
         success: function(re){
             console.log("success : "+re);
@@ -24,7 +24,7 @@ $("document").ready(function(){
         var password = $("input[name='pswd']").val();
         $.ajax({ 
             type: "GET",
-            url: "https://se1101-finalp-roject.herokuapp.com/DB/findAccountByEmail/"+account, 
+            url: "http://127.0.0.1:5000/DB/findAccountByEmail/"+account, 
             dataType: "json",
             success: function(re){
                 if(re.password == password){
@@ -82,7 +82,7 @@ $("document").ready(function(){
         }
         else{
             $("#user_reserve_list").html("");
-            var url = "https://se1101-finalp-roject.herokuapp.com/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
+            var url = "http://127.0.0.1:5000/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
             $.getJSON(url,function(result){
                 var your_reserve = "";
                 if(result.length <= 0){
@@ -136,7 +136,7 @@ $("document").ready(function(){
                                 var data = JSON.stringify(delete_reserve);
                                 $.ajax({ 
                                     type: "DELETE",
-                                    url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
+                                    url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                                     data:data,
                                     success: function(re){
                                         if(re == "true"){

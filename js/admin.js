@@ -19,7 +19,7 @@ function DB_operate(object,btn_id,pre_status){
     var data = JSON.stringify(object);
     $.ajax({ 
         type: "PUT",
-        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
+        url: "http://127.0.0.1:5000/DB/updateStatus", 
         data:data,
         success: function(re){
             show_all_btn(btn_id,object.status);
@@ -38,7 +38,7 @@ $("document").ready(function(){
     console.log("connect");//connectDB
     $.ajax({ 
         type: "GET",
-        url: "https://se1101-finalp-roject.herokuapp.com/DB/connectDB", 
+        url: "http://127.0.0.1:5000/DB/connectDB", 
         dataType: "json",
         success: function(re){
             console.log("success : "+re);
@@ -50,7 +50,7 @@ $("document").ready(function(){
 
     $("#admin1,#admin1_rwd").click(function(){//建立審核申請介面
         //拿所有是pending的預約並展示
-        var pending_url = "https://se1101-finalp-roject.herokuapp.com/DB/findPenging";
+        var pending_url = "http://127.0.0.1:5000/DB/findPenging";
         //wait_for_review_list
         $(".wait_for_review_list").html("");
         $("#card_request_list").html("");//清空容器
@@ -116,7 +116,7 @@ $("document").ready(function(){
                     var data = JSON.stringify(apoint);
                     $.ajax({ 
                         type: "PUT",
-                        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
+                        url: "http://127.0.0.1:5000/DB/updateStatus", 
                         data:data,
                         success: function(re){
                             if(re == "true"){
@@ -158,7 +158,7 @@ $("document").ready(function(){
                     if (confirm('您是否要拒絕此預約申請？') == true) {
                         $.ajax({ 
                             type: "DELETE",
-                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
+                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re == "true"){
@@ -191,8 +191,8 @@ $("document").ready(function(){
     $("#admin5,#admin5_rwd").click(function(){//建立預約管理介面
         $("#reserve_admin_list").html("");
         $("#card_edit_list").html("");
-        var url = "https://se1101-finalp-roject.herokuapp.com/DB/findNonPenging";
-        $.getJSON("https://se1101-finalp-roject.herokuapp.com/DB/findAllClassroom",function(result){//插入可選擇教室id
+        var url = "http://127.0.0.1:5000/DB/findNonPenging";
+        $.getJSON("http://127.0.0.1:5000/DB/findAllClassroom",function(result){//插入可選擇教室id
             $("select[name='classroomID']").html("");
             $("select[name='class_choose']").html("<option value='reserve_admin'>任意教室</option>");
             $.each(result,function(index,classroom){
@@ -301,7 +301,7 @@ $("document").ready(function(){
                     if (confirm('您是否要刪除該筆預約') == true) {
                         $.ajax({ 
                             type: "DELETE",
-                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
+                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re = "true"){
@@ -349,7 +349,7 @@ $("document").ready(function(){
             var data = JSON.stringify(reserve);//物件轉json
             $.ajax({ 
                 type: "POST",
-                url: "https://se1101-finalp-roject.herokuapp.com/DB/insertFixed", 
+                url: "http://127.0.0.1:5000/DB/insertFixed", 
                 data:data,
                 success: function(re){
                     if(re == "true"){
@@ -368,7 +368,7 @@ $("document").ready(function(){
         
         var show_admin_status = $("#status_choose").val();
         var show_admin_class = $("#class_choose").val();
-        var show_admin_week= 
+        var show_admin_week= $("#weekday_choose").val();
         console.log(show_admin_status);
         $(".reserve_admin").hide();
         $("."+show_admin_status +"."+show_admin_class).show();
