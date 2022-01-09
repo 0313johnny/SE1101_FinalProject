@@ -217,7 +217,7 @@ $("document").ready(function(){
                 var insert_reserve_admin_HTML = "";
                 console.log(value.isFixed);
                 insert_reserve_admin_HTML +=
-                `<tr id = "${"reserve_admin_"+ID_composition}" class = "reserve_admin ${value.status} ${value.classroomID}">
+                `<tr id = "${"reserve_admin_"+ID_composition}" class = "reserve_admin ${value.status} ${value.classroomID} ${value.usingTime.weekday}">
                     <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:value.usingTime.date}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
@@ -364,14 +364,14 @@ $("document").ready(function(){
                 }
             });
     });
-    $("#status_choose,#class_choose#weekday_choose").change(function(){//篩選狀態事件觸發
+    $("#status_choose,#class_choose,#weekday_choose").change(function(){//篩選狀態事件觸發
         
         var show_admin_status = $("#status_choose").val();
         var show_admin_class = $("#class_choose").val();
         var show_admin_week= $("#weekday_choose").val();
         console.log(show_admin_status);
         $(".reserve_admin").hide();
-        $("."+show_admin_status +"."+show_admin_class).show();
+        $("."+show_admin_status +"."+show_admin_class+"."+show_admin_week).show();
 
     });
 });
