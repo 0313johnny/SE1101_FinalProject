@@ -188,7 +188,7 @@ $("document").ready(function(){
             
         });//取得所有待審核預約json完成
     });//預約審核介面設定完成
-    $("#admin5,admin5_rwd").click(function(){//建立預約管理介面
+    $("#admin5,#admin5_rwd").click(function(){//建立預約管理介面
         $("#reserve_admin_list").html("");
         $("#card_edit_list").html("");
         var url = "https://se1101-finalp-roject.herokuapp.com/DB/findNonPenging";
@@ -364,10 +364,11 @@ $("document").ready(function(){
                 }
             });
     });
-    $("#status_choose,#class_choose").change(function(){//篩選狀態事件觸發
+    $("#status_choose,#class_choose#weekday_choose").change(function(){//篩選狀態事件觸發
         
         var show_admin_status = $("#status_choose").val();
         var show_admin_class = $("#class_choose").val();
+        var show_admin_week= 
         console.log(show_admin_status);
         $(".reserve_admin").hide();
         $("."+show_admin_status +"."+show_admin_class).show();

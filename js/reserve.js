@@ -44,6 +44,7 @@ $("document").ready(function(){
                 $(".main_display").css("display","");
                 $(".personal").css("display","none");
                 var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>可預約教室</h1>";
+                console.log(re);
                 $(".class_list").html(insertHTML);
                 $(".reserve_card_list").html("");
                 $.each(re,function(index,result){//取陣列
@@ -75,8 +76,8 @@ $("document").ready(function(){
                         insertINFOCard += num[i + start - 1];
                     }
                     insertINFOCard += "堂</p></div>";
-                    insertINFOCard += "<div class='info'><h3>借用目的:</h3><p class='right'><input type='text' class='form-control' placeholder='輸入目的(課程名稱)' name='text'></p></div>"
-                    insertINFOCard += "<div class='info'><h3>確認申請:</h3><p class='right'><button type='button' class='reserve_btn btn'>發送</button></p></div></div></div></div></div>";
+                    insertINFOCard += "<div class='info'><h3>目的:</h3><p class='right'><input type='text' class='form-control' placeholder='輸入目的(課程名稱)' name='text'></p></div>"
+                    insertINFOCard += "<div class='info'><h3>申請:</h3><p class='right'><button type='button' class='reserve_btn btn'>發送</button></p></div></div></div></div></div>";
                     
 
                     $(".class_list").append(insertCard);
