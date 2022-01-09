@@ -37,7 +37,7 @@ $("document").ready(function(){
     // Get the list of all classrooms
     $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:5000/DB/findAllClassroom",
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/findAllClassroom",
         dataType: "json",
         success: function(result){
             console.log("Get the list successful.");
