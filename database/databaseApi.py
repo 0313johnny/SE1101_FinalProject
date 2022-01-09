@@ -282,8 +282,7 @@ def initClassroomInfo():
                 ClassroomInfoDB.insert_one(query[i])
             return json.dumps(True)
         else:
-            print("error of initClassroomInfo()!!")
-            return json.dumps(False)
+            return json.dumps(query)
 
 
     except Exception as e:
@@ -386,7 +385,10 @@ def deleteClassroom(classroomID):
         query=dict()
 
         query["classroomID"]=classroomID
-
+        
+        if ClassroomInfoDB.count_documents(query) == 0:
+            return json.dumps(False) 
+            
         ClassroomInfoDB.delete_one(query)
         
         return json.dumps(True) 
