@@ -750,10 +750,10 @@ def deleteAppointment():
 ############################################################################################################################################################
 
 # record
-## 新增歷史資料
-@app.route('/DB/initrecord', methods = ["GET" , "POST"])
+## 初始化歷史資料
+@app.route('/DB/initRecord', methods = ["GET" , "POST"])
 @cross_origin()
-def initrecord():
+def initRecord():
     try:
         recordlist = dict()
 
@@ -825,12 +825,12 @@ def initrecord():
             return json.dumps(False) 
 
     except Exception as e:
-        print("The error of function initrecord() !!")
+        print("The error of function initrRecord() !!")
         print(e)     
         return json.dumps(False)
 
 ## 用classroomID查詢歷史紀錄
-@app.route('/DB/findrecord/<string:classroomID>' , methods = ['GET'])
+@app.route('/DB/findRecord/<string:classroomID>' , methods = ['GET'])
 @cross_origin()
 def findrecord(classroomID):
    try:
@@ -843,9 +843,35 @@ def findrecord(classroomID):
             data = RecordDB.find_one(recordquery)
             return json.dumps(data)
    except Exception as e:
-       print("The error of function findrecord() !!")
+       print("The error of function findRecord() !!")
        print(e)                                        
        return json.dumps(False)       
+##新增資料
+@app.route('/DB/insertRecord' , methods = ['GET','POST'])
+@cross_origin()
+def insertRecord():
+    try:
+        query = dict()
+        data = json.loads(flask.request.get_data())
+        query["classroomID"]=data['classroomID']
+        query["userID"]= data['userID']
+        query["usingTime.date"] = date.today().strftime("%Y-%m-%d")
+        query["purpose"]= data['purpose']
+
+        recordlist =dict()
+
+        recordlist={
+            "classroomID":query["classroomID"],
+            "userID":query["userID"],
+            "usingTime.date":query["usingTime.date"],
+            "purpose":query["purpose"]
+        }
+        RecordDB.insert_one(recordlist)
+        return json.dumps(True)
+    except Exception as e:
+        print("The error of function insertRecord() !!")
+        print(e)     
+        return json.dumps(False)
 
 if __name__ == '__main__':
     app.run()
@@ -881,7 +907,9 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/deleteAppointment
 # http://127.0.0.1:5000/DB/findNonPendingByClassroom
 
-
+# Record
+# http://127.0.0.1:5000/DB/initRecord
+# http://127.0.0.1:5000/DB/insertRecord
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
 # POST = insert
