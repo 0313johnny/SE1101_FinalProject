@@ -851,22 +851,8 @@ def findrecord(classroomID):
 @cross_origin()
 def insertRecord():
     try:
-        query = dict()
-        data = json.loads(flask.request.get_data())
-        query["classroomID"]=data['classroomID']
-        query["userID"]= data['userID']
-        query["usingTime.date"] = date.today().strftime("%Y-%m-%d")
-        query["purpose"]= data['purpose']
-
-        recordlist =dict()
-
-        recordlist={
-            "classroomID":query["classroomID"],
-            "userID":query["userID"],
-            "usingTime.date":query["usingTime.date"],
-            "purpose":query["purpose"]
-        }
-        RecordDB.insert_one(recordlist)
+        data = json.loads(flask.request.get_data())      
+        RecordDB.insert_one(data)
         return json.dumps(True)
     except Exception as e:
         print("The error of function insertRecord() !!")
