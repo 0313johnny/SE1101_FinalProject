@@ -577,6 +577,17 @@ input[type=number] {
   position: relative;
   left: calc(40% - 50px);
 }
+.admin5 .file_border .file_header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.admin5 .file_border .file_header button {
+  position: relative;
+  left: calc(40% - 50px);
+}
 .admin5 .file_border table {
   width: 100%;
   position: relative;

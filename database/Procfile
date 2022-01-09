@@ -1,0 +1,1 @@
+web: gunicorn databaseApi:app –log-file -

@@ -19,10 +19,6 @@
     }*/
     //jquery
     $(document).ready(function () {
-        $("#personal").click(function (e) {
-            $(".main_display").css("display","none")
-            $(".personal").css("display","")
-        });
         $("#main_display").click(function (e) {
             $(".main_display").css("display","")
             $(".personal").css("display","none")
@@ -33,7 +29,6 @@
             $(".admin3").css("display","none")
             $(".admin4").css("display","none")
             $(".admin5").css("display","none")
-            //console.log(e.target.id);
 
             $("." + e.target.id).css("display","")
             /*$(".card_show").css("display", "");
