@@ -17,7 +17,7 @@ $("document").ready(function(){
         console.log("connect");
         $.ajax({ 
             type: "GET",
-            url: "http://127.0.0.1:5000/DB/connectDB", 
+            url: "https://se1101-finalp-roject.herokuapp.com/DB/connectDB", 
             dataType: "json",
             success: function(re){
                 console.log("success : "+re);
@@ -32,7 +32,7 @@ $("document").ready(function(){
         console.log("get");
         $.ajax({ 
             type: "GET",
-            url: "http://127.0.0.1:5000/DB/findAccount/wayne1224", 
+            url: "https://se1101-finalp-roject.herokuapp.com/DB/findAccount/wayne1224", 
             dataType: "json",
             success: function(re){
                 console.log(re);
@@ -55,14 +55,15 @@ $("document").ready(function(){
         classroom.equipment.投影機 = 1;
         classroom.equipment.擴大機 = 1;
         classroom.equipment.喇叭 = 1;
+
         var date = {};
-        date.classroomID = "B10";
+        date.classroomID = "B12";
         date.date = "2022-01-15";
-        date.weekday = "5";
+        date.weekday = 5;
         var data = JSON.stringify(date);
         $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/findNonPendingByClassroom", 
+            url: "https://se1101-finalp-roject.herokuapp.com/DB/findNonPendingByClassroom", 
             data:data,
             success: function(re){
                 console.log(re);
@@ -88,7 +89,7 @@ $("document").ready(function(){
         var data = JSON.stringify(classroom);
         $.ajax({ 
             type: "PUT",
-            url: "http://127.0.0.1:5000/DB/updateClassroom", 
+            url: "https://se1101-finalp-roject.herokuapp.com/DB/updateClassroom", 
             data:data,
             success: function(re){
                 console.log(re);
@@ -112,7 +113,7 @@ $("document").ready(function(){
         var data = JSON.stringify(apoint);
         $.ajax({ 
             type: "DELETE",
-            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
+            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
             data:data,
             success: function(re){
                 console.log(re);

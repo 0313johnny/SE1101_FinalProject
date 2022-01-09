@@ -1,0 +1,4 @@
+gunicorn
+pymongo
+flask_cors
+datetime

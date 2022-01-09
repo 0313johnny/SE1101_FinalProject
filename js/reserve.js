@@ -37,7 +37,7 @@ $("document").ready(function(){
         var data = JSON.stringify(appointINFO);
         $.ajax({ 
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/findIdleClassroom", 
+            url: "https://se1101-finalp-roject.herokuapp.com/DB/findIdleClassroom", 
             dataType: "json",
             data:data,
             success: function(re){
@@ -93,7 +93,7 @@ $("document").ready(function(){
                         $(".black_background").css("display", "none");
                     });
                     $("#reserve_card_"+result.classroomID +" .reserve_btn").click(function(){//寄送預約申請
-                        var url = "http://127.0.0.1:5000/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
+                        var url = "https://se1101-finalp-roject.herokuapp.com/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
                         $.getJSON(url,function(num){
                             var reserve_num = num.length;
                             
@@ -116,7 +116,7 @@ $("document").ready(function(){
                                 var data = JSON.stringify(reserve);//物件轉json
                                 $.ajax({ 
                                     type: "POST",
-                                    url: "http://127.0.0.1:5000/DB/insertAppointment", 
+                                    url: "https://se1101-finalp-roject.herokuapp.com/DB/insertAppointment", 
                                     data:data,
                                     success: function(re){
                                         //console.log(typeof(re));

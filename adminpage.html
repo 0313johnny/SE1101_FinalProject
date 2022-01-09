@@ -44,11 +44,8 @@
                 <li class="nav-item mt-1">
                     <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#search">預約教室</a>
                 </li>
-                <li class="nav-item mt-1">
-                    <a class="nav-link" href="javascript:void(0)">個人資料</a>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link admin_sign_out" href="javascript:void(0)">您好！管理員</a>
+                    <a class="nav-link admin_sign_out" href="javascript:void(0)">您好～管理員！</a>
                 </li>
                 <li class="nav-item RWD_button">
                     <a class="nav-link" href="javascript:void(0)"data-bs-toggle="offcanvas" data-bs-target="#admin">管理系統</a>
@@ -149,26 +146,31 @@
         <div class="mt-3">
             <ul class="list-group" >
 
-                <a href="#" class="list-group-item-action" style="text-decoration: none">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="#" class="list-group-item-action admin_btn" style="text-decoration: none">
+                    <li id="admin1_rwd" class="list-group-item d-flex justify-content-between align-items-center">
                         待審核的申請
-                        <span class="badge bg-primary rounded-pill">12</span>
+                        <span class="badge bg-primary rounded-pill" id = "review_num"></span>
                     </li>
                 </a>
-                <a href="#" class="list-group-item-action" style="text-decoration: none">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="#" class="list-group-item-action admin_btn" style="text-decoration: none">
+                    <li id="admin4_rwd" class="list-group-item d-flex justify-content-between align-items-center">
+                        鑰匙追蹤
+                        <span class="badge bg-primary rounded-pill"></span>
+                    </li>
+                </a>
+                <a href="#" class="list-group-item-action admin_btn" style="text-decoration: none">
+                    <li id="admin2_rwd" class="list-group-item d-flex justify-content-between align-items-center">
                         更改教室資訊
                     </li>
                 </a>
-                <a href="#" class="list-group-item-action" style="text-decoration: none">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        發布通知
+                <a href="#" class="list-group-item-action admin_btn" style="text-decoration: none">
+                    <li id="admin5_rwd" class="list-group-item d-flex justify-content-between align-items-center">
+                        更改預約資料
                     </li>
                 </a>
-                <a href="#" class="list-group-item-action" style="text-decoration: none">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        鑰匙追蹤
-                        <span class="badge bg-primary rounded-pill">3</span>
+                <a href="#" class="list-group-item-action admin_btn" style="text-decoration: none">
+                    <li id="admin3_rwd" class="list-group-item d-flex justify-content-between align-items-center">
+                        發布通知
                     </li>
                 </a>
             </ul>
@@ -225,7 +227,6 @@
                         <table>
                             <thead>
                             <tr>
-                                <th><span class="RWD_word">借用</span>日期</th>
                                 <th><span class="RWD_word">借用者</span>學號</th>
                                 <th>教室<span class="RWD_word">編號</span></th>
                                 <th><span class="RWD_word">借用</span>堂數</th>
@@ -702,70 +703,85 @@
                     <div class="file_border">
                         <table>
                             <thead>
-                            <div class = "file_header">
-                                <h1>新增固定課程</h1>
-                            </div>
-                            <tr>
-                                <th><span class="RWD_word">借用</span>星期</th>
-                                <th>教室<span class="RWD_word">編號</span></th>
-                                <th><span class="RWD_word">開始</span>堂數</th>
-                                <th><span class="RWD_word">借用</span>堂數</th>
-                                <th><span class="RWD_word">借用</span>目的</th>
-                            </tr>
-                            <tr><!--            新增預約欄位-->
-                                <th><select class="input-group mb-3 form-select mt-3" name = "reserve_week">
-                                    <option value="0">星期一</option>
-                                    <option value="1">星期二</option>
-                                    <option value="2">星期三</option>
-                                    <option value="3">星期四</option>
-                                    <option value="4">星期五</option>
-                                    <option value="5">星期六</option>
-                                    <option value="6">星期日</option>
-                                </select></th>
-                                <th><select class="input-group mb-3 form-select mt-3" name = "classroomID"></select></th>
-                                <th><select class="input-group mb-3 form-select mt-3" name = "reserve_start_class">
-                                    <option value="1">第一堂</option>
-                                    <option value="2">第二堂</option>
-                                    <option value="3">第三堂</option>
-                                    <option value="4">第四堂</option>
-                                    <option value="5">第五堂</option>
-                                    <option value="6">第六堂</option>
-                                    <option value="7">第七堂</option>
-                                    <option value="8">第八堂</option>
-                                    <option value="9">第九堂</option>
-                                    <option value="10">第十堂</option>
-                                    <option value="11">第十一堂</option>
-                                    <option value="12">第十二堂</option>
-                                </select></th>
-                                <th><select class="input-group mb-3 form-select mt-3" name = "reserve_period">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select></th>
-                                <th><input type="text" class="form-control" id="" placeholder="Enter purpose" name="purpose"></th>
-                                <th><button type="button" class = "mb-2 btn btn-primary add" id = "insert_isFixed_reserve">新增</button></th>
-                            </tr>
-                            <div class = "file_header">
-                                <h1>可更改的申請</h1>
-                            </div>
-                            <tr>
-                                <th><span class="RWD_word">借用</span>日期</th>
-                                <th><span class="RWD_word">借用者</span>學號</th>
-                                <th>教室<span class="RWD_word">編號</span></th>
-                                <th><span class="RWD_word">借用</span>堂數</th>
-                                <th><span class="RWD_word">借用</span>目的</th>
-                                <th><span class="RWD_word">預約</span>狀態</th>
-                                <th><span class="RWD_word">管理員</span>操作</th>
-                            </tr>
+                                <h1>預約管理</h1>
+                                <tr>
+                                    <th><div>篩選條件：</div></th>
+                                    <th>篩選教室：<select name="class_choose" id="class_choose">
+                                    </select></th>
+                                    <th></th>
+                                    <th>篩選預約狀態：<select name="status_choose" id="status_choose">
+                                        <option value="reserve_admin">任意狀態</option>
+                                        <option value="reserving">預約成功</option>
+                                        <option value="absent">逾時未取鑰匙</option>
+                                        <option value="using">教室使用中</option>
+                                        <option value="overtime">超時未還鑰匙</option>
+                                    </select></th>
+                                    <th>
+                                        
+                                    </th>
+                                </tr>
+                                <tr><th><button  class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#add_isFixed_reserve_block" aria-expanded="false" aria-controls="collapseExample">新增固定課程</button ></th></tr>
+                                <div id = "add_isFixed_reserve_block">
+                                    <tr >
+                                        <th><span class="RWD_word">借用</span>星期</th>
+                                        <th>教室<span class="RWD_word">編號</span></th>
+                                        <th><span class="RWD_word">開始</span>堂數</th>
+                                        <th><span class="RWD_word">借用</span>堂數</th>
+                                        <th><span class="RWD_word">借用</span>目的</th>
+                                    </tr>
+                                    <tr><!--            新增預約欄位-->
+                                        <th><select class="input-group mb-3 form-select mt-3" name = "reserve_week">
+                                            <option value="0">星期一</option>
+                                            <option value="1">星期二</option>
+                                            <option value="2">星期三</option>
+                                            <option value="3">星期四</option>
+                                            <option value="4">星期五</option>
+                                            <option value="5">星期六</option>
+                                            <option value="6">星期日</option>
+                                        </select></th>
+                                        <th><select class="input-group mb-3 form-select mt-3" name = "classroomID"></select></th>
+                                        <th><select class="input-group mb-3 form-select mt-3" name = "reserve_start_class">
+                                            <option value="1">第一堂</option>
+                                            <option value="2">第二堂</option>
+                                            <option value="3">第三堂</option>
+                                            <option value="4">第四堂</option>
+                                            <option value="5">第五堂</option>
+                                            <option value="6">第六堂</option>
+                                            <option value="7">第七堂</option>
+                                            <option value="8">第八堂</option>
+                                            <option value="9">第九堂</option>
+                                            <option value="10">第十堂</option>
+                                            <option value="11">第十一堂</option>
+                                            <option value="12">第十二堂</option>
+                                        </select></th>
+                                        <th><select class="input-group mb-3 form-select mt-3" name = "reserve_period">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select></th>
+                                        <th><input type="text" class="form-control" id="" placeholder="Enter purpose" name="purpose"></th>
+                                        <th><button type="button" class = "mb-2 btn btn-primary add" id = "insert_isFixed_reserve">新增</button></th>
+                                    </tr>
+                                </div>
+                                
+                                <tr>
+                                    <th><span class="RWD_word">借用</span>日期</th>
+                                    <th><span class="RWD_word">借用者</span>學號</th>
+                                    <th>教室<span class="RWD_word">編號</span></th>
+                                    <th><span class="RWD_word">借用</span>堂數</th>
+                                    <th><span class="RWD_word">借用</span>目的</th>
+                                    <th><span class="RWD_word">預約</span>狀態</th>
+                                    <th><span class="RWD_word">管理員</span>操作</th>
+                                </tr>
                             </thead>
                             <tbody id = "reserve_admin_list">
                             <tr>

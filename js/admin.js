@@ -15,14 +15,17 @@ function show_all_btn(btn_ID,status){
         break;
     }
 }
-function DB_operate(object,btn_id){
+function DB_operate(object,btn_id,pre_status){
     var data = JSON.stringify(object);
     $.ajax({ 
         type: "PUT",
-        url: "http://127.0.0.1:5000/DB/updateStatus", 
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
         data:data,
         success: function(re){
             show_all_btn(btn_id,object.status);
+            $("#reserve_admin_"+btn_id).removeClass(pre_status);
+            $("#reserve_admin_"+btn_id).addClass(object.status);
+            $("#status_choose").trigger("change");
         },
         error: function (thrownError) {
             alert(thrownError);
@@ -35,7 +38,7 @@ $("document").ready(function(){
     console.log("connect");//connectDB
     $.ajax({ 
         type: "GET",
-        url: "http://127.0.0.1:5000/DB/connectDB", 
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/connectDB", 
         dataType: "json",
         success: function(re){
             console.log("success : "+re);
@@ -45,9 +48,9 @@ $("document").ready(function(){
             }
     });
 
-    $("#admin1").click(function(){//建立審核申請介面
+    $("#admin1,#admin1_rwd").click(function(){//建立審核申請介面
         //拿所有是pending的預約並展示
-        var pending_url = "http://127.0.0.1:5000/DB/findPenging";
+        var pending_url = "https://se1101-finalp-roject.herokuapp.com/DB/findPenging";
         //wait_for_review_list
         $(".wait_for_review_list").html("");
         $("#card_request_list").html("");//清空容器
@@ -113,7 +116,7 @@ $("document").ready(function(){
                     var data = JSON.stringify(apoint);
                     $.ajax({ 
                         type: "PUT",
-                        url: "http://127.0.0.1:5000/DB/updateStatus", 
+                        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
                         data:data,
                         success: function(re){
                             if(re == "true"){
@@ -155,7 +158,7 @@ $("document").ready(function(){
                     if (confirm('您是否要拒絕此預約申請？') == true) {
                         $.ajax({ 
                             type: "DELETE",
-                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
+                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re == "true"){
@@ -185,18 +188,20 @@ $("document").ready(function(){
             
         });//取得所有待審核預約json完成
     });//預約審核介面設定完成
-    $("#admin5").click(function(){//建立預約管理介面
+    $("#admin5,admin5_rwd").click(function(){//建立預約管理介面
         $("#reserve_admin_list").html("");
         $("#card_edit_list").html("");
-        var url = "http://127.0.0.1:5000/DB/findNonPenging";
-        $.getJSON("http://127.0.0.1:5000/DB/findAllClassroom",function(result){//插入可選擇教室id
+        var url = "https://se1101-finalp-roject.herokuapp.com/DB/findNonPenging";
+        $.getJSON("https://se1101-finalp-roject.herokuapp.com/DB/findAllClassroom",function(result){//插入可選擇教室id
             $("select[name='classroomID']").html("");
+            $("select[name='class_choose']").html("<option value='reserve_admin'>任意教室</option>");
             $.each(result,function(index,classroom){
                 var select_unit = "";
                 select_unit = `
                     <option value="${classroom.classroomID}">${classroom.classroomID}</option>
                 `
                 $("select[name='classroomID']").append(select_unit);
+                $("select[name='class_choose']").append(select_unit);
             });
         });
         $.getJSON(url,function(result){
@@ -212,7 +217,7 @@ $("document").ready(function(){
                 var insert_reserve_admin_HTML = "";
                 console.log(value.isFixed);
                 insert_reserve_admin_HTML +=
-                `<tr id = "${"reserve_admin_"+ID_composition}" class = "reserve_admin">
+                `<tr id = "${"reserve_admin_"+ID_composition}" class = "reserve_admin ${value.status} ${value.classroomID}">
                     <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:value.usingTime.date}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
@@ -273,30 +278,30 @@ $("document").ready(function(){
                 $("#reserving_"+ID_composition).click(function (){//點選預約成功後觸發動作
                     apoint.status = "reserving";
                     $("#reserve_admin_"+ID_composition +">td:eq(5)").text("預約成功");
-                    DB_operate(apoint,btn_id);
+                    DB_operate(apoint,btn_id,value.status);
                 });//預約成功後觸發動作結束
                 $("#not_taken_"+ID_composition).click(function (){//點選超時未取後觸發動作
                     apoint.status = "absent";
                     $("#reserve_admin_"+ID_composition +">td:eq(5)").text("逾時未取鑰匙");
-                    DB_operate(apoint,btn_id);
+                    DB_operate(apoint,btn_id,value.status);
                     
                 });//超時未取後觸發動作結束
                 $("#unreturned_"+ID_composition).click(function (){//點選使用中還後觸發動作
                     apoint.status = "using";
                     $("#reserve_admin_"+ID_composition +">td:eq(5)").text("教室使用中");
-                    DB_operate(apoint,btn_id);
+                    DB_operate(apoint,btn_id,value.status);
                 });//使用中觸發動作結束
                 $("#overtime_"+ID_composition).click(function (){//點選超時未還後觸發動作
                     apoint.status = "overtime";
                     $("#reserve_admin_"+ID_composition +">td:eq(5)").text("超時未還鑰匙");
-                    DB_operate(apoint,btn_id);
+                    DB_operate(apoint,btn_id,value.status);
                 });//超時未還後觸發動作結束
                 $("#return_"+ID_composition).click(function (){//點選刪除後觸發動作
                     var data = JSON.stringify(apoint);
                     if (confirm('您是否要刪除該筆預約') == true) {
                         $.ajax({ 
                             type: "DELETE",
-                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
+                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re = "true"){
@@ -312,7 +317,6 @@ $("document").ready(function(){
                             }
                         });
                     }
-                    
                 });//歸還鑰匙觸發動作結束
 
             });
@@ -345,7 +349,7 @@ $("document").ready(function(){
             var data = JSON.stringify(reserve);//物件轉json
             $.ajax({ 
                 type: "POST",
-                url: "http://127.0.0.1:5000/DB/insertFixed", 
+                url: "https://se1101-finalp-roject.herokuapp.com/DB/insertFixed", 
                 data:data,
                 success: function(re){
                     if(re == "true"){
@@ -353,11 +357,20 @@ $("document").ready(function(){
                         $("#admin5").click();
                     }
                     else
-                        alert("新增失敗，請重新嘗試。");
+                        alert("新增失敗，可能有時間衝突，請重新確認。");
                 },
                 error: function (thrownError) {
                     alert(thrownError);
                 }
             });
+    });
+    $("#status_choose,#class_choose").change(function(){//篩選狀態事件觸發
+        
+        var show_admin_status = $("#status_choose").val();
+        var show_admin_class = $("#class_choose").val();
+        console.log(show_admin_status);
+        $(".reserve_admin").hide();
+        $("."+show_admin_status +"."+show_admin_class).show();
+
     });
 });
