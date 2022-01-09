@@ -112,6 +112,60 @@
         }
     }
 }
+.card_show_edit {
+    //box-shadow : 0 .5rem 1rem rgba(0,0,0,.2);
+    position: fixed;
+    left: 25%;
+    top: 10%;
+    width: 50%;
+    background: rgba(100,100,100,0.1);
+    height: 86%;
+    z-index: 10;
+    animation-name: example;
+    animation-duration: 1s;
+    .card_body{
+        width: auto;
+        margin: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        button{
+            position: absolute;
+            top:40px;
+            left: calc(10%);
+        }
+    }
+    .close_button {
+        position: absolute;
+        right: -20px;
+        top: -10px;
+        width: 50px;
+        height: 50px;
+        background: #FFF;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        cursor: pointer;
+        span {
+            position: absolute;
+            width: 40px;
+            height: 4px;
+            background: #1863FF;
+            border-radius: 4px;
+            transition: 0.5s;
+            transform: rotate(315deg);
+
+            &:nth-child(1) {
+                transform: rotate(45deg);
+                width: 40px;
+            }
+        }
+    }
+}
 .card_edit ,.card_request{
     position: fixed;
     left: calc(50% - 100px);
@@ -340,6 +394,7 @@ input[type=number] {
         //width: calc(100% - 40px);
         //height: 95%;
         padding: 30px;
+        overflow: auto;
         table{
             width: 100%;
             position: relative;
@@ -387,6 +442,7 @@ input[type=number] {
         padding: 20px;
         width: calc(100% - 40px);
         height: 95%;
+        overflow: auto;
         table{
             width: 100%;
             position: relative;
@@ -397,7 +453,7 @@ input[type=number] {
                 border-bottom: 3px solid rgba(150,150,150,1);
                 width: 13%;
                 border-radius: 6px;
-                min-width: 60px;
+                min-width: 40px;
                 &:nth-child(5) {
                     text-align: left;
                     width: 40%;
@@ -439,7 +495,7 @@ input[type=number] {
 }
 .admin4{
     padding-top: 75px;
-    padding-left: 350px;
+    padding-left: 320px;
     .file_border{
         margin: 15px;
         border-radius: 10px;
@@ -447,15 +503,15 @@ input[type=number] {
         box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.08);
         position: relative;
         float: left;
-        padding: 20px;
-        width: calc(50% - 45px);
-        height: 45%;
-        overflow: hidden;
+        padding: 10px;
+        width: calc(50% - 30px);
+        height: 46%;
+        overflow: auto;
         table{
+            margin: 0;
             font-size: large;
             width: 100%;
             position: relative;
-            margin: 0;
             border-radius: 6px;
             thead tr{
                 padding: 50px;
@@ -502,6 +558,7 @@ input[type=number] {
     }
 }
 .admin5{
+    
     padding-top: 100px;
     padding-left: 360px;
     .file_border{
@@ -510,6 +567,7 @@ input[type=number] {
         padding: 20px;
         width: calc(100% - 40px);
         height: 95%;
+        overflow: auto;
         .file_header{
             width: 100%;
             display: flex;
@@ -720,6 +778,12 @@ input[type=number] {
     padding-right: 0;
     overflow: auto;
 }
+.classInfo_edit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 .rows{
     .container-fluid{
         .info{
@@ -928,6 +992,15 @@ input[type=number] {
     .admin1{
         padding-left: 40px;
     }
+    .admin2{
+        padding-left: 40px;
+    }
+    .admin3{
+        padding-left: 40px;
+    }
+    .admin5{
+        padding-left: 40px;
+    }
     .admin4{
         padding-left: 25px;
         .file_border{
@@ -980,6 +1053,13 @@ input[type=number] {
     }*/
 }
 @media (max-width: 767px) {
+    .admin1{
+        padding-top: 70px;
+        padding-left: 15px;
+        .file_border{
+            width: calc(100% - 15px);
+        }
+    }
     .RWD_show{
         display: block;
     }
@@ -998,7 +1078,10 @@ input[type=number] {
             padding: 0;
         }
     }
-
+    .card_show_edit{
+        left: 6%;
+        width: 88%;
+    }
     /*.card_show{
         height: auto;
     }*/

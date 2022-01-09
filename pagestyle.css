@@ -118,6 +118,59 @@
   width: 40px;
 }
 
+.card_show_edit {
+  position: fixed;
+  left: 25%;
+  top: 10%;
+  width: 50%;
+  background: rgba(100, 100, 100, 0.1);
+  height: 86%;
+  z-index: 10;
+  animation-name: example;
+  animation-duration: 1s;
+}
+.card_show_edit .card_body {
+  width: auto;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+.card_show_edit .card_body button {
+  position: absolute;
+  top: 40px;
+  left: 10%;
+}
+.card_show_edit .close_button {
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  width: 50px;
+  height: 50px;
+  background: #FFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.card_show_edit .close_button span {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: #1863FF;
+  border-radius: 4px;
+  transition: 0.5s;
+  transform: rotate(315deg);
+}
+.card_show_edit .close_button span:nth-child(1) {
+  transform: rotate(45deg);
+  width: 40px;
+}
+
 .card_edit, .card_request {
   position: fixed;
   left: calc(50% - 100px);
@@ -409,7 +462,7 @@ input[type=number] {
   border-bottom: 3px solid #969696;
   width: 13%;
   border-radius: 6px;
-  min-width: 60px;
+  min-width: 40px;
 }
 .admin1 .file_border table thead tr th:nth-child(5) {
   text-align: left;
@@ -724,6 +777,13 @@ input[type=number] {
   overflow: auto;
 }
 
+.classInfo_edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .rows .container-fluid .info h3 {
   float: left;
   width: 40%;
@@ -986,6 +1046,14 @@ input[type=number] {
   }*/
 }
 @media (max-width: 767px) {
+  .admin1 {
+    padding-top: 70px;
+    padding-left: 15px;
+  }
+  .admin1 .file_border {
+    width: calc(100% - 15px);
+  }
+
   .RWD_show {
     display: block;
   }
@@ -1005,6 +1073,11 @@ input[type=number] {
   }
   .card_show .card_body .weekList {
     padding: 0;
+  }
+
+  .card_show_edit {
+    left: 6%;
+    width: 88%;
   }
 
   /*.card_show{
