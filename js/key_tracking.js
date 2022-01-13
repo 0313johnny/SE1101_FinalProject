@@ -29,7 +29,7 @@ $("document").ready(function(){
             $("#overtime_key").html("");
             $("#absent_key").html("");
             $("#card_edit_list").html("");
-        var url = "http://127.0.0.1:5000/DB/findTodayNonPenging";
+        var url = "http://127.0.0.1:5000/DB/findTodayNonPending";
         $.getJSON(url,function(result){//取得所有預約成功的物件
             $.each(result,function(index,value){//為所有物件建立介面
                 var ID_composition = value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0];
