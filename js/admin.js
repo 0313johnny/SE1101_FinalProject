@@ -221,7 +221,7 @@ $("document").ready(function(){
                     <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:value.usingTime.date}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
-                    <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
+                    <td>${num[parseInt(value.usingTime.time[0]) - 1]}${(value.usingTime.class <= 1)?"":" ~ "+num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
                     <td>${value.purpose}</td>
                     <td>${status_text}</td>
                     <td>
