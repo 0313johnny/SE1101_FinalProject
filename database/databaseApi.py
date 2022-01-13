@@ -470,9 +470,9 @@ def findIdleClassroom():
         return json.dumps(False) 
 
 ## 查詢所有狀態是 "pending" 的預約 , return appointment list / False
-@app.route('/DB/findPenging' , methods = ['GET'])
+@app.route('/DB/findPending' , methods = ['GET'])
 @cross_origin()
-def findPenging():
+def findPending():
     try:
         query = dict()
         query["status"] = "pending"
@@ -485,14 +485,14 @@ def findPenging():
         return json.dumps(result)
 
     except Exception as e:
-        print("The error of function findPengingAppointment() !!")
+        print("The error of function findPendingAppointment() !!")
         print(e)     
         return json.dumps(False) 
 
 ## 查詢所有狀態不是 "pending" 的預約 , return appointment list / False
-@app.route('/DB/findNonPenging' , methods = ['GET'])
+@app.route('/DB/findNonPending' , methods = ['GET'])
 @cross_origin()
-def findNonPenging():
+def findNonPending():
     try:
         query = dict()
         query["status"] = {"$ne" : "pending"}
@@ -505,14 +505,14 @@ def findNonPenging():
         return json.dumps(result)
 
     except Exception as e:
-        print("The error of function findNonPenging() !!")
+        print("The error of function findNonPending() !!")
         print(e)     
         return json.dumps(False) 
 
 ## 回傳當日 non pending 和 isFixed == True
-@app.route('/DB/findTodayNonPenging' , methods = ['GET'])
+@app.route('/DB/findTodayNonPending' , methods = ['GET'])
 @cross_origin()
-def findTodayNonPenging():
+def findTodayNonPending():
     try:
         ### 查詢當日 non pending
         query = dict()
@@ -534,7 +534,7 @@ def findTodayNonPenging():
         return json.dumps(result)
 
     except Exception as e:
-        print("The error of function findTodayNonPenging() !!")
+        print("The error of function findTodayNonPending() !!")
         print(e)     
         return json.dumps(False) 
 
@@ -829,9 +829,9 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertFixed
 # http://127.0.0.1:5000/DB/findUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
-# http://127.0.0.1:5000/DB/findPenging
-# http://127.0.0.1:5000/DB/findNonPenging
-# http://127.0.0.1:5000/DB/findTodayNonPenging
+# http://127.0.0.1:5000/DB/findPending
+# http://127.0.0.1:5000/DB/findNonPending
+# http://127.0.0.1:5000/DB/findTodayNonPending
 # http://127.0.0.1:5000/DB/updateStatus
 # http://127.0.0.1:5000/DB/deleteAppointment
 # http://127.0.0.1:5000/DB/findNonPendingByClassroom
