@@ -956,8 +956,8 @@ if __name__ == '__main__':
 
 # Record
 # http://127.0.0.1:5000/DB/initRecord
-# http://127.0.0.1:5000/DB/DB/findRecord
-# http://127.0.0.1:5000/DB/DB/findconditionRecord
+# http://127.0.0.1:5000/DB/findRecord
+# http://127.0.0.1:5000/DB/findconditionRecord
 # http://127.0.0.1:5000/DB/insertRecord
 # http://127.0.0.1:5000/DB/deleteRecord
 # http://127.0.0.1:5000/DB/deleteallRecord
