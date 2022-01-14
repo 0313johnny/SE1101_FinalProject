@@ -830,20 +830,41 @@ def initRecord():
         return json.dumps(False)
 
 ## 用classroomID查詢歷史紀錄
-@app.route('/DB/findRecord/<string:classroomID>' , methods = ['GET'])
+@app.route('/DB/findRecord/<string:classroomID>', methods = ['GET'])
 @cross_origin()
-def findrecord(classroomID):
+def findRecord(classroomID):
    try:
-       recordquery=dict()
-       recordquery["classroomID"]=classroomID
-       if RecordDB.count_documents(recordquery) == 0:
-            print("can not find this class record")
+        data = json.loads(flask.request.get_data())
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        if RecordDB.count_documents({}) == 0:
+            print("can not find this record")
             return json.dumps(False)
-       else:
-            data = RecordDB.find_one(recordquery)
-            return json.dumps(data)
+        else:
+            data = RecordDB.find(query)       
+            for i in range(len(query)):
+                return json.dumps(data)
+
    except Exception as e:
        print("The error of function findRecord() !!")
+       print(e)                                        
+       return json.dumps(False)       
+
+## 用classroomID和日期查詢歷史紀錄
+@app.route('/DB/findconditionRecord' , methods = ['GET'])
+@cross_origin()
+def findconditionRecord():
+   try:
+        data = json.loads(flask.request.get_data())
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        for a in result:
+            if a["usingTime.date"] == data["usingTime"]["date"] and a["classroomID"] == data["classroomID"]:
+                return json.dumps(data)
+
+   except Exception as e:
+       print("The error of function findconditionRecord() !!")
        print(e)                                        
        return json.dumps(False)       
 ##新增資料
@@ -859,6 +880,44 @@ def insertRecord():
         print(e)     
         return json.dumps(False)
 
+##刪除歷史紀錄
+@app.route('/DB/deleteRecord' , methods = ['GET' , 'DELETE'])
+@cross_origin()
+def deleteRecord():
+    try:
+        data = json.loads(flask.request.get_data()) 
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        query["userID"] = data["userID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+        query["usingTime.weekday"] = data["usingTime"]["weekday"]
+        if RecordDB.count_documents(query) == 0:
+            return json.dumps(False)
+
+        RecordDB.delete_one(query)
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function deleteRecord() !!")
+        print(e)     
+        return json.dumps(False) 
+
+@app.route('/DB/deleteallRecord' , methods = ['GET' , 'DELETE'])
+@cross_origin()
+def deleteallRecord():
+    try:
+        data = json.loads(flask.request.get_data()) 
+        if RecordDB.count_documents({}) == 0:
+            return json.dumps(False)
+
+        RecordDB.delete_many({})
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function deleteallRecord() !!")
+        print(e)     
+        return json.dumps(False) 
 if __name__ == '__main__':
     app.run()
 
@@ -895,7 +954,11 @@ if __name__ == '__main__':
 
 # Record
 # http://127.0.0.1:5000/DB/initRecord
+# http://127.0.0.1:5000/DB/DB/findRecord
+# http://127.0.0.1:5000/DB/DB/findconditionRecord
 # http://127.0.0.1:5000/DB/insertRecord
+# http://127.0.0.1:5000/DB/deleteRecord
+# http://127.0.0.1:5000/DB/deleteallRecord
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
 # POST = insert
