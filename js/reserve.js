@@ -1,5 +1,4 @@
 $("document").ready(function(){
-    //console.log(sign_in_user);
     $("#search_btn").click(function(event){
         var today = new Date();
         var appointINFO = {};
@@ -8,6 +7,8 @@ $("document").ready(function(){
         var start = parseInt($("select[name='start_class']").val());
         var period = parseInt($("select[name='period']").val());
         var day = new Date(Date.parse(appointINFO.usingTime.date));
+        var gap = parseInt(Math.abs(day.getTime()- today.getTime())/1000/60/60/24);
+        
         if(start + period > 13){
             alert("學校並沒有開到12堂課之後，請重新填寫時段。");
             return;
@@ -23,6 +24,10 @@ $("document").ready(function(){
         }
         else if(Date.parse(appointINFO.usingTime.date) < today){
             alert("時間旅行是不合法的，詳情請見時空管理法第三章第一節！");
+            return;
+        }
+        else if(gap > 14){
+            alert("學校的生意沒那麼好，預約不用排到明年！");
             return;
         }
         var arry = [];
@@ -44,7 +49,6 @@ $("document").ready(function(){
                 $(".main_display").css("display","");
                 $(".personal").css("display","none");
                 var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>可預約教室</h1>";
-                console.log(re);
                 $(".class_list").html(insertHTML);
                 $(".reserve_card_list").html("");
                 $.each(re,function(index,result){//取陣列
@@ -100,7 +104,7 @@ $("document").ready(function(){
                             
                             console.log(reserve_num);
                             
-                            if(true){
+                            if(reserve_num < 5){
                                 var reserve = {};//$("input[name='date']").val();
                                 reserve.userID = sessionStorage.getItem('sign_in_user');
                                 reserve.classroomID = result.classroomID;
@@ -113,7 +117,6 @@ $("document").ready(function(){
                                 reserve.purpose = $("#reserve_card_"+result.classroomID +" input").val();
                                 reserve.status = "pending";
                                 reserve.isFixed = false;
-                                console.log(reserve);
                                 var data = JSON.stringify(reserve);//物件轉json
                                 $.ajax({ 
                                     type: "POST",
@@ -132,7 +135,7 @@ $("document").ready(function(){
                                 });
                             }
                             else{
-                                alert("您的預約以達操作上限(5)，請直接前往系辦申請借用或結束目前已完成之預約。");
+                                alert("您的預約以達操作上限，請直接前往系辦申請借用或結束目前已完成之預約。");
                             }
                         });
                     });
