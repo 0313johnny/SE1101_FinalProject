@@ -841,9 +841,10 @@ def findRecord(classroomID):
             print("can not find this record")
             return json.dumps(False)
         else:
-            data = RecordDB.find(query)       
-            for i in range(len(query)):
-                return json.dumps(data)
+            data = RecordDB.find(query)
+            for a in data:
+                if a["classroomID"] == data["classroomID"]:
+                    return json.dumps(data)
 
    except Exception as e:
        print("The error of function findRecord() !!")
@@ -859,6 +860,7 @@ def findconditionRecord():
         query = dict()
         query["classroomID"] = data["classroomID"]
         query["usingTime.date"] = data["usingTime"]["date"]
+        result = RecordDB.find(query)
         for a in result:
             if a["usingTime.date"] == data["usingTime"]["date"] and a["classroomID"] == data["classroomID"]:
                 return json.dumps(data)
