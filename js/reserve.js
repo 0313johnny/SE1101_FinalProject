@@ -99,12 +99,13 @@ $("document").ready(function(){
                     });
                     $("#reserve_card_"+result.classroomID +" .reserve_btn").click(function(){//寄送預約申請
                         var url = "http://127.0.0.1:5000/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
+                        console.log(url);
                         $.getJSON(url,function(num){
                             var reserve_num = num.length;
                             
-                            console.log(reserve_num);
+                            console.log(num);
                             
-                            if(reserve_num < 5){
+                            if(reserve_num < 5 || !num){
                                 var reserve = {};//$("input[name='date']").val();
                                 reserve.userID = sessionStorage.getItem('sign_in_user');
                                 reserve.classroomID = result.classroomID;
