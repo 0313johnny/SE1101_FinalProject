@@ -858,19 +858,36 @@ def findRecord(classroomID):
 @cross_origin()
 def findconditionRecord():
    try:
+        # data = {
+        #     "classroomID" : "B10",
+        #     "date" : ["2022-01-15" , "2022-01-05"]
+        # }
+
         data = json.loads(flask.request.get_data())
+
         query = dict()
         query["classroomID"] = data["classroomID"]
-        query["usingTime.date"] = data["usingTime"]["date"]
-        result = RecordDB.find(query)
-        for a in result:
-            if a["usingTime.date"] == data["usingTime"]["date"] and a["classroomID"] == data["classroomID"]:
-                return json.dumps(data)
+
+        result = list()
+        tmp = list(RecordDB.find(query))
+
+        for r in tmp:
+            if r["usingTime"]["date"] in data["date"]:
+                result.append(r)
+        
+        if len(result) == 0:
+            return json.dumps(False)
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+
+        return json.dumps(result)
 
    except Exception as e:
        print("The error of function findconditionRecord() !!")
        print(e)                                        
-       return json.dumps(False)       
+       return json.dumps(False)
+
 ##新增資料
 @app.route('/DB/insertRecord' , methods = ['GET','POST'])
 @cross_origin()
