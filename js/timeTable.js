@@ -31,6 +31,53 @@ var thisWeek = getWeek(new Date(getTodayDate()));
 // console.log('本周五:' + thisWeek[5]);
 // console.log('本周六:' + thisWeek[6]);
 
+function findNonPenging(classroomID, target_date, day_of_the_week){
+    // 建立查詢用字串
+    // 建立Object
+    let api_data = {};
+    api_data.classroomID = classroomID;
+    api_data.date = target_date;
+    api_data.weekday = day_of_the_week;
+
+    // console.log("Call API findNonPenging for classroom " + classroomID);
+    // console.log(api_data);
+    input_data = JSON.stringify(api_data);
+    //console.log("JSON: " + input_data);
+
+    $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:5000/DB/findNonPendingByClassroom",
+        dataType: "json",
+        data:input_data, // Parse to JSON format
+        success: function (result){
+            console.log("function findNonPenging() started.");
+            console.log("Showing API result for classroom " + classroomID);
+            //console.log(result);
+
+            $.each(result, function (index, courses){
+                let my_date = courses.usingTime.weekday;
+                console.log(courses);
+                //
+                for(c in courses.usingTime.time){
+                    console.log("∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨");
+                    console.log($("tr[period="+c+"] td[date="+my_date+"]").innerText);
+                    console.log("^^^^^^^^^^^^^^^^^^");
+                    $("tr[period=c] td[date=my_date]").text(courses.purpose + '\n' + courses.userID);
+                }
+
+            });
+
+        },
+        error: function (thrownError) {
+            console.log("function findNonPenging() was interrupted.");
+            alert(thrownError);
+        }
+    });
+}
+
+function findHistory(){
+
+}
 
 function findNonPenging(classroomID, target_date, day_of_the_week){
     // 建立查詢用字串
@@ -88,7 +135,7 @@ $("document").ready(function(){
         dataType: "json",
         success: function(result){
             console.log("Get the list successful.");
-            console.log(result);
+            //console.log(result);
             //classroomList = result;
 
             // 清空class list以及彈出視窗list
