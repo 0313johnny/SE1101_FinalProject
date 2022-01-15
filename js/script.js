@@ -67,16 +67,16 @@
             $(".black_background").css("display", "none");
         });
         $(".add_class_btn").click(function (){
-            $(".search_filter_btn").removeClass('active');
-            $(".search_filter_tr").removeClass('active');
-            $(".add_class_tr").addClass('active');
-            $(".add_class_btn").addClass('active');
-        });
-        $(".search_filter_btn").click(function (){
+            $(".search_filter_btn").addClass('active');
+            $(".search_filter_tr").addClass('active');
             $(".add_class_tr").removeClass('active');
             $(".add_class_btn").removeClass('active');
-            $(".search_filter_tr").toggleClass('active');
-            $(".search_filter_btn").addClass('active');
+        });
+        $(".search_filter_btn").click(function (){
+            $(".add_class_tr").addClass('active');
+            $(".add_class_btn").addClass('active');
+            $(".search_filter_tr").removeClass('active');
+            $(".search_filter_btn").removeClass('active');
         });
         //給流星雨用:這段是編輯教室點擊後的事件處理器
         $(".card_spec_edit").click(function () { //card動畫設定
