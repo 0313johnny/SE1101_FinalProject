@@ -570,16 +570,19 @@ def findNonPendingByClassroom():
         data = json.loads(flask.request.get_data())
         
         # data = {
-        #     "classroomID" : "B07",
-        #     "date" : "2022-01-08",
+        #     "classroomID" : "B10",
+        #     "date" : "2022-01-15",
         #     "weekday" : "5"
         # }
 
         query = dict()
         query["classroomID"] = data["classroomID"]
         
-        result = AppointmentDB.find(query)
+        result = list(AppointmentDB.find(query))
         nonPending = list()
+
+        if len(result) == 0:
+            return json.dumps(False)
 
         for a in result:
             if a["usingTime"]["date"] == data["date"] or (a["usingTime"]["weekday"] == data["weekday"] and a["isFixed"] == True):
@@ -855,7 +858,7 @@ def findRecord(classroomID):
        return json.dumps(False)       
 
 ## 用classroomID和日期查詢歷史紀錄
-@app.route('/DB/findconditionRecord' , methods = ['GET'])
+@app.route('/DB/findconditionRecord' , methods = ['GET' , 'POST'])
 @cross_origin()
 def findconditionRecord():
    try:
