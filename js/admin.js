@@ -109,7 +109,7 @@ $("document").ready(function(){
                     apoint.usingTime.class = value.usingTime.class;
                     apoint.usingTime.weekday = value.usingTime.weekday;
                     apoint.status = "reserving";
-                    apoint.isFixed = false;
+                    apoint.isFixed =  value.isFixed;
                     email_text += `${apoint.userID}，您的預約申請已經通過，請於申請時間前往系辦拿取鑰匙。\n教室 :${apoint.classroomID}
                     \n日期 : ${apoint.usingTime.date}
                     \n堂數 : 第${num[parseInt(value.usingTime.time[0]) - 1]}堂 ~ 第${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}堂`
@@ -149,12 +149,14 @@ $("document").ready(function(){
                     apoint.usingTime.date = value.usingTime.date;
                     apoint.usingTime.time = value.usingTime.time;
                     apoint.usingTime.class = value.usingTime.class;
-                    apoint.status = "reserving";
-                    apoint.isFixed = false;
+                    apoint.usingTime.weekday = value.usingTime.weekday;
+                    apoint.status = value.status;
+                    apoint.isFixed = value.isFixed;
                     email_text += `${apoint.userID}，您的預約申請未通過，請重新提交申請或前往系辦詢問。\n教室 :${apoint.classroomID}
                     \n日期 : ${apoint.usingTime.date}
                     \n堂數 : 第${num[parseInt(value.usingTime.time[0]) - 1]}堂 ~ 第${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}堂`
                     var data = JSON.stringify(apoint);
+                    console.log(apoint);
                     if (confirm('您是否要拒絕此預約申請？') == true) {
                         $.ajax({ 
                             type: "DELETE",
@@ -195,7 +197,6 @@ $("document").ready(function(){
         $.getJSON("http://127.0.0.1:5000/DB/findAllClassroomID",function(result){//插入可選擇教室id
             $("select[name='classroomID']").html("");
             $("select[name='class_choose']").html("<option value='reserve_admin'>任意教室</option>");
-            result.sort();
             $.each(result,function(index,classroom){
                 var select_unit = "";
                 select_unit = `

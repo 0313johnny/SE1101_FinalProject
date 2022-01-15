@@ -841,6 +841,7 @@ def findRecord(classroomID):
         query["classroomID"] = classroomID 
 
         if RecordDB.count_documents(query) == 0:
+
             print("can not find this record")
             return json.dumps(False)
         else:
@@ -942,10 +943,6 @@ def deleteRecord():
 @cross_origin()
 def deleteallRecord():
     try:
-        data = json.loads(flask.request.get_data()) 
-        if RecordDB.count_documents({}) == 0:
-            return json.dumps(False)
-
         RecordDB.delete_many({})
         return json.dumps(True)
 
@@ -991,7 +988,7 @@ if __name__ == '__main__':
 
 # Record
 # http://127.0.0.1:5000/DB/initRecord
-# http://127.0.0.1:5000/DB/findRecord
+# http://127.0.0.1:5000/DB/findRecord/<classroomID>
 # http://127.0.0.1:5000/DB/findconditionRecord
 # http://127.0.0.1:5000/DB/insertRecord
 # http://127.0.0.1:5000/DB/deleteRecord

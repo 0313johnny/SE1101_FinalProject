@@ -132,7 +132,8 @@ $("document").ready(function(){
                                 delete_reserve.usingTime.time = value.usingTime.time;
                                 delete_reserve.usingTime.class = value.usingTime.class;
                                 delete_reserve.usingTime.weekday = value.usingTime.weekday;
-                                delete_reserve.isFixed = false;
+                                delete_reserve.status = value.status;
+                                delete_reserve.isFixed = value.isFixed;
                                 var data = JSON.stringify(delete_reserve);
                                 $.ajax({ 
                                     type: "DELETE",
