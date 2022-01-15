@@ -50,6 +50,7 @@
             $(".card_reserve").css("display", "none");
             $(".black_background").css("display", "none");
             $(".card_request").css("display", "none");
+            $(".card_show_edit").css("display", "none");
         });
         $(".close_button").click(function (){
             $(".card_show").css("display", "none");
@@ -57,6 +58,7 @@
             $(".card_reserve").css("display", "none");
             $(".black_background").css("display", "none");
             $(".card_request").css("display", "none");
+            $(".card_show_edit").css("display", "none");
         });
         
         $(".select_table_button").click(function (){
@@ -65,8 +67,35 @@
             $(".black_background").css("display", "none");
         });
         $(".add_class_btn").click(function (){
-            $(".add_class_tr").toggleClass('active');
+            $(".search_filter_btn").removeClass('active');
+            $(".search_filter_tr").removeClass('active');
+            $(".add_class_tr").addClass('active');
+            $(".add_class_btn").addClass('active');
         });
+        $(".search_filter_btn").click(function (){
+            $(".add_class_tr").removeClass('active');
+            $(".add_class_btn").removeClass('active');
+            $(".search_filter_tr").toggleClass('active');
+            $(".search_filter_btn").addClass('active');
+        });
+        //給流星雨用:這段是編輯教室點擊後的事件處理器
+        $(".card_spec_edit").click(function () { //card動畫設定
+            $(".card_show_edit").css("display", "");
+            $(".black_background").css("display", "");
+            $("button.ensure").css("display", "none");
+            $("button.edit_readonly_change").css("display", "");
+            $(".admin_edit_class input").attr("readonly",true);
+        });
+        $(".edit_readonly_change").click(function (e) {
+            $("button.ensure").css("display", "");
+            $("button.edit_readonly_change").css("display", "none");
+            $(".admin_edit_class input").attr("readonly",false);
+        })
+        $("button.ensure").click(function (e) {
+            $("button.ensure").css("display", "none");
+            $("button.edit_readonly_change").css("display", "");
+            $(".admin_edit_class input").attr("readonly",true);
+        })
     });
 
 }
