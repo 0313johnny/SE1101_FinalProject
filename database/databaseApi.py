@@ -872,9 +872,20 @@ def findconditionRecord():
 @cross_origin()
 def insertRecord():
     try:
-        data = json.loads(flask.request.get_data())      
-        RecordDB.insert_one(data)
-        return json.dumps(True)
+        data = json.loads(flask.request.get_data())
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        query["userID"] = data["userID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+        query["usingTime.weekday"] = data["usingTime"]["weekday"]
+        result = RecordDB.find(query)
+        for a in result:
+            if a["classroomID"] == data["classroomID"] and a["userID"] == data["userID"] and a["usingTime.date"] == data["usingTime"]["date"] and a["usingTime.time"] == data["usingTime"]["time"] and a["usingTime.weekday"] == data["usingTime"]["weekday"]:
+                return json.dumps(False)
+        else:    
+            RecordDB.insert_one(data)
+            return json.dumps(True)
     except Exception as e:
         print("The error of function insertRecord() !!")
         print(e)     
