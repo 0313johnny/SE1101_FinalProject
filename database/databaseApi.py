@@ -834,17 +834,19 @@ def initRecord():
 @cross_origin()
 def findRecord(classroomID):
    try:
-        data = json.loads(flask.request.get_data())
         query = dict()
-        query["classroomID"] = data["classroomID"]
-        if RecordDB.count_documents({}) == 0:
+        query["classroomID"] = classroomID 
+
+        if RecordDB.count_documents(query) == 0:
             print("can not find this record")
             return json.dumps(False)
         else:
-            data = RecordDB.find(query)
-            for a in data:
-                if a["classroomID"] == data["classroomID"]:
-                    return json.dumps(data)
+            result = list(RecordDB.find(query)) 
+            
+            for i in range(len(result)):
+                del result[i]["_id"]
+
+            return json.dumps(result)
 
    except Exception as e:
        print("The error of function findRecord() !!")
