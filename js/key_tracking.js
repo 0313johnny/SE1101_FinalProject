@@ -23,6 +23,7 @@ function move(moveto,removeID,object){
 
 $("document").ready(function(){
     var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
+    var week_ch = ["一","二","三","四","五","六","日"];
     $("#admin4").click(function(){
             $("#not_taken_key").html("");
             $("#unreturned_key").html("");
@@ -30,13 +31,14 @@ $("document").ready(function(){
             $("#absent_key").html("");
             $("#card_edit_list").html("");
         var url = "http://127.0.0.1:5000/DB/findTodayNonPending";
+        console.log("admin4");
         $.getJSON(url,function(result){//取得所有預約成功的物件
             $.each(result,function(index,value){//為所有物件建立介面
                 var ID_composition = value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0];
                 var insert_key_tracking_HTML = "";
                 insert_key_tracking_HTML +=
                 `<tr id = "${"key_tracking_"+ID_composition}">
-                    <td>${value.usingTime.date}</td>
+                    <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:value.usingTime.date}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
                     <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
