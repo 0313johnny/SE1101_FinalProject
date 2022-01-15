@@ -857,7 +857,7 @@ def findRecord(classroomID):
        return json.dumps(False)       
 
 ## 用classroomID和日期查詢歷史紀錄
-@app.route('/DB/findconditionRecord' , methods = ['GET'])
+@app.route('/DB/findconditionRecord' , methods = ['GET' , 'POST'])
 @cross_origin()
 def findconditionRecord():
    try:
