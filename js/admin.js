@@ -19,7 +19,7 @@ function DB_operate(object,btn_id,pre_status){
     var data = JSON.stringify(object);
     $.ajax({ 
         type: "PUT",
-        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
+        url: "http://127.0.0.1:5000/DB/updateStatus", 
         data:data,
         success: function(re){
             show_all_btn(btn_id,object.status);
@@ -38,7 +38,7 @@ $("document").ready(function(){
     console.log("connect");//connectDB
     $.ajax({ 
         type: "GET",
-        url: "https://se1101-finalp-roject.herokuapp.com/DB/connectDB", 
+        url: "http://127.0.0.1:5000/DB/connectDB", 
         dataType: "json",
         success: function(re){
             console.log("success : "+re);
@@ -50,7 +50,7 @@ $("document").ready(function(){
 
     $("#admin1,#admin1_rwd").click(function(){//建立審核申請介面
         //拿所有是pending的預約並展示
-        var pending_url = "https://se1101-finalp-roject.herokuapp.com/DB/findPenging";
+        var pending_url = "http://127.0.0.1:5000/DB/findPending";
         //wait_for_review_list
         $(".wait_for_review_list").html("");
         $("#card_request_list").html("");//清空容器
@@ -109,14 +109,14 @@ $("document").ready(function(){
                     apoint.usingTime.class = value.usingTime.class;
                     apoint.usingTime.weekday = value.usingTime.weekday;
                     apoint.status = "reserving";
-                    apoint.isFixed = false;
+                    apoint.isFixed =  value.isFixed;
                     email_text += `${apoint.userID}，您的預約申請已經通過，請於申請時間前往系辦拿取鑰匙。\n教室 :${apoint.classroomID}
                     \n日期 : ${apoint.usingTime.date}
                     \n堂數 : 第${num[parseInt(value.usingTime.time[0]) - 1]}堂 ~ 第${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}堂`
                     var data = JSON.stringify(apoint);
                     $.ajax({ 
                         type: "PUT",
-                        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
+                        url: "http://127.0.0.1:5000/DB/updateStatus", 
                         data:data,
                         success: function(re){
                             if(re == "true"){
@@ -149,16 +149,18 @@ $("document").ready(function(){
                     apoint.usingTime.date = value.usingTime.date;
                     apoint.usingTime.time = value.usingTime.time;
                     apoint.usingTime.class = value.usingTime.class;
-                    apoint.status = "reserving";
-                    apoint.isFixed = false;
+                    apoint.usingTime.weekday = value.usingTime.weekday;
+                    apoint.status = value.status;
+                    apoint.isFixed = value.isFixed;
                     email_text += `${apoint.userID}，您的預約申請未通過，請重新提交申請或前往系辦詢問。\n教室 :${apoint.classroomID}
                     \n日期 : ${apoint.usingTime.date}
                     \n堂數 : 第${num[parseInt(value.usingTime.time[0]) - 1]}堂 ~ 第${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}堂`
                     var data = JSON.stringify(apoint);
+                    console.log(apoint);
                     if (confirm('您是否要拒絕此預約申請？') == true) {
                         $.ajax({ 
                             type: "DELETE",
-                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
+                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re == "true"){
@@ -191,8 +193,8 @@ $("document").ready(function(){
     $("#admin5,#admin5_rwd").click(function(){//建立預約管理介面
         $("#reserve_admin_list").html("");
         $("#card_edit_list").html("");
-        var url = "https://se1101-finalp-roject.herokuapp.com/DB/findNonPenging";
-        $.getJSON("https://se1101-finalp-roject.herokuapp.com/DB/findAllClassroom",function(result){//插入可選擇教室id
+        var url = "http://127.0.0.1:5000/DB/findNonPending";
+        $.getJSON("http://127.0.0.1:5000/DB/findAllClassroomID",function(result){//插入可選擇教室id
             $("select[name='classroomID']").html("");
             $("select[name='class_choose']").html("<option value='reserve_admin'>任意教室</option>");
             $.each(result,function(index,classroom){
@@ -204,6 +206,17 @@ $("document").ready(function(){
                 $("select[name='class_choose']").append(select_unit);
             });
         });
+        $("#isFixed_checkbox").change(function(){//添加課程是否是固定的checkbox
+            var test = $("#isFixed_checkbox").is(":checked");
+            if(test){
+                $(".add_weekday").show();
+                $(".add_date").hide();
+            }
+            else{
+                $(".add_weekday").hide();
+                $(".add_date").show();
+            }
+        })
         $.getJSON(url,function(result){
             $.each(result,function(index,value){//為所有物件建立介面
                 var status_text = "";
@@ -215,13 +228,12 @@ $("document").ready(function(){
                     case 'overtime': status_text = "超時未還鑰匙";break;
                 }
                 var insert_reserve_admin_HTML = "";
-                console.log(value.isFixed);
                 insert_reserve_admin_HTML +=
-                `<tr id = "${"reserve_admin_"+ID_composition}" class = "reserve_admin ${value.status} ${value.classroomID}">
+                `<tr id = "${"reserve_admin_"+ID_composition}" class = "reserve_admin ${value.status} ${value.classroomID} ${value.usingTime.weekday}">
                     <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:value.usingTime.date}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
-                    <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
+                    <td>${num[parseInt(value.usingTime.time[0]) - 1]}${(value.usingTime.class <= 1)?"":" ~ "+num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
                     <td>${value.purpose}</td>
                     <td>${status_text}</td>
                     <td>
@@ -301,7 +313,7 @@ $("document").ready(function(){
                     if (confirm('您是否要刪除該筆預約') == true) {
                         $.ajax({ 
                             type: "DELETE",
-                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
+                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re = "true"){
@@ -324,12 +336,31 @@ $("document").ready(function(){
 
     });
     $("#insert_isFixed_reserve").click(function(){
+        var url = "";
             var reserve = {};
             reserve.userID = "管理員";
             reserve.classroomID = $("select[name='classroomID']").val();
             reserve.usingTime = {};
-            reserve.usingTime.date = "";
-            reserve.usingTime.weekday = parseInt($("select[name='reserve_week']").val());
+            
+            var test = $("#isFixed_checkbox").is(":checked");
+            if(test){
+                url = "http://127.0.0.1:5000/DB/insertFixed";
+                reserve.usingTime.date = "";
+                reserve.usingTime.weekday = parseInt($("select[name='reserve_week']").val());
+                reserve.isFixed = true;
+            }
+            else{
+                url = "http://127.0.0.1:5000/DB/insertAppointment";
+                reserve.usingTime.date = $("input[name='reserve_date']").val();
+                var day = new Date(Date.parse(reserve.usingTime.date.replace(/-/g, '/')));
+                reserve.usingTime.weekday = (day.getDay()+6)%7;
+                reserve.isFixed = false;
+                if(reserve.usingTime.date == ""){
+                    alert("日期不可為空。");
+                    return;
+                }
+            }
+            
             var start = parseInt($("select[name='reserve_start_class']").val());
             var period = parseInt($("select[name='reserve_period']").val());
             var arry = [];
@@ -341,7 +372,6 @@ $("document").ready(function(){
             reserve.usingTime.class = period;
             reserve.purpose = $("input[name='purpose']").val();
             reserve.status = "reserving";
-            reserve.isFixed = true;
             if(start + period > 13){
                 alert("學校並沒有開到12堂課之後，請重新填寫時段。");
                 return;
@@ -349,7 +379,7 @@ $("document").ready(function(){
             var data = JSON.stringify(reserve);//物件轉json
             $.ajax({ 
                 type: "POST",
-                url: "https://se1101-finalp-roject.herokuapp.com/DB/insertFixed", 
+                url: url, 
                 data:data,
                 success: function(re){
                     if(re == "true"){
@@ -364,14 +394,13 @@ $("document").ready(function(){
                 }
             });
     });
-    $("#status_choose,#class_choose#weekday_choose").change(function(){//篩選狀態事件觸發
+    $("#status_choose,#class_choose,#weekday_choose").change(function(){//篩選狀態事件觸發
         
         var show_admin_status = $("#status_choose").val();
         var show_admin_class = $("#class_choose").val();
-        var show_admin_week= 
-        console.log(show_admin_status);
+        var show_admin_week= $("#weekday_choose").val();
         $(".reserve_admin").hide();
-        $("."+show_admin_status +"."+show_admin_class).show();
+        $("."+show_admin_status +"."+show_admin_class+"."+show_admin_week).show();
 
     });
 });

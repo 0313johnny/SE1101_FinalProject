@@ -17,7 +17,7 @@ $("document").ready(function(){
         console.log("connect");
         $.ajax({ 
             type: "GET",
-            url: "https://se1101-finalp-roject.herokuapp.com/DB/connectDB", 
+            url: "http://127.0.0.1:5000/DB/connectDB", 
             dataType: "json",
             success: function(re){
                 console.log("success : "+re);
@@ -32,7 +32,7 @@ $("document").ready(function(){
         console.log("get");
         $.ajax({ 
             type: "GET",
-            url: "https://se1101-finalp-roject.herokuapp.com/DB/findAccount/wayne1224", 
+            url: "http://127.0.0.1:5000/DB/findRecord/B10", 
             dataType: "json",
             success: function(re){
                 console.log(re);
@@ -60,10 +60,22 @@ $("document").ready(function(){
         date.classroomID = "B12";
         date.date = "2022-01-15";
         date.weekday = 5;
-        var data = JSON.stringify(date);
+
+        var apoint = {};
+        apoint.userID = "ROBIN";
+        apoint.classroomID = "207"
+        apoint.usingTime = {};
+        apoint.usingTime.date = "2022-01-19";
+        apoint.usingTime.time = [4,5,6];
+        apoint.usingTime.class = 3;
+        apoint.usingTime.weekday = 2;
+        apoint.purpose = "軟體工程";
+
+
+        var data = JSON.stringify(apoint);
         $.ajax({
             type: "POST",
-            url: "https://se1101-finalp-roject.herokuapp.com/DB/findNonPendingByClassroom", 
+            url: "http://127.0.0.1:5000/DB/insertRecord", 
             data:data,
             success: function(re){
                 console.log(re);
@@ -89,7 +101,7 @@ $("document").ready(function(){
         var data = JSON.stringify(classroom);
         $.ajax({ 
             type: "PUT",
-            url: "https://se1101-finalp-roject.herokuapp.com/DB/updateClassroom", 
+            url: "http://127.0.0.1:5000/DB/updateClassroom", 
             data:data,
             success: function(re){
                 console.log(re);
@@ -113,7 +125,7 @@ $("document").ready(function(){
         var data = JSON.stringify(apoint);
         $.ajax({ 
             type: "DELETE",
-            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
+            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
             data:data,
             success: function(re){
                 console.log(re);

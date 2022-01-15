@@ -470,9 +470,9 @@ def findIdleClassroom():
         return json.dumps(False) 
 
 ## 查詢所有狀態是 "pending" 的預約 , return appointment list / False
-@app.route('/DB/findPenging' , methods = ['GET'])
+@app.route('/DB/findPending' , methods = ['GET'])
 @cross_origin()
-def findPenging():
+def findPending():
     try:
         query = dict()
         query["status"] = "pending"
@@ -485,14 +485,14 @@ def findPenging():
         return json.dumps(result)
 
     except Exception as e:
-        print("The error of function findPengingAppointment() !!")
+        print("The error of function findPendingAppointment() !!")
         print(e)     
         return json.dumps(False) 
 
 ## 查詢所有狀態不是 "pending" 的預約 , return appointment list / False
-@app.route('/DB/findNonPenging' , methods = ['GET'])
+@app.route('/DB/findNonPending' , methods = ['GET'])
 @cross_origin()
-def findNonPenging():
+def findNonPending():
     try:
         query = dict()
         query["status"] = {"$ne" : "pending"}
@@ -505,14 +505,14 @@ def findNonPenging():
         return json.dumps(result)
 
     except Exception as e:
-        print("The error of function findNonPenging() !!")
+        print("The error of function findNonPending() !!")
         print(e)     
         return json.dumps(False) 
 
 ## 回傳當日 non pending 和 isFixed == True
-@app.route('/DB/findTodayNonPenging' , methods = ['GET'])
+@app.route('/DB/findTodayNonPending' , methods = ['GET'])
 @cross_origin()
-def findTodayNonPenging():
+def findTodayNonPending():
     try:
         ### 查詢當日 non pending
         query = dict()
@@ -534,7 +534,7 @@ def findTodayNonPenging():
         return json.dumps(result)
 
     except Exception as e:
-        print("The error of function findTodayNonPenging() !!")
+        print("The error of function findTodayNonPending() !!")
         print(e)     
         return json.dumps(False) 
 
@@ -570,16 +570,19 @@ def findNonPendingByClassroom():
         data = json.loads(flask.request.get_data())
         
         # data = {
-        #     "classroomID" : "B07",
-        #     "date" : "2022-01-08",
+        #     "classroomID" : "B10",
+        #     "date" : "2022-01-15",
         #     "weekday" : "5"
         # }
 
         query = dict()
         query["classroomID"] = data["classroomID"]
         
-        result = AppointmentDB.find(query)
+        result = list(AppointmentDB.find(query))
         nonPending = list()
+
+        if len(result) == 0:
+            return json.dumps(False)
 
         for a in result:
             if a["usingTime"]["date"] == data["date"] or (a["usingTime"]["weekday"] == data["weekday"] and a["isFixed"] == True):
@@ -830,52 +833,128 @@ def initRecord():
         return json.dumps(False)
 
 ## 用classroomID查詢歷史紀錄
-@app.route('/DB/findRecord/<string:classroomID>' , methods = ['GET'])
+@app.route('/DB/findRecord/<string:classroomID>', methods = ['GET'])
 @cross_origin()
-def findrecord(classroomID):
+def findRecord(classroomID):
    try:
-       recordquery=dict()
-       recordquery["classroomID"]=classroomID
-       if RecordDB.count_documents(recordquery) == 0:
-            print("can not find this class record")
+        query = dict()
+        query["classroomID"] = classroomID 
+
+        if RecordDB.count_documents(query) == 0:
+
+            print("can not find this record")
             return json.dumps(False)
-       else:
-            data = RecordDB.find_one(recordquery)
-            return json.dumps(data)
+        else:
+            result = list(RecordDB.find(query)) 
+            
+            for i in range(len(result)):
+                del result[i]["_id"]
+
+            return json.dumps(result)
+
    except Exception as e:
        print("The error of function findRecord() !!")
        print(e)                                        
        return json.dumps(False)       
+
+## 用classroomID和日期查詢歷史紀錄
+@app.route('/DB/findconditionRecord' , methods = ['GET' , 'POST'])
+@cross_origin()
+def findconditionRecord():
+   try:
+        # data = {
+        #     "classroomID" : "B10",
+        #     "date" : ["2022-01-15" , "2022-01-05"]
+        # }
+
+        data = json.loads(flask.request.get_data())
+
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+
+        result = list()
+        tmp = list(RecordDB.find(query))
+
+        for r in tmp:
+            if r["usingTime"]["date"] in data["date"]:
+                result.append(r)
+        
+        if len(result) == 0:
+            return json.dumps(False)
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+
+        return json.dumps(result)
+
+   except Exception as e:
+       print("The error of function findconditionRecord() !!")
+       print(e)                                        
+       return json.dumps(False)
+
 ##新增資料
 @app.route('/DB/insertRecord' , methods = ['GET','POST'])
 @cross_origin()
 def insertRecord():
     try:
-        query = dict()
         data = json.loads(flask.request.get_data())
-        query["classroomID"]=data['classroomID']
-        query["userID"]= data['userID']
-        query["usingTime.date"] = date.today().strftime("%Y-%m-%d")
-        query["purpose"]= data['purpose']
-
-        recordlist =dict()
-
-        recordlist={
-            "classroomID":query["classroomID"],
-            "userID":query["userID"],
-            "usingTime.date":query["usingTime.date"],
-            "purpose":query["purpose"]
-        }
-        RecordDB.insert_one(recordlist)
-        return json.dumps(True)
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        query["userID"] = data["userID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+        query["usingTime.weekday"] = data["usingTime"]["weekday"]
+        result = RecordDB.find(query)
+        for a in result:
+            if a["classroomID"] == data["classroomID"] and a["userID"] == data["userID"] and a["usingTime.date"] == data["usingTime"]["date"] and a["usingTime.time"] == data["usingTime"]["time"] and a["usingTime.weekday"] == data["usingTime"]["weekday"]:
+                return json.dumps(False)
+        else:    
+            RecordDB.insert_one(data)
+            return json.dumps(True)
     except Exception as e:
         print("The error of function insertRecord() !!")
         print(e)     
         return json.dumps(False)
 
+##刪除歷史紀錄
+@app.route('/DB/deleteRecord' , methods = ['GET' , 'DELETE'])
+@cross_origin()
+def deleteRecord():
+    try:
+        data = json.loads(flask.request.get_data()) 
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        query["userID"] = data["userID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+        query["usingTime.weekday"] = data["usingTime"]["weekday"]
+        if RecordDB.count_documents(query) == 0:
+            return json.dumps(False)
+
+        RecordDB.delete_one(query)
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function deleteRecord() !!")
+        print(e)     
+        return json.dumps(False) 
+
+@app.route('/DB/deleteallRecord' , methods = ['GET' , 'DELETE'])
+@cross_origin()
+def deleteallRecord():
+    try:
+        RecordDB.delete_many({})
+        return json.dumps(True)
+
+    except Exception as e:
+        print("The error of function deleteallRecord() !!")
+        print(e)     
+        return json.dumps(False) 
 if __name__ == '__main__':
     app.run()
 
+
+#heroku new url https://se1101-finalp-roject.herokuapp.com/DB/connectDB
 # Database
 # http://127.0.0.1:5000/DB/connectDB
 # http://127.0.0.1:5000/DB/checkDB
@@ -900,16 +979,20 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/DB/insertFixed
 # http://127.0.0.1:5000/DB/findUserAppointments/wayne1224
 # http://127.0.0.1:5000/DB/findReservingClassroom
-# http://127.0.0.1:5000/DB/findPenging
-# http://127.0.0.1:5000/DB/findNonPenging
-# http://127.0.0.1:5000/DB/findTodayNonPenging
+# http://127.0.0.1:5000/DB/findPending
+# http://127.0.0.1:5000/DB/findNonPending
+# http://127.0.0.1:5000/DB/findTodayNonPending
 # http://127.0.0.1:5000/DB/updateStatus
 # http://127.0.0.1:5000/DB/deleteAppointment
 # http://127.0.0.1:5000/DB/findNonPendingByClassroom
 
 # Record
 # http://127.0.0.1:5000/DB/initRecord
+# http://127.0.0.1:5000/DB/findRecord/<classroomID>
+# http://127.0.0.1:5000/DB/findconditionRecord
 # http://127.0.0.1:5000/DB/insertRecord
+# http://127.0.0.1:5000/DB/deleteRecord
+# http://127.0.0.1:5000/DB/deleteallRecord
 # 要把dictionary透過jsonify轉成JSON格式回傳；瀏覽器看不懂Python程式碼，需要轉換成JSON格式。
 
 # POST = insert

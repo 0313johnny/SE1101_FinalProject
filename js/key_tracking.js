@@ -2,7 +2,7 @@ function move(moveto,removeID,object){
     var data = JSON.stringify(object);
     $.ajax({ 
         type: "PUT",
-        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
+        url: "http://127.0.0.1:5000/DB/updateStatus", 
         data:data,
         success: function(re){
             //console.log(data);
@@ -23,20 +23,22 @@ function move(moveto,removeID,object){
 
 $("document").ready(function(){
     var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
+    var week_ch = ["一","二","三","四","五","六","日"];
     $("#admin4").click(function(){
             $("#not_taken_key").html("");
             $("#unreturned_key").html("");
             $("#overtime_key").html("");
             $("#absent_key").html("");
             $("#card_edit_list").html("");
-        var url = "https://se1101-finalp-roject.herokuapp.com/DB/findTodayNonPenging";
+        var url = "http://127.0.0.1:5000/DB/findTodayNonPending";
+        console.log("admin4");
         $.getJSON(url,function(result){//取得所有預約成功的物件
             $.each(result,function(index,value){//為所有物件建立介面
                 var ID_composition = value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0];
                 var insert_key_tracking_HTML = "";
                 insert_key_tracking_HTML +=
                 `<tr id = "${"key_tracking_"+ID_composition}">
-                    <td>${value.usingTime.date}</td>
+                    <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:value.usingTime.date}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
                     <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
@@ -124,11 +126,26 @@ $("document").ready(function(){
                     if(apoint.isFixed == false){
                         $.ajax({ 
                             type: "DELETE",
-                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
+                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re == "true"){
                                     $("#"+removeID).remove();
+                                    var record = {};
+                                    record.userID = value.userID;
+                                    record.classroomID = value.classroomID;
+                                    record.usingTime = {};
+                                    record.usingTime.date = value.usingTime.date;
+                                    record.usingTime.time = value.usingTime.time;
+                                    record.usingTime.class = value.usingTime.class;
+                                    record.usingTime.weekday = value.usingTime.weekday;
+                                    record.purpose = value.purpose;
+                                    var data = JSON.stringify(record);
+                                    $.ajax({//添加為歷史紀錄
+                                        type: "POST",
+                                        url: "http://127.0.0.1:5000/DB/insertRecord", 
+                                        data:data
+                                    });
                                 }
                                 else{
                                     alert("操作失敗，請重新嘗試。");
@@ -145,6 +162,24 @@ $("document").ready(function(){
                         var data = JSON.stringify(apoint);
                         move("",removeID,apoint);
                         $("#"+removeID).remove();
+                        var record = {};
+                        record.userID = value.userID;
+                        record.classroomID = value.classroomID;
+                        record.usingTime = {};
+                        var Today=new Date();
+                        record.usingTime.date = Today.getFullYear()+ "-" + (Today.getMonth()+1) + "-" + Today.getDate();
+                        record.usingTime.time = value.usingTime.time;
+                        record.usingTime.class = value.usingTime.class;
+                        record.usingTime.weekday = value.usingTime.weekday;
+                        record.purpose = value.purpose;
+                        var data = JSON.stringify(record);
+                        console.log(record);
+                        $.ajax({//添加為歷史紀錄
+                            type: "POST",
+                            url: "http://127.0.0.1:5000/DB/insertRecord", 
+                            data:data
+                        });
+
                     }
                     
                 });//歸還鑰匙觸發動作結束
