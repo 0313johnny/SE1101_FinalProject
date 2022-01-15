@@ -570,16 +570,19 @@ def findNonPendingByClassroom():
         data = json.loads(flask.request.get_data())
         
         # data = {
-        #     "classroomID" : "B07",
-        #     "date" : "2022-01-08",
+        #     "classroomID" : "B10",
+        #     "date" : "2022-01-15",
         #     "weekday" : "5"
         # }
 
         query = dict()
         query["classroomID"] = data["classroomID"]
         
-        result = AppointmentDB.find(query)
+        result = list(AppointmentDB.find(query))
         nonPending = list()
+
+        if len(result) == 0:
+            return json.dumps(False)
 
         for a in result:
             if a["usingTime"]["date"] == data["date"] or (a["usingTime"]["weekday"] == data["weekday"] and a["isFixed"] == True):
@@ -834,16 +837,20 @@ def initRecord():
 @cross_origin()
 def findRecord(classroomID):
    try:
-        data = json.loads(flask.request.get_data())
         query = dict()
-        query["classroomID"] = data["classroomID"]
-        if RecordDB.count_documents({}) == 0:
+        query["classroomID"] = classroomID 
+
+        if RecordDB.count_documents(query) == 0:
+
             print("can not find this record")
             return json.dumps(False)
         else:
-            data = RecordDB.find(query)       
-            for i in range(len(query)):
-                return json.dumps(data)
+            result = list(RecordDB.find(query)) 
+            
+            for i in range(len(result)):
+                del result[i]["_id"]
+
+            return json.dumps(result)
 
    except Exception as e:
        print("The error of function findRecord() !!")
@@ -851,30 +858,59 @@ def findRecord(classroomID):
        return json.dumps(False)       
 
 ## 用classroomID和日期查詢歷史紀錄
-@app.route('/DB/findconditionRecord' , methods = ['GET'])
+@app.route('/DB/findconditionRecord' , methods = ['GET' , 'POST'])
 @cross_origin()
 def findconditionRecord():
    try:
+        # data = {
+        #     "classroomID" : "B10",
+        #     "date" : ["2022-01-15" , "2022-01-05"]
+        # }
+
         data = json.loads(flask.request.get_data())
+
         query = dict()
         query["classroomID"] = data["classroomID"]
-        query["usingTime.date"] = data["usingTime"]["date"]
-        for a in result:
-            if a["usingTime.date"] == data["usingTime"]["date"] and a["classroomID"] == data["classroomID"]:
-                return json.dumps(data)
+
+        result = list()
+        tmp = list(RecordDB.find(query))
+
+        for r in tmp:
+            if r["usingTime"]["date"] in data["date"]:
+                result.append(r)
+        
+        if len(result) == 0:
+            return json.dumps(False)
+
+        for i in range(len(result)):
+            del result[i]["_id"]
+
+        return json.dumps(result)
 
    except Exception as e:
        print("The error of function findconditionRecord() !!")
        print(e)                                        
-       return json.dumps(False)       
+       return json.dumps(False)
+
 ##新增資料
 @app.route('/DB/insertRecord' , methods = ['GET','POST'])
 @cross_origin()
 def insertRecord():
     try:
-        data = json.loads(flask.request.get_data())      
-        RecordDB.insert_one(data)
-        return json.dumps(True)
+        data = json.loads(flask.request.get_data())
+        query = dict()
+        query["classroomID"] = data["classroomID"]
+        query["userID"] = data["userID"]
+        query["usingTime.date"] = data["usingTime"]["date"]
+        query["usingTime.time"] = data["usingTime"]["time"]
+        query["usingTime.weekday"] = data["usingTime"]["weekday"]
+        result = RecordDB.find(query)
+        for a in result:
+            if a["classroomID"] == data["classroomID"] and a["userID"] == data["userID"] and a["usingTime.date"] == data["usingTime"]["date"] and a["usingTime.time"] == data["usingTime"]["time"] and a["usingTime.weekday"] == data["usingTime"]["weekday"]:
+                return json.dumps(False)
+        else:    
+            RecordDB.insert_one(data)
+            return json.dumps(True)
     except Exception as e:
         print("The error of function insertRecord() !!")
         print(e)     
@@ -907,10 +943,6 @@ def deleteRecord():
 @cross_origin()
 def deleteallRecord():
     try:
-        data = json.loads(flask.request.get_data()) 
-        if RecordDB.count_documents({}) == 0:
-            return json.dumps(False)
-
         RecordDB.delete_many({})
         return json.dumps(True)
 
@@ -956,7 +988,7 @@ if __name__ == '__main__':
 
 # Record
 # http://127.0.0.1:5000/DB/initRecord
-# http://127.0.0.1:5000/DB/findRecord
+# http://127.0.0.1:5000/DB/findRecord/<classroomID>
 # http://127.0.0.1:5000/DB/findconditionRecord
 # http://127.0.0.1:5000/DB/insertRecord
 # http://127.0.0.1:5000/DB/deleteRecord

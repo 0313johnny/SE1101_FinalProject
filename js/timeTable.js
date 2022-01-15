@@ -81,7 +81,6 @@ function findHistory(){
 
 }
 
-
 $("document").ready(function(){
     $.ajax({
         type: "GET",
