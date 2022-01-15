@@ -131,6 +131,21 @@ $("document").ready(function(){
                             success: function(re){
                                 if(re == "true"){
                                     $("#"+removeID).remove();
+                                    var record = {};
+                                    record.userID = value.userID;
+                                    record.classroomID = value.classroomID;
+                                    record.usingTime = {};
+                                    record.usingTime.date = value.usingTime.date;
+                                    record.usingTime.time = value.usingTime.time;
+                                    record.usingTime.class = value.usingTime.class;
+                                    record.usingTime.weekday = value.usingTime.weekday;
+                                    record.purpose = value.purpose;
+                                    var data = JSON.stringify(record);
+                                    $.ajax({//添加為歷史紀錄
+                                        type: "POST",
+                                        url: "http://127.0.0.1:5000/DB/insertRecord", 
+                                        data:data
+                                    });
                                 }
                                 else{
                                     alert("操作失敗，請重新嘗試。");
@@ -147,6 +162,24 @@ $("document").ready(function(){
                         var data = JSON.stringify(apoint);
                         move("",removeID,apoint);
                         $("#"+removeID).remove();
+                        var record = {};
+                        record.userID = value.userID;
+                        record.classroomID = value.classroomID;
+                        record.usingTime = {};
+                        var Today=new Date();
+                        record.usingTime.date = Today.getFullYear()+ "-" + (Today.getMonth()+1) + "-" + Today.getDate();
+                        record.usingTime.time = value.usingTime.time;
+                        record.usingTime.class = value.usingTime.class;
+                        record.usingTime.weekday = value.usingTime.weekday;
+                        record.purpose = value.purpose;
+                        var data = JSON.stringify(record);
+                        console.log(record);
+                        $.ajax({//添加為歷史紀錄
+                            type: "POST",
+                            url: "http://127.0.0.1:5000/DB/insertRecord", 
+                            data:data
+                        });
+
                     }
                     
                 });//歸還鑰匙觸發動作結束

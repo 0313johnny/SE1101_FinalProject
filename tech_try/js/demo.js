@@ -32,7 +32,7 @@ $("document").ready(function(){
         console.log("get");
         $.ajax({ 
             type: "GET",
-            url: "http://127.0.0.1:5000/DB/findAccount/wayne1224", 
+            url: "http://127.0.0.1:5000/DB/findRecord/B10", 
             dataType: "json",
             success: function(re){
                 console.log(re);

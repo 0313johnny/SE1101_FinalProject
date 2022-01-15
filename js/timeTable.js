@@ -22,14 +22,14 @@ function getWeek(fromDate){
 }
 // test
 var thisWeek = getWeek(new Date(getTodayDate()));
-console.log(getTodayDate());
+/*console.log(getTodayDate());
 console.log('本周日:' + thisWeek[0]);
 console.log('本周一:' + thisWeek[1]);
 console.log('本周二:' + thisWeek[2]);
 console.log('本周三:' + thisWeek[3]);
 console.log('本周四:' + thisWeek[4]);
 console.log('本周五:' + thisWeek[5]);
-console.log('本周六:' + thisWeek[6]);
+console.log('本周六:' + thisWeek[6]);*/
 
 $("document").ready(function(){
     //let classroomList;
