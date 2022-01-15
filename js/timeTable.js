@@ -114,7 +114,7 @@ $("document").ready(function(){
         dataType: "json",
         success: function(result){
             console.log("Get the list successful.");
-            console.log(result);
+            //console.log(result);
             //classroomList = result;
 
             // 清空class list以及彈出視窗list

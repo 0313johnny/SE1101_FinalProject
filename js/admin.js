@@ -403,4 +403,17 @@ $("document").ready(function(){
         $("."+show_admin_status +"."+show_admin_class+"."+show_admin_week).show();
 
     });
+    $("#send_notice").click(function(){
+        var user = $("input[name='send_notice_email']").val();
+        var title = $("input[name='send_notice_title']").val();
+        var content = $("input[name='send_notice_content']").val();
+        Email.send({//寄出預約成功通知
+            SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
+            To : user+'@mail.ntou.edu.tw',
+            From : "ntoumailonly@gmail.com",
+            Subject : title,
+            Body : content
+        }).then(alert("申請成功通知已寄出。"));
+        $("#admin1").click();
+    }); 
 });

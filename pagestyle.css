@@ -71,6 +71,16 @@
   transform: scale(1.08);
 }
 
+.card_spec_edit {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  transition: ease 0.5s;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.card_spec_edit:hover {
+  transform: scale(1.08);
+}
+
 .card, h1 {
   text-align: center;
   /*margin-top: 20px;*/
@@ -114,59 +124,6 @@
   transform: rotate(315deg);
 }
 .card_show .close_button span:nth-child(1) {
-  transform: rotate(45deg);
-  width: 40px;
-}
-
-.card_show_edit {
-  position: fixed;
-  left: 25%;
-  top: 10%;
-  width: 50%;
-  background: rgba(100, 100, 100, 0.1);
-  height: 86%;
-  z-index: 10;
-  animation-name: example;
-  animation-duration: 1s;
-}
-.card_show_edit .card_body {
-  width: auto;
-  margin: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-}
-.card_show_edit .card_body button {
-  position: absolute;
-  top: 40px;
-  left: 10%;
-}
-.card_show_edit .close_button {
-  position: absolute;
-  right: -20px;
-  top: -10px;
-  width: 50px;
-  height: 50px;
-  background: #FFF;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  cursor: pointer;
-}
-.card_show_edit .close_button span {
-  position: absolute;
-  width: 40px;
-  height: 4px;
-  background: #1863FF;
-  border-radius: 4px;
-  transition: 0.5s;
-  transform: rotate(315deg);
-}
-.card_show_edit .close_button span:nth-child(1) {
   transform: rotate(45deg);
   width: 40px;
 }
@@ -613,6 +570,104 @@ input[type=number] {
   text-align: left;
 }
 
+.card_show_edit {
+  position: absolute;
+  background-color: white;
+  top: 40%;
+  z-index: 10;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 450px;
+  animation-name: example;
+  animation-duration: 1s;
+}
+.card_show_edit .card_body {
+  width: auto;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+.card_show_edit .card_body button.edit_readonly_change {
+  position: absolute;
+  top: 40px;
+  left: 10%;
+}
+.card_show_edit .card_body button.ensure {
+  position: absolute;
+  top: 40px;
+  left: 20%;
+}
+.card_show_edit .close_button {
+  z-index: 10;
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  width: 50px;
+  height: 50px;
+  background: #FFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.card_show_edit .close_button span {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: #1863FF;
+  border-radius: 4px;
+  transition: 0.5s;
+  transform: rotate(315deg);
+}
+.card_show_edit .close_button span:nth-child(1) {
+  transform: rotate(45deg);
+  width: 40px;
+}
+
+.admin_edit_class {
+  position: relative;
+  padding: 20px;
+}
+.admin_edit_class .file_border {
+  background-color: lightgreen;
+  border-radius: 10px;
+  padding: 20px;
+  width: 800px;
+  height: 350px;
+}
+.admin_edit_class .file_border .heading span {
+  font-size: 40px;
+  font-weight: bold;
+}
+.admin_edit_class .file_border .heading button {
+  transform: translate(20px, -10px);
+}
+.admin_edit_class .file_border .info span {
+  font-size: 25px;
+}
+.admin_edit_class .file_border .info input {
+  width: 100%;
+  height: 40px;
+  font-size: 25px;
+  border-radius: 6px;
+  border: 0px solid black;
+  /*background-color: rgba(200,200,200,1);
+  opacity: 0.6;*/
+  /*&:focus{
+      outline: 2px solid blue;
+  }*/
+}
+.admin_edit_class .file_border .tips {
+  transform: translateY(20px);
+  font-size: 30px;
+  color: gray;
+}
+
 .edit_button {
   width: 40px;
   height: 40px;
@@ -777,6 +832,9 @@ input[type=number] {
   height: 100%;
 }
 
+.rows .container-fluid .info {
+  cursor: text;
+}
 .rows .container-fluid .info h3 {
   float: left;
   width: 40%;
@@ -1077,43 +1135,20 @@ input[type=number] {
       height: auto;
   }*/
 }
-/*.add_class_btn{
-    position: relative;
-    background-color: rgba(150,150,150,0.2);
-    border-radius: 6px;
-    box-shadow: 1px 1px 1px 1px rgba(0,0,0,.08);
-    border: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    font-size: larger;
-    cursor: pointer;
-    transition: 0.5s;
-    span{
-        width: 6px;
-        height: 6px;
-        border-radius: 10px;
-        background-color: black;
-        position: absolute;
-        top: 10px;
-        &:nth-child(2){
-            top: 20px;
-        }
-        &:nth-child(3){
-            top: 30px;
-        }
-    }
-    &:hover{
-
-        background-color: rgba(150,150,150,0.6);
-    }
-}*/
 .add_class_tr {
   animation-name: example2;
   animation-duration: 1s;
 }
 .add_class_tr.active {
+  transition: 0.5s;
+  display: none;
+}
+
+.search_filter_tr {
+  animation-name: example2;
+  animation-duration: 1s;
+}
+.search_filter_tr.active {
   transition: 0.5s;
   display: none;
 }
@@ -1125,6 +1160,84 @@ input[type=number] {
   100% {
     opacity: 1;
   }
+}
+.group-btn {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.add_class_btn {
+  position: relative;
+  background-color: rgba(150, 150, 150, 0.6);
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
+  border: 0px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.5s;
+  font-size: larger;
+  position: relative;
+}
+.add_class_btn span {
+  width: 6px;
+  height: 6px;
+  border-radius: 10px;
+  background-color: black;
+  position: absolute;
+  top: 10px;
+}
+.add_class_btn span:nth-child(2) {
+  top: 20px;
+}
+.add_class_btn span:nth-child(3) {
+  top: 30px;
+}
+.add_class_btn:hover {
+  background-color: rgba(150, 150, 150, 0.4);
+}
+.add_class_btn.active {
+  background-color: rgba(150, 150, 150, 0.2);
+}
+
+.search_filter_btn {
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+  position: relative;
+  border: 0px;
+  background-color: rgba(150, 150, 150, 0.6);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.5s;
+  font-size: larger;
+}
+.search_filter_btn span {
+  width: 6px;
+  height: 6px;
+  border-radius: 10px;
+  background-color: black;
+  position: absolute;
+  top: 10px;
+}
+.search_filter_btn span:nth-child(2) {
+  top: 20px;
+}
+.search_filter_btn span:nth-child(3) {
+  top: 30px;
+}
+.search_filter_btn:hover {
+  background-color: rgba(150, 150, 150, 0.4);
+}
+.search_filter_btn.active {
+  background-color: rgba(150, 150, 150, 0.2);
 }
 
 /*# sourceMappingURL=pagestyle.css.map */
