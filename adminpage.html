@@ -15,7 +15,7 @@
     <script  type="text/javascript" src="js/sign_in.js"></script><!--        引入登入js-->
     <script  type="text/javascript" src="js/reserve.js"></script><!--        引入預約js-->
     <script  type="text/javascript" src="js/admin.js"></script><!--        引入預約管理js-->
-    <script  type="text/javascript" src="js/key_tracking.js"></script><!--        引入鑰匙追蹤js-->
+<!--    <script  type="text/javascript" src="js/key_tracking.js"></script>&lt;!&ndash;        引入鑰匙追蹤js&ndash;&gt;-->
     <style>
         #menu {
             position: fixed;
@@ -710,6 +710,7 @@
                                     <th>篩選教室：<select name="class_choose" id="class_choose">
                                     </select></th>
                                     <th>篩選星期：<select name="weekday_choose" id="weekday_choose">
+                                        <option value="reserve_admin">任意星期</option>
                                         <option value="0">星期一</option>
                                         <option value="1">星期二</option>
                                         <option value="2">星期三</option>
@@ -725,19 +726,22 @@
                                         <option value="using">教室使用中</option>
                                         <option value="overtime">超時未還鑰匙</option>
                                     </select></th>
+
                                     <th>
-                                        
+                                        <button  class="btn btn-primary add_class_btn" type="button" data-bs-toggle="collapse" data-bs-target=".add_isFixed_reserve_block" aria-expanded="false" aria-controls="collapseExample">新增固定課程</button >
                                     </th>
+                                    <th></th><th></th>
                                 </tr>
-                                <tr><th><button  class="btn" type="button" data-bs-toggle="collapse" data-bs-target=".add_isFixed_reserve_block" aria-expanded="false" aria-controls="collapseExample">新增固定課程</button ></th></tr>
-                                <tr >
+                                <tr class="add_class_tr active">
                                     <th><span class="RWD_word">借用</span>星期</th>
                                     <th>教室<span class="RWD_word">編號</span></th>
                                     <th><span class="RWD_word">開始</span>堂數</th>
                                     <th><span class="RWD_word">借用</span>堂數</th>
                                     <th><span class="RWD_word">借用</span>目的</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
-                                <tr><!--            新增預約欄位-->
+                                <tr class="add_class_tr active"><!--            新增預約欄位-->
                                     <th><select class="input-group mb-3 form-select mt-3" name = "reserve_week">
                                         <option value="0">星期一</option>
                                         <option value="1">星期二</option>
@@ -778,12 +782,13 @@
                                     </select></th>
                                     <th><input type="text" class="form-control" id="" placeholder="Enter purpose" name="purpose"></th>
                                     <th><button type="button" class = "mb-2 btn btn-primary add" id = "insert_isFixed_reserve">新增</button></th>
+                                    <th></th>
                                 </tr>
-                                <tr>
+                                <tr class="add_class_tr_down">
                                     <th><span class="RWD_word">借用</span>日期</th>
                                     <th><span class="RWD_word">借用者</span>學號</th>
                                     <th>教室<span class="RWD_word">編號</span></th>
-                                    <th><span class="RWD_word">借用</span>堂數</th>
+                                    <th><span class="RWD_word">借用</span>節次</th>
                                     <th><span class="RWD_word">借用</span>目的</th>
                                     <th><span class="RWD_word">預約</span>狀態</th>
                                     <th><span class="RWD_word">管理員</span>操作</th>
@@ -848,6 +853,7 @@
                             </tr>
                             </tbody>
                         </table>
+                        <div style="background-color: black"></div>
                     </div>
                 </div>
                 <!--            教室被點擊後顯示的畫面    -->

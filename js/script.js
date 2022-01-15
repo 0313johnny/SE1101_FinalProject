@@ -64,6 +64,9 @@
             $(".card_request").css("display", "none");
             $(".black_background").css("display", "none");
         });
+        $(".add_class_btn").click(function (){
+            $(".add_class_tr").toggleClass('active');
+        });
     });
 
 }

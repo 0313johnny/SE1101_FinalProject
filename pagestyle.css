@@ -265,6 +265,10 @@
   50%  {
       background-color: blue;
   }*/
+  /*90%   {
+      opacity: 0;
+      height: auto;
+  }*/
   100% {
     opacity: 1;
   }
@@ -565,17 +569,6 @@ input[type=number] {
   width: calc(100% - 40px);
   height: 95%;
   overflow: auto;
-}
-.admin5 .file_border .file_header {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-.admin5 .file_border .file_header button {
-  position: relative;
-  left: calc(40% - 50px);
 }
 .admin5 .file_border .file_header {
   width: 100%;
@@ -1083,6 +1076,55 @@ input[type=number] {
   /*.card_show{
       height: auto;
   }*/
+}
+/*.add_class_btn{
+    position: relative;
+    background-color: rgba(150,150,150,0.2);
+    border-radius: 6px;
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,.08);
+    border: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-size: larger;
+    cursor: pointer;
+    transition: 0.5s;
+    span{
+        width: 6px;
+        height: 6px;
+        border-radius: 10px;
+        background-color: black;
+        position: absolute;
+        top: 10px;
+        &:nth-child(2){
+            top: 20px;
+        }
+        &:nth-child(3){
+            top: 30px;
+        }
+    }
+    &:hover{
+
+        background-color: rgba(150,150,150,0.6);
+    }
+}*/
+.add_class_tr {
+  animation-name: example2;
+  animation-duration: 1s;
+}
+.add_class_tr.active {
+  transition: 0.5s;
+  display: none;
+}
+
+@keyframes example2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /*# sourceMappingURL=pagestyle.css.map */
