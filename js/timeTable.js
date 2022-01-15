@@ -50,14 +50,14 @@ function findNonPenging(classroomID, target_date, day_of_the_week){
         success: function (result){
             // console.log("function findNonPenging() started.");
             // console.log("Showing API result for classroom " + classroomID);
-            // console.log(result);
+            console.log(result);
 
             $.each(result, function (index, courses){
                 let my_date = courses.usingTime.weekday;
 
                 for(c in courses.usingTime.time){
                     // console.log("Inserting" + classroomID + " period=" + c + " date=" + my_date);
-                    $("#classroomInfoWindow_"+ classroomID +" tr[period="+c+"] td[date="+my_date+"]").html(courses.purpose + "<span class='RWD_noShow'>" + courses.userID + "</span>");
+                    $("#classroomInfoWindow_"+ classroomID +" tr[period="+courses.usingTime.time[c]+"] td[date="+my_date+"]").html(courses.purpose + "<span class='RWD_noShow'>" + courses.userID + "</span>");
                 }
             });
         },
@@ -69,20 +69,20 @@ function findNonPenging(classroomID, target_date, day_of_the_week){
 }
 
 function findAllHistory(classroomID){
-    console.log("Call API findRecord. ClassID = " + classroomID);
+    // console.log("Call API findRecord. ClassID = " + classroomID);
     $.ajax({
         type: "GET",
         url: "http://127.0.0.1:5000/DB/findRecord/" + classroomID,
         dataType: "json",
         success: function (result) {
-            console.log(result);
+            //console.log(result);
             $.each(result, function(index, record){
                 // 日期 借用人 開始節次 結束節次
-                console.log(record.usingTime.date);
-                console.log(record.userID);
-                console.log(record.usingTime.time[0]);
+                // console.log(record.usingTime.date);
+                // console.log(record.userID);
+                // console.log(record.usingTime.time[0]);
                 let last = record.usingTime.time.length - 1;
-                console.log(record.usingTime.time[last]);
+                // console.log(record.usingTime.time[last]);
 
                 let table_body = "";
                 table_body = `<tr>
@@ -91,7 +91,7 @@ function findAllHistory(classroomID){
                                     <td>${record.usingTime.time[0]}</td>
                                     <td>${record.usingTime.time[last]}</td>
                                </tr>`;
-                console.log(table_body);
+                // console.log(table_body);
 
                 $(".record_"+classroomID).append(table_body);
             });
