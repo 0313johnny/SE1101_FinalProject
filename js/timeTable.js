@@ -21,6 +21,15 @@ function getWeek(fromDate){
 }
 // 下面這個不可以註解掉 用來得到本周日期
 var thisWeek = getWeek(new Date(getTodayDate()));
+var thisWeek_api_format = [];
+for(let i = 0 ; i < 7 ; i++) {
+    var yyyy = thisWeek[i].getFullYear();
+    var MM = (thisWeek[i].getMonth() + 1) >= 10 ? (thisWeek[i].getMonth() + 1) : ("0" + (thisWeek[i].getMonth() + 1));
+    var dd = thisWeek[i].getDate() < 10 ? ("0"+thisWeek[i].getDate()) : thisWeek[i].getDate();
+    thisWeek_api_format[i] = yyyy + "-" + MM + "-" + dd;
+}
+
+//console.log(thisWeek_api_format);
 // console.log('取得日期用函數測試 ' + getTodayDate());
 // console.log('本周日:' + thisWeek[0]);
 // console.log('本周一:' + thisWeek[1]);
@@ -37,7 +46,7 @@ function findNonPenging(classroomID, target_date, day_of_the_week){
     api_data.date = target_date;
     api_data.weekday = day_of_the_week;
 
-    input_data = JSON.stringify(api_data);
+    let input_data = JSON.stringify(api_data);
     // console.log("Call API findNonPenging for classroom " + classroomID);
     // console.log(api_data);
     // console.log("JSON: " + input_data);
@@ -50,10 +59,11 @@ function findNonPenging(classroomID, target_date, day_of_the_week){
         success: function (result){
             // console.log("function findNonPenging() started.");
             // console.log("Showing API result for classroom " + classroomID);
-            console.log(result);
+            // console.log(result);
 
             $.each(result, function (index, courses){
-                let my_date = courses.usingTime.weekday;
+                let my_date = courses.usingTime.weekday + 6;
+                my_date %= 7;
 
                 for(c in courses.usingTime.time){
                     // console.log("Inserting" + classroomID + " period=" + c + " date=" + my_date);
@@ -103,8 +113,40 @@ function findAllHistory(classroomID){
 
 }
 
-function findHistoryByDate(){
+function findHistoryByDate(classroomID, week){
+    let api_data = {};
+    api_data.classroomID = classroomID;
+    api_data.date = week;
 
+    let input_data = JSON.stringify(api_data);
+    // console.log(input_data);
+    // console.log("Fetching data from database for " + classroomID);
+
+    $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:5000/DB/findconditionRecord",
+        dataType: "json",
+        data:input_data,
+        success: function (result) {
+            console.log("Get condition record successful. Room" + classroomID);
+            console.log(result);
+
+            $.each(result, function (index, record){
+                let my_date = record.usingTime.weekday + 6;
+                my_date %= 7;
+
+                for(c in record.usingTime.time){
+                    console.log("Inserting" + classroomID + " period=" + c + " date=" + my_date);
+                    $("#classroomInfoWindow_"+ classroomID +" tr[period="+record.usingTime.time[c]+"] td[date="+my_date+"]").html(record.purpose + "<span class='RWD_noShow'>" + record.userID + "</span>");
+                }
+
+            });
+        },
+        error: function (thrownError) {
+            console.log("Function findconditionRecord() was interrupted.");
+            alert(thrownError);
+        }
+    });
 }
 
 $("document").ready(function(){
@@ -390,22 +432,17 @@ $("document").ready(function(){
                 // 轉換: +6後取7餘數
 
                 // 呼叫API並插入(現有預約)
-                findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[0]), 6); // Sunday
-                findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[1]), 0); // Monday
-                findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[2]), 1); // Tuesday
-                findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[3]), 2); // Wednesday
-                findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[4]), 3); // Thursday
-                findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[5]), 4); // Friday
-                findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[6]), 5); // Saturday
+                findNonPenging(classrooms.classroomID, thisWeek_api_format[0], 6); // Sunday
+                findNonPenging(classrooms.classroomID, thisWeek_api_format[1], 0); // Monday
+                findNonPenging(classrooms.classroomID, thisWeek_api_format[2], 1); // Tuesday
+                findNonPenging(classrooms.classroomID, thisWeek_api_format[3], 2); // Wednesday
+                findNonPenging(classrooms.classroomID, thisWeek_api_format[4], 3); // Thursday
+                findNonPenging(classrooms.classroomID, thisWeek_api_format[5], 4); // Friday
+                findNonPenging(classrooms.classroomID, thisWeek_api_format[6], 5); // Saturday
 
                 // 呼叫API並插入(課表歷史紀錄)
-                findHistoryByDate(); // Sunday
-                findHistoryByDate(); // Monday
-                findHistoryByDate(); // Tuesday
-                findHistoryByDate(); // Wednesday
-                findHistoryByDate(); // Thursday
-                findHistoryByDate(); // Friday
-                findHistoryByDate(); // Saturday
+                // console.log(thisWeek_api_format);
+                findHistoryByDate(classrooms.classroomID, thisWeek_api_format);
 
                 // card動畫設定
                 $("#classroom_"+classrooms.classroomID).click(function (e) {
