@@ -35,6 +35,7 @@ function DB_operate(object,btn_id,pre_status){
 $("document").ready(function(){
     var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
     var week_ch = ["一","二","三","四","五","六","日"];
+    
     console.log("connect");//connectDB
     $.ajax({ 
         type: "GET",
@@ -403,7 +404,7 @@ $("document").ready(function(){
         $("."+show_admin_status +"."+show_admin_class+"."+show_admin_week).show();
 
     });
-    $("#send_notice").click(function(){
+    $("#send_notice").click(function(){//發送通知
         var user = $("input[name='send_notice_email']").val();
         var title = $("input[name='send_notice_title']").val();
         var content = $("input[name='send_notice_content']").val();
@@ -414,6 +415,11 @@ $("document").ready(function(){
             Subject : title,
             Body : content
         }).then(alert("申請成功通知已寄出。"));
-        $("#admin1").click();
     }); 
+
+    $("#admin1").click();//剛進入畫面顯示預約審核介面
+    $("").click(function(){
+
+    });
+
 });

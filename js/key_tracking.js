@@ -24,7 +24,7 @@ function move(moveto,removeID,object){
 $("document").ready(function(){
     var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
     var week_ch = ["一","二","三","四","五","六","日"];
-    $("#admin4").click(function(){
+    $("#admin4,#admin4_rwd").click(function(){
             $("#not_taken_key").html("");
             $("#unreturned_key").html("");
             $("#overtime_key").html("");
@@ -166,8 +166,12 @@ $("document").ready(function(){
                         record.userID = value.userID;
                         record.classroomID = value.classroomID;
                         record.usingTime = {};
-                        var Today=new Date();
-                        record.usingTime.date = Today.getFullYear()+ "-" + (Today.getMonth()+1) + "-" + Today.getDate();
+                        var fullDate = new Date();
+                        var yyyy = fullDate.getFullYear();
+                        var MM = (fullDate.getMonth() + 1) >= 10 ? (fullDate.getMonth() + 1) : ("0" + (fullDate.getMonth() + 1));
+                        var dd = fullDate.getDate() < 10 ? ("0"+fullDate.getDate()) : fullDate.getDate();
+                        var today = yyyy + "-" + MM + "-" + dd;
+                        record.usingTime.date = today;
                         record.usingTime.time = value.usingTime.time;
                         record.usingTime.class = value.usingTime.class;
                         record.usingTime.weekday = value.usingTime.weekday;
