@@ -57,25 +57,26 @@ $("document").ready(function(){
         classroom.equipment.喇叭 = 1;
 
         var date = {};
-        date.classroomID = "B12";
-        date.date = "2022-01-15";
-        date.weekday = 5;
-
+        date.classroomID = "B10";
+        date.date = ["2022-1-15","2022-1-16"];
+        //date.weekday = 5;
+        //{"classroomID":"B10","date":["2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22"]}
+        console.log(date);
         var apoint = {};
         apoint.userID = "ROBIN";
         apoint.classroomID = "207"
         apoint.usingTime = {};
-        apoint.usingTime.date = "2022-01-19";
+        apoint.usingTime.date = ["2022-01-19"];
         apoint.usingTime.time = [4,5,6];
         apoint.usingTime.class = 3;
         apoint.usingTime.weekday = 2;
         apoint.purpose = "軟體工程";
 
 
-        var data = JSON.stringify(apoint);
+        var data = JSON.stringify(date);
         $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/insertRecord", 
+            url: "http://127.0.0.1:5000/DB/findconditionRecord", 
             data:data,
             success: function(re){
                 console.log(re);
