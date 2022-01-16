@@ -10,7 +10,6 @@ function getTodayDate() {
 }
 
 // API要用的是 YYYY-MM-dd
-// TODO
 
 function getWeek(fromDate){
     var sunday = new Date(fromDate.setDate(fromDate.getDate()-fromDate.getDay()))
@@ -20,7 +19,7 @@ function getWeek(fromDate){
     }
     return result;
 }
-// test
+// 下面這個不可以註解掉 用來得到本周日期
 var thisWeek = getWeek(new Date(getTodayDate()));
 // console.log('取得日期用函數測試 ' + getTodayDate());
 // console.log('本周日:' + thisWeek[0]);
@@ -32,17 +31,16 @@ var thisWeek = getWeek(new Date(getTodayDate()));
 // console.log('本周六:' + thisWeek[6]);
 
 function findNonPenging(classroomID, target_date, day_of_the_week){
-    // 建立查詢用字串
-    // 建立Object
+    // 建立查詢用字串 + Object
     let api_data = {};
     api_data.classroomID = classroomID;
     api_data.date = target_date;
     api_data.weekday = day_of_the_week;
 
+    input_data = JSON.stringify(api_data);
     // console.log("Call API findNonPenging for classroom " + classroomID);
     // console.log(api_data);
-    input_data = JSON.stringify(api_data);
-    //console.log("JSON: " + input_data);
+    // console.log("JSON: " + input_data);
 
     $.ajax({
         type: "POST",
@@ -50,72 +48,18 @@ function findNonPenging(classroomID, target_date, day_of_the_week){
         dataType: "json",
         data:input_data, // Parse to JSON format
         success: function (result){
-            console.log("function findNonPenging() started.");
-            console.log("Showing API result for classroom " + classroomID);
-            //console.log(result);
-
-            $.each(result, function (index, courses){
-                let my_date = courses.usingTime.weekday;
-                console.log(courses);
-                //
-                for(c in courses.usingTime.time){
-                    console.log("∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨");
-                    console.log($("tr[period="+c+"] td[date="+my_date+"]").innerText);
-                    console.log("^^^^^^^^^^^^^^^^^^");
-                    $("tr[period=c] td[date=my_date]").text(courses.purpose + '\n' + courses.userID);
-                }
-
-            });
-
-        },
-        error: function (thrownError) {
-            console.log("function findNonPenging() was interrupted.");
-            alert(thrownError);
-        }
-    });
-}
-
-function findHistory(){
-
-}
-
-function findNonPenging(classroomID, target_date, day_of_the_week){
-    // 建立查詢用字串
-    // 建立Object
-    let api_data = {};
-    api_data.classroomID = classroomID;
-    api_data.date = target_date;
-    api_data.weekday = day_of_the_week;
-
-    // console.log("Call API findNonPenging for classroom " + classroomID);
-    // console.log(api_data);
-    input_data = JSON.stringify(api_data);
-    console.log("JSON: " + input_data);
-
-    $.ajax({
-        type: "POST",
-        url: "http://127.0.0.1:5000/DB/findNonPendingByClassroom",
-        dataType: "json",
-        data:input_data, // Parse to JSON format
-        success: function (result){
-            console.log("function findNonPenging() started.");
-            console.log("Showing API result for classroom " + classroomID);
+            // console.log("function findNonPenging() started.");
+            // console.log("Showing API result for classroom " + classroomID);
             console.log(result);
 
             $.each(result, function (index, courses){
                 let my_date = courses.usingTime.weekday;
 
-                //
-
                 for(c in courses.usingTime.time){
-                    console.log("∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨");
-                    console.log($("tr[period=c] td[date=my_date]").innerText);
-                    console.log("^^^^^^^^^^^^^^^^^^");
-                    $("tr[period=c] td[date=my_date]").text(courses.purpose + '\n' + courses.userID);
+                    // console.log("Inserting" + classroomID + " period=" + c + " date=" + my_date);
+                    $("#classroomInfoWindow_"+ classroomID +" tr[period="+courses.usingTime.time[c]+"] td[date="+my_date+"]").html(courses.purpose + "<span class='RWD_noShow'>" + courses.userID + "</span>");
                 }
-
             });
-
         },
         error: function (thrownError) {
             console.log("function findNonPenging() was interrupted.");
@@ -124,7 +68,42 @@ function findNonPenging(classroomID, target_date, day_of_the_week){
     });
 }
 
-function findHistory(){
+function findAllHistory(classroomID){
+    // console.log("Call API findRecord. ClassID = " + classroomID);
+    $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:5000/DB/findRecord/" + classroomID,
+        dataType: "json",
+        success: function (result) {
+            //console.log(result);
+            $.each(result, function(index, record){
+                // 日期 借用人 開始節次 結束節次
+                // console.log(record.usingTime.date);
+                // console.log(record.userID);
+                // console.log(record.usingTime.time[0]);
+                let last = record.usingTime.time.length - 1;
+                // console.log(record.usingTime.time[last]);
+
+                let table_body = "";
+                table_body = `<tr>
+                                    <td>${record.usingTime.date}</td>
+                                    <td>${record.userID}</td>
+                                    <td>${record.usingTime.time[0]}</td>
+                                    <td>${record.usingTime.time[last]}</td>
+                               </tr>`;
+                // console.log(table_body);
+
+                $(".record_"+classroomID).append(table_body);
+            });
+        },
+        error: function (thrownError) {
+            alert(thrownError);
+        }
+    });
+
+}
+
+function findHistoryByDate(){
 
 }
 
@@ -215,26 +194,7 @@ $("document").ready(function(){
                                                     <th>結束<span class="RWD_noShow">借用時間</span></th>
                                                 </tr>
                                                 </thead>
-                                                <tbody class="">
-                                                <tr class="">
-                                                    <td>2019/<br class="RWD_show">04/18</td>
-                                                    <td>00857<br class="RWD_show">004</td>
-                                                    <td>第一節</td>
-                                                    <td>第三節</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2019/<br class="RWD_show">04/18</td>
-                                                    <td>00857<br class="RWD_show">004</td>
-                                                    <td>第一節</td>
-                                                    <td>第三節</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2019/<br class="RWD_show">04/18</td>
-                                                    <td>00857<br class="RWD_show">004</td>
-                                                    <td>第一節</td>
-                                                    <td>第三節</td>
-                                                </tr>
-                                                </tbody>
+                                                <tbody class="record_${classrooms.classroomID}"></tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -283,13 +243,13 @@ $("document").ready(function(){
                                             </tr>
                                             <tr align="center" period="2">
                                                 <td>第二節<span class="RWD_noShow">09:20~10:10</span></td>
-                                                <td date="6">ASDFGGG</td>
-                                                <td date="0">ASDFGGG</td>
-                                                <td date="1">ASDFGGG</td>
-                                                <td date="2">ASDFGGG</td>
-                                                <td date="3">ASDFGGG</td>
-                                                <td date="4">ASDFGGG</td>
-                                                <td date="5">ASDFGGG</td>
+                                                <td date="6">&nbsp;</td>
+                                                <td date="0">&nbsp;</td>
+                                                <td date="1">&nbsp;</td>
+                                                <td date="2">&nbsp;</td>
+                                                <td date="3">&nbsp;</td>
+                                                <td date="4">&nbsp;</td>
+                                                <td date="5">&nbsp;</td>
                                             </tr>
                                             <tr align="center" period="3">
                                                 <td>第三節<span class="RWD_noShow">10:20~11:10</span></td>
@@ -421,15 +381,15 @@ $("document").ready(function(){
                 $(".class_list").append(cardElement);
                 $(".classroom_card_list").append(infoWindow);
 
+                // 插入預約紀錄
+                findAllHistory(classrooms.classroomID);
 
-                // 課表插入 py line 512
-                // TODO
-
+                // 課表插入
                 // JavaScript星期幾: 日(0) ~ 六(6)
                 // Python星期幾:     一(0) ~ 日(6)
                 // 轉換: +6後取7餘數
 
-                // 呼叫API
+                // 呼叫API並插入(現有預約)
                 findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[0]), 6); // Sunday
                 findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[1]), 0); // Monday
                 findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[2]), 1); // Tuesday
@@ -438,8 +398,14 @@ $("document").ready(function(){
                 findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[5]), 4); // Friday
                 findNonPenging(classrooms.classroomID, getTodayDate(thisWeek[6]), 5); // Saturday
 
-                // 塞 purpose & userID
-
+                // 呼叫API並插入(課表歷史紀錄)
+                findHistoryByDate(); // Sunday
+                findHistoryByDate(); // Monday
+                findHistoryByDate(); // Tuesday
+                findHistoryByDate(); // Wednesday
+                findHistoryByDate(); // Thursday
+                findHistoryByDate(); // Friday
+                findHistoryByDate(); // Saturday
 
                 // card動畫設定
                 $("#classroom_"+classrooms.classroomID).click(function (e) {
