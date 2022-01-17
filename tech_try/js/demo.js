@@ -59,7 +59,7 @@ $("document").ready(function(){
         var date = {};
         date.classroomID = "B10";
         date.date = ["2022-1-15","2022-1-16"];
-        //date.weekday = 5;
+        date.weekday = [5,6];
         //{"classroomID":"B10","date":["2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22"]}
         console.log(date);
         var apoint = {};
@@ -76,7 +76,7 @@ $("document").ready(function(){
         var data = JSON.stringify(date);
         $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/findconditionRecord", 
+            url: "http://127.0.0.1:5000/DB/findNonPendingByClassroom", 
             data:data,
             success: function(re){
                 console.log(re);

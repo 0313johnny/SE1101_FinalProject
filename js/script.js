@@ -22,6 +22,7 @@
         $("#main_display").click(function (e) {
             $(".main_display").css("display","")
             $(".personal").css("display","none")
+            $(".reserve_display").css("display","none")
         });
         $(".admin_btn").click(function (e) {
             $(".admin1").css("display","none")

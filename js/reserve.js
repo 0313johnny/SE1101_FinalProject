@@ -30,6 +30,7 @@ $("document").ready(function(){
             alert("學校的生意沒那麼好，預約不用排到明年！");
             return;
         }
+        
         var arry = [];
         for(var i = 0;i < period;i++)
         {
@@ -46,10 +47,11 @@ $("document").ready(function(){
             dataType: "json",
             data:data,
             success: function(re){
-                $(".main_display").css("display","");
+                $(".main_display").css("display","none");
+                $(".reserve_display").css("display","");
                 $(".personal").css("display","none");
                 var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>可預約教室</h1>";
-                $(".class_list").html(insertHTML);
+                $(".reserve_list").html(insertHTML);
                 $(".reserve_card_list").html("");
                 $.each(re,function(index,result){//取陣列
                     var insertCard = "";//加入顯示給使用者看的列
@@ -84,7 +86,7 @@ $("document").ready(function(){
                     insertINFOCard += "<div class='info'><h3>申請:</h3><p class='right'><button type='button' class='reserve_btn btn'>發送</button></p></div></div></div></div></div>";
                     
 
-                    $(".class_list").append(insertCard);
+                    $(".reserve_list").append(insertCard);
                     $(".reserve_card_list").append(insertINFOCard);
                     $("#reserve_"+result.classroomID).click(function (e) { //card動畫設定
                         $("#reserve_card_"+result.classroomID).css("display", "");

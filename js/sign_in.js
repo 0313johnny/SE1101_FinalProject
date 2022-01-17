@@ -158,10 +158,10 @@ $("document").ready(function(){
                             
                         });
                     });
-                    $(".main_display").css("display","none")
-                    $(".personal").css("display","")
+                    $(".main_display").css("display","none");
+                    $(".reserve_display").css("display","none");
+                    $(".personal").css("display","");
                 }
-
             });
             //$(".reserve_list").html(inserthtml);
         }
