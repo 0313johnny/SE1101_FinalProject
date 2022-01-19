@@ -1,5 +1,4 @@
 $("document").ready(function(){
-    //console.log(sign_in_user);
     $("#search_btn").click(function(event){
         var today = new Date();
         var appointINFO = {};
@@ -8,6 +7,8 @@ $("document").ready(function(){
         var start = parseInt($("select[name='start_class']").val());
         var period = parseInt($("select[name='period']").val());
         var day = new Date(Date.parse(appointINFO.usingTime.date));
+        var gap = parseInt(Math.abs(day.getTime()- today.getTime())/1000/60/60/24);
+        
         if(start + period > 13){
             alert("學校並沒有開到12堂課之後，請重新填寫時段。");
             return;
@@ -25,6 +26,11 @@ $("document").ready(function(){
             alert("時間旅行是不合法的，詳情請見時空管理法第三章第一節！");
             return;
         }
+        else if(gap > 14){
+            alert("學校的生意沒那麼好，預約不用排到明年！");
+            return;
+        }
+        
         var arry = [];
         for(var i = 0;i < period;i++)
         {
@@ -37,15 +43,15 @@ $("document").ready(function(){
         var data = JSON.stringify(appointINFO);
         $.ajax({ 
             type: "POST",
-            url: "http://127.0.0.1:5000/DB/findIdleClassroom", 
+            url: "https://se1101-finalp-roject.herokuapp.com/DB/findIdleClassroom", 
             dataType: "json",
             data:data,
             success: function(re){
-                $(".main_display").css("display","");
+                $(".main_display").css("display","none");
+                $(".reserve_display").css("display","");
                 $(".personal").css("display","none");
                 var insertHTML = "'<h1 class='mt-5 pt-3' style='color: white'>可預約教室</h1>";
-                console.log(re);
-                $(".class_list").html(insertHTML);
+                $(".reserve_list").html(insertHTML);
                 $(".reserve_card_list").html("");
                 $.each(re,function(index,result){//取陣列
                     var insertCard = "";//加入顯示給使用者看的列
@@ -56,12 +62,12 @@ $("document").ready(function(){
                     var insertINFOCard = "";//點選後彈出的視窗
                     insertINFOCard += "<div class='card circle card_reserve'style='display:none' id = 'reserve_card_"+result.classroomID+"'>";
                     insertINFOCard += "<div class='close_button glass'><span></span><span></span><span></span></div>";
-                    insertINFOCard += "<div class='card_body container_sp text-dark row scroll'><div class='heading mb-3'><h1>教室資訊</h1></div>";
+                    insertINFOCard += "<div class = 'reserve_content'><div class='card_body container_sp text-dark row scroll'><div class='heading mb-3'><h1>教室資訊</h1></div>";
                     insertINFOCard += "<div class='rows'><div class='container-fluid'><div class='info'><h3>教室:</h3><p class='right'>"+result.classroomID+"</p></div><div class='info'><h3>座位:</h3><p class='right'>"+result.capacity+"</p></div><div class='info'><h3>器材:</h3></div><div class='row'>";
                     var eq = Object.keys(result.equipment);
                     for(var i = 0;i < eq.length;i++)
                     {
-                        insertINFOCard+="<p class='col-4 col-md-3 col-lg-4 col-xl-3'>"+eq[i]+"*"+result.equipment[eq[i]]+"</p>";
+                        insertINFOCard+="<p class='col-* col-sm-6 col-lg-6 col-xl-4'>"+eq[i]+"*"+result.equipment[eq[i]]+"</p>";
                     }
                     insertINFOCard += "</div></div></div></div>";
                     //*** */
@@ -77,10 +83,10 @@ $("document").ready(function(){
                     }
                     insertINFOCard += "堂</p></div>";
                     insertINFOCard += "<div class='info'><h3>目的:</h3><p class='right'><input type='text' class='form-control' placeholder='輸入目的(課程名稱)' name='text'></p></div>"
-                    insertINFOCard += "<div class='info'><h3>申請:</h3><p class='right'><button type='button' class='reserve_btn btn'>發送</button></p></div></div></div></div></div>";
+                    insertINFOCard += "<div class='info'><h3>申請:</h3><p class='right'><button type='button' class='reserve_btn btn'>發送</button></p></div></div></div></div></div></div>";
                     
 
-                    $(".class_list").append(insertCard);
+                    $(".reserve_list").append(insertCard);
                     $(".reserve_card_list").append(insertINFOCard);
                     $("#reserve_"+result.classroomID).click(function (e) { //card動畫設定
                         $("#reserve_card_"+result.classroomID).css("display", "");
@@ -94,13 +100,14 @@ $("document").ready(function(){
                         $(".black_background").css("display", "none");
                     });
                     $("#reserve_card_"+result.classroomID +" .reserve_btn").click(function(){//寄送預約申請
-                        var url = "http://127.0.0.1:5000/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
+                        var url = "https://se1101-finalp-roject.herokuapp.com/DB/findUserAppointments/" + sessionStorage.getItem('sign_in_user');
+                        console.log(url);
                         $.getJSON(url,function(num){
                             var reserve_num = num.length;
                             
-                            console.log(reserve_num);
+                            console.log(num);
                             
-                            if(true){
+                            if(reserve_num < 5 || !num){
                                 var reserve = {};//$("input[name='date']").val();
                                 reserve.userID = sessionStorage.getItem('sign_in_user');
                                 reserve.classroomID = result.classroomID;
@@ -113,11 +120,10 @@ $("document").ready(function(){
                                 reserve.purpose = $("#reserve_card_"+result.classroomID +" input").val();
                                 reserve.status = "pending";
                                 reserve.isFixed = false;
-                                console.log(reserve);
                                 var data = JSON.stringify(reserve);//物件轉json
                                 $.ajax({ 
                                     type: "POST",
-                                    url: "http://127.0.0.1:5000/DB/insertAppointment", 
+                                    url: "https://se1101-finalp-roject.herokuapp.com/DB/insertAppointment", 
                                     data:data,
                                     success: function(re){
                                         //console.log(typeof(re));
@@ -132,7 +138,7 @@ $("document").ready(function(){
                                 });
                             }
                             else{
-                                alert("您的預約以達操作上限(5)，請直接前往系辦申請借用或結束目前已完成之預約。");
+                                alert("您的預約以達操作上限，請直接前往系辦申請借用或結束目前已完成之預約。");
                             }
                         });
                     });

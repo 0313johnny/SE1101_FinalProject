@@ -30,7 +30,7 @@ $("document").ready(function(){
             var insertData = JSON.stringify(user);
             $.ajax({ 
                 type: "POST",
-                url: "http://127.0.0.1:5000/DB/insertAccount", 
+                url: "https://se1101-finalp-roject.herokuapp.com/DB/insertAccount", 
                 data:insertData,
                 success: function(re){
                     if(re == "true")
