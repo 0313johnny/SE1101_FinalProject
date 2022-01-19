@@ -27,6 +27,10 @@ function get_classroom_list( append_targetID ){
             $("#" + append_targetID).append(html_list);
 
             // 給流星雨用:這段是編輯教室點擊後的事件處理器
+            $(".card_spec_edit").unbind("click");
+            $(".edit_readonly_change").unbind("click");
+            $("button.ensure").unbind("click");
+
             $(".card_spec_edit").click(function (e) {
 
                 // card動畫設定
@@ -83,9 +87,7 @@ function get_classroom_list( append_targetID ){
     });
 }
 
-
 function show_classroom_info( targetID ){
-
     console.log("show_classroom_info()");
 
     $.ajax({
@@ -149,23 +151,15 @@ function string_to_equipment( target_str ){
 // string_to_equipment( "投影機*1        擴大機*1 麥克風*1  喇叭*1 布幕*1 主機*65   ");
 
 function init(){
+    console.log("initializing");
     $("#edit_card").html(""); // reset
-
     $("#edit_card").html("<h1 class=\"mt-5\" style=\"color: aliceblue\">教室列表</h1>");
     // 加入擷取到的教室列表 參數為要插入的div的ID
-    get_classroom_list("edit_card");
 }
 
 $("document").ready(function(){
-
     $("#admin2").click(function (e) {
         init();
+        get_classroom_list("edit_card");
     });
-
-    // 抓取教室資訊
-    // (放在 get_classroom_list() 的事件註冊下)
-
-
-    // 若有更改要重新抓取
-    // 或是直接從抓好的資料裡修改
 });
