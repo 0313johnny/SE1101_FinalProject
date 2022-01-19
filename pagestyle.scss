@@ -140,43 +140,48 @@
 }
 .card_reserve{
     position: fixed;
-    left: 6%;
-    top: 10%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    top: 50%;
     width: 88%;
     height: 86%;
-    z-index: 10;
+    max-width: 800px;
+    z-index: 9;
     padding: 0;
     animation-name: example;
     animation-duration: 1s;
-    overflow: auto;
-    .card_body{
-        margin: 1rem;
-        height: auto;
-        background: lightgreen;
-        border-radius: 15px;
-        overflow: unset;
-        padding: 1rem;
-    }
-    .card_end{
-        height: 100%;
-        margin-left: 1rem;
-        margin-right: 1rem;
-        margin-bottom: 1rem;
-        padding: 1rem;
-        background: rgba(209,254,184,0.8);
-        border-radius: 15px;
-        overflow: unset;
-        button{
-            width: 100%;
-            height: 100%;
-            background-color: lightblue;
-            font-size: large;
+    overflow: unset;
+    .reserve_content{
+        overflow: auto;
+        .card_body{
+            margin: 1rem;
+            height: auto;
+            background: lightgreen;
+            border-radius: 15px;
+            overflow: unset;
+            padding: 1rem;
+        }
+        .card_end{
+            height: auto;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(209,254,184,0.8);
+            border-radius: 15px;
+            overflow: unset;
+            button{
+                width: 100%;
+                height: 100%;
+                background-color: lightblue;
+                font-size: large;
+            }
         }
     }
     .close_button {
         position: absolute;
-        right: 20px;
-        top: 0px;
+        right: -20px;
+        top: -20px;
         width: 50px;
         height: 50px;
         z-index: 100;
@@ -818,10 +823,15 @@ input[type=number] {
     background: rgba(209,254,184,0.8);
     padding-right: 1.5rem;
     margin: 1rem;
+    overflow: auto;
+    .heading{
+
+    }
     table{
         width: 100%;
         white-space: nowrap;
         table-layout: auto;
+        overflow: hidden;
         //border: 5px solid rgba(209,254,184);
         thead{
 
@@ -852,6 +862,7 @@ input[type=number] {
 }
 .rows{
     .container-fluid{
+        padding: 0px;
         .info{
             cursor: text;
             h3{
@@ -868,6 +879,10 @@ input[type=number] {
                 margin-bottom: 0;
                 float: left;
                 width: 60%;
+                p{
+                    width: 20%;
+                    float: left;
+                }
             }
         }
     }
