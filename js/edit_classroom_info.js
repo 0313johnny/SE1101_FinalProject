@@ -63,7 +63,7 @@ function get_classroom_list( append_targetID ){
                     capacity    : parseInt( $("#capacity_info input").val() ),
                     equipment   : string_to_equipment( $("#equipment_info input").val() )
                 };
-                console.log(data_obj);
+                // console.log(data_obj);
 
                 let json_obj = JSON.stringify(data_obj)
 
@@ -73,7 +73,7 @@ function get_classroom_list( append_targetID ){
                     // url: "http://127.0.0.1:5000/DB/updateClassroom",
                     data:json_obj,
                     success: function(result){
-                        console.log(result);
+                        // console.log(result);
 
                         $("#admin2").click();
                     },
@@ -125,8 +125,8 @@ function show_classroom_info( targetID ){
 
 // 回傳一物件
 function string_to_equipment( target_str ){
-    console.log("原始字串： " + target_str);
-    console.log("正在轉為陣列");
+    // console.log("原始字串： " + target_str);
+    // console.log("正在轉為陣列");
 
     // 防呆
     target_str = target_str.trim(); // 去掉頭尾空白
