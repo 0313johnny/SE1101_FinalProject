@@ -1,7 +1,7 @@
 function get_classroom_list( append_targetID ){
 
     let html_list = "";
-    console.log("get_classroom_list()");
+    // console.log("get_classroom_list()");
 
     $.ajax({
         type: "GET",
@@ -88,7 +88,7 @@ function get_classroom_list( append_targetID ){
 }
 
 function show_classroom_info( targetID ){
-    console.log("show_classroom_info()");
+    // console.log("show_classroom_info()");
 
     $.ajax({
         type: "GET",
@@ -151,7 +151,7 @@ function string_to_equipment( target_str ){
 // string_to_equipment( "投影機*1        擴大機*1 麥克風*1  喇叭*1 布幕*1 主機*65   ");
 
 function init(){
-    console.log("initializing");
+    // console.log("initializing");
     $("#edit_card").html(""); // reset
     $("#edit_card").html("<h1 class=\"mt-5\" style=\"color: aliceblue\">教室列表</h1>");
     // 加入擷取到的教室列表 參數為要插入的div的ID
