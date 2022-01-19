@@ -11,11 +11,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script><!--        引入email函示庫-->
+
+    <script type="text/javascript" src="js/timeTable.js"></script>
+    <script type="text/javascript" src="js/edit_classroom_info.js"></script>
+
     <script src="http://code.jquery.com/jquery-latest.js"></script><!--        引入jquery函示庫-->
-    <script  type="text/javascript" src="js/sign_in.js"></script><!--        引入登入js-->
-    <script  type="text/javascript" src="js/reserve.js"></script><!--        引入預約js-->
-    <script  type="text/javascript" src="js/admin.js"></script><!--        引入預約管理js-->
-    <script  type="text/javascript" src="js/key_tracking.js"></script>&lt;!&ndash;<!--        引入鑰匙追蹤js&ndash;&gt;-->
+    <script type="text/javascript" src="js/sign_in.js"></script><!--        引入登入js-->
+    <script type="text/javascript" src="js/reserve.js"></script><!--        引入預約js-->
+    <script type="text/javascript" src="js/admin.js"></script><!--        引入預約管理js-->
+    <script type="text/javascript" src="js/key_tracking.js"></script>&lt;!&ndash;<!--        引入鑰匙追蹤js&ndash;&gt;-->
     <style>
         #menu {
             position: fixed;
@@ -297,15 +301,16 @@
                     </div>
                 </div>
 
-                <!--            更改教室資訊    -->
-                <div class="row m-2 admin2 admin2_rwd" style="display: none">
+                <!-- 以edit_classroom_info.js 建立教室資訊-->
+                <!-- create 是建立列表 / edit 是編輯 -->
+                <div class="row m-2 admin2 admin2_rwd" style="display: none" id="edit_card">
                     <h1 class="mt-5" style="color: aliceblue">教室列表</h1>
                     <div class="col-12 col-sm-6 col-md-3 p-1">
                         <div id="B10" class="card_spec_edit card m-3 container_sp text-dark glass">
                             <div class="card-body">
                                 <h1>B10</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
+                                <p>座位：50</p>
+                                <p>器材：....</p>
                             </div>
                         </div>
                     </div>
@@ -313,83 +318,13 @@
                         <div id="B12" class="card_spec_edit card m-3 container_sp text-dark glass">
                             <div class="card-body">
                                 <h1>B12</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
+                                <p>座位：50</p>
+                                <p>器材：....</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3 p-1">
-                        <div id="B07" class="card_spec_edit card m-3 container_sp text-dark glass">
-                            <div class="card-body">
-                                <h1>B07</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3 p-1">
-                        <div id="101" class="card_spec_edit card m-3 container_sp text-dark glass">
-                            <div class="card-body">
-                                <h1>101</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3 p-1">
-                        <div id="105" class="card_spec_edit card m-3 container_sp text-dark glass">
-                            <div class="card-body">
-                                <h1>105</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3 p-1">
-                        <div id="203" class="card_spec_edit card m-3 container_sp text-dark glass">
-                            <div class="card-body">
-                                <h1>203</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3 p-1">
-                        <div id="205" class="card_spec_edit card m-3 container_sp text-dark glass">
-                            <div class="card-body">
-                                <h1>205</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3 p-1">
-                        <div id="301" class="card_spec_edit card m-3 container_sp text-dark glass">
-                            <div class="card-body">
-                                <h1>301</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3 p-1">
-                        <div id="303" class="card_spec_edit card m-3 container_sp text-dark glass">
-                            <div class="card-body">
-                                <h1>303</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3 p-1">
-                        <div id="407" class="card_spec_edit card m-3 container_sp text-dark glass">
-                            <div class="card-body">
-                                <h1>407</h1>
-                                <p>座位:50</p>
-                                <p>器材:....</p>
-                            </div>
-                        </div>
-                    </div>
+
+
                 </div>
                 <!--            發布通知頁面-->
                 <div class="grey_background admin3 admin3_rwd" style="display: none">
@@ -883,7 +818,6 @@
                     <div class="close_button glass">
                         <span></span>
                         <span></span>
-                        <span></span>
                     </div>
                     <div class="">
                         <section class="admin_edit_class">
@@ -908,7 +842,7 @@
                                             <span>器材</span>
                                             <input class="form-control" value="投影機*1 電腦*1 投影機*1 電腦*1 投影機*1 電腦*1" readonly="true">
                                         </div>
-                                        <div class="tips">!器材與器材間請用空白隔開</div>
+                                        <div class="tips">！器材與器材間請用空白隔開！</div>
                                     </div>
                                 </div>
                             </div>
