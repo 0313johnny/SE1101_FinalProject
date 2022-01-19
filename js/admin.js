@@ -17,6 +17,7 @@ function show_all_btn(btn_ID,status){
 }
 function DB_operate(object,btn_id,pre_status){
     var data = JSON.stringify(object);
+    
     $.ajax({ 
         type: "PUT",
         url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
