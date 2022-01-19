@@ -352,23 +352,18 @@ def insertClassroom():
     try:
        data = json.loads(flask.request.get_data())
 
-       classroomID=data['classroomID']
-       name=data['name']
-       location=data['location']
-       capacity=data['capacity']
-       equipment=data['equipment']
-       
-       classroomlist=dict()
+       query=dict()
+       query["classroonID"]=data['classroomID']
 
-       classroomlist={
-           "classroomID":classroomID,
-           "name":name,
-           "location":location,
-           "capacity":capacity,
-           "equipment":equipment
-           }
-    
-       ClassroomInfoDB.insert_one(classroomlist)
+       if ClassroomInfoDB.count_documents(query) > 0:
+            return json.dumps(False)
+       
+       query["name"]=data['name']
+       query["location"]=data['location']
+       query["capacity"]=data['capacity']
+       query["equipment"]=data['equipment']
+       
+       ClassroomInfoDB.insert_one(query)
 
        return json.dumps(True)
        
