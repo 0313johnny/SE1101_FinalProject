@@ -311,7 +311,7 @@
                             <div class="card-body">
                                 <h1>B10</h1>
                                 <p>座位：50</p>
-                                <p>器材：....</p>
+                                <p>器材：……</p>
                             </div>
                         </div>
                     </div>
@@ -320,7 +320,7 @@
                             <div class="card-body">
                                 <h1>B12</h1>
                                 <p>座位：50</p>
-                                <p>器材：....</p>
+                                <p>器材：…….</p>
                             </div>
                         </div>
                     </div>
@@ -822,7 +822,7 @@
                     </div>
                     <div class="">
                         <section class="admin_edit_class">
-                            <div class="file_border m-3 mb-4 circle">
+                            <div class="file_border m-3 mb-4 circle" id="info_window">
                                 <div class="heading mb-3">
                                     <span>教室資訊</span>
                                     <button type="button" class="btn btn-primary edit_readonly_change">編輯</button>
@@ -830,19 +830,21 @@
                                 </div>
                                 <div class="">
                                     <div class="container-fluid">
-                                        <div class="info">
-                                            <span>教室</span>
+                                        <div class="info" id="name_info">
+                                            <span>教室名稱</span>
                                             <input class="form-control" value="B10" readonly="true">
                                         </div>
-                                        <div class="info">
+                                        <div class="info" id="capacity_info">
                                             <span>座位</span>
 <!--                                            <input class="right" value="50" readonly="true">-->
                                             <input type="number" class="form-control" value="50" readonly="true">
                                         </div>
-                                        <div class="info">
+                                        <div class="info" id="equipment_info">
                                             <span>器材</span>
                                             <input class="form-control" value="投影機*1 電腦*1 投影機*1 電腦*1 投影機*1 電腦*1" readonly="true">
                                         </div>
+                                        <p hidden id="location_info"></p>
+                                        <p hidden id="ID_info"></p>
                                         <div class="tips">！器材與器材間請用空白隔開！</div>
                                     </div>
                                 </div>
