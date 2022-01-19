@@ -53,7 +53,7 @@ function findNonPenging(classroomID, target_date, day_of_the_week){
 
     $.ajax({
         type: "POST",
-        url: "http://127.0.0.1:5000/DB/findNonPendingByClassroom",
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/findNonPendingByClassroom",
         dataType: "json",
         data:input_data, // Parse to JSON format
         success: function (result){
@@ -82,7 +82,7 @@ function findAllHistory(classroomID){
     // console.log("Call API findRecord. ClassID = " + classroomID);
     $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:5000/DB/findRecord/" + classroomID,
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/findRecord/" + classroomID,
         dataType: "json",
         success: function (result) {
             //console.log(result);
@@ -124,7 +124,7 @@ function findHistoryByDate(classroomID, week){
 
     $.ajax({
         type: "POST",
-        url: "http://127.0.0.1:5000/DB/findconditionRecord",
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/findconditionRecord",
         dataType: "json",
         data:input_data,
         success: function (result) {
@@ -152,7 +152,7 @@ function findHistoryByDate(classroomID, week){
 $("document").ready(function(){
     $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:5000/DB/findAllClassroom",
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/findAllClassroom",
         dataType: "json",
         success: function(result){
             console.log("Get the list successful.");

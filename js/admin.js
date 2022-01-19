@@ -19,7 +19,7 @@ function DB_operate(object,btn_id,pre_status){
     var data = JSON.stringify(object);
     $.ajax({ 
         type: "PUT",
-        url: "http://127.0.0.1:5000/DB/updateStatus", 
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
         data:data,
         success: function(re){
             show_all_btn(btn_id,object.status);
@@ -39,7 +39,7 @@ $("document").ready(function(){
     console.log("connect");//connectDB
     $.ajax({ 
         type: "GET",
-        url: "http://127.0.0.1:5000/DB/connectDB", 
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/connectDB", 
         dataType: "json",
         success: function(re){
             console.log("success : "+re);
@@ -51,7 +51,7 @@ $("document").ready(function(){
 
     $("#admin1,#admin1_rwd").click(function(){//建立審核申請介面
         //拿所有是pending的預約並展示
-        var pending_url = "http://127.0.0.1:5000/DB/findPending";
+        var pending_url = "https://se1101-finalp-roject.herokuapp.com/DB/findPending";
         //wait_for_review_list
         $(".wait_for_review_list").html("");
         $("#card_request_list").html("");//清空容器
@@ -117,7 +117,7 @@ $("document").ready(function(){
                     var data = JSON.stringify(apoint);
                     $.ajax({ 
                         type: "PUT",
-                        url: "http://127.0.0.1:5000/DB/updateStatus", 
+                        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
                         data:data,
                         success: function(re){
                             if(re == "true"){
@@ -161,7 +161,7 @@ $("document").ready(function(){
                     if (confirm('您是否要拒絕此預約申請？') == true) {
                         $.ajax({ 
                             type: "DELETE",
-                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
+                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re == "true"){
@@ -194,8 +194,8 @@ $("document").ready(function(){
     $("#admin5,#admin5_rwd").click(function(){//建立預約管理介面
         $("#reserve_admin_list").html("");
         $("#card_edit_list").html("");
-        var url = "http://127.0.0.1:5000/DB/findNonPending";
-        $.getJSON("http://127.0.0.1:5000/DB/findAllClassroomID",function(result){//插入可選擇教室id
+        var url = "https://se1101-finalp-roject.herokuapp.com/DB/findNonPending";
+        $.getJSON("https://se1101-finalp-roject.herokuapp.com/DB/findAllClassroomID",function(result){//插入可選擇教室id
             $("select[name='classroomID']").html("");
             $("select[name='class_choose']").html("<option value='reserve_admin'>任意教室</option>");
             $.each(result,function(index,classroom){
@@ -314,7 +314,7 @@ $("document").ready(function(){
                     if (confirm('您是否要刪除該筆預約') == true) {
                         $.ajax({ 
                             type: "DELETE",
-                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
+                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re = "true"){
@@ -345,13 +345,13 @@ $("document").ready(function(){
             
             var test = $("#isFixed_checkbox").is(":checked");
             if(test){
-                url = "http://127.0.0.1:5000/DB/insertFixed";
+                url = "https://se1101-finalp-roject.herokuapp.com/DB/insertFixed";
                 reserve.usingTime.date = "";
                 reserve.usingTime.weekday = parseInt($("select[name='reserve_week']").val());
                 reserve.isFixed = true;
             }
             else{
-                url = "http://127.0.0.1:5000/DB/insertAppointment";
+                url = "https://se1101-finalp-roject.herokuapp.com/DB/insertAppointment";
                 reserve.usingTime.date = $("input[name='reserve_date']").val();
                 var day = new Date(Date.parse(reserve.usingTime.date.replace(/-/g, '/')));
                 reserve.usingTime.weekday = (day.getDay()+6)%7;

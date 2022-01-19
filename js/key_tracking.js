@@ -2,7 +2,7 @@ function move(moveto,removeID,object){
     var data = JSON.stringify(object);
     $.ajax({ 
         type: "PUT",
-        url: "http://127.0.0.1:5000/DB/updateStatus", 
+        url: "https://se1101-finalp-roject.herokuapp.com/DB/updateStatus", 
         data:data,
         success: function(re){
             //console.log(data);
@@ -30,7 +30,7 @@ $("document").ready(function(){
             $("#overtime_key").html("");
             $("#absent_key").html("");
             $("#card_edit_list").html("");
-        var url = "http://127.0.0.1:5000/DB/findTodayNonPending";
+        var url = "https://se1101-finalp-roject.herokuapp.com/DB/findTodayNonPending";
         console.log("admin4");
         $.getJSON(url,function(result){//取得所有預約成功的物件
             $.each(result,function(index,value){//為所有物件建立介面
@@ -126,7 +126,7 @@ $("document").ready(function(){
                     if(apoint.isFixed == false){
                         $.ajax({ 
                             type: "DELETE",
-                            url: "http://127.0.0.1:5000/DB/deleteAppointment", 
+                            url: "https://se1101-finalp-roject.herokuapp.com/DB/deleteAppointment", 
                             data:data,
                             success: function(re){
                                 if(re == "true"){
@@ -143,7 +143,7 @@ $("document").ready(function(){
                                     var data = JSON.stringify(record);
                                     $.ajax({//添加為歷史紀錄
                                         type: "POST",
-                                        url: "http://127.0.0.1:5000/DB/insertRecord", 
+                                        url: "https://se1101-finalp-roject.herokuapp.com/DB/insertRecord", 
                                         data:data
                                     });
                                 }
@@ -180,7 +180,7 @@ $("document").ready(function(){
                         console.log(record);
                         $.ajax({//添加為歷史紀錄
                             type: "POST",
-                            url: "http://127.0.0.1:5000/DB/insertRecord", 
+                            url: "https://se1101-finalp-roject.herokuapp.com/DB/insertRecord", 
                             data:data
                         });
 
