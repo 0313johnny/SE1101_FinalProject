@@ -124,7 +124,7 @@ $("document").ready(function(){
                             if(re == "true"){
                                 Email.send({//寄出預約成功通知
                                     SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
-                                    To : apoint.userID+'@mail.ntou.edu.tw',
+                                    To : apoint.userID+'@email.ntou.edu.tw',
                                     From : "ntoumailonly@gmail.com",
                                     Subject : "您的預約申請已經通過",
                                     Body : email_text
@@ -168,7 +168,7 @@ $("document").ready(function(){
                                 if(re == "true"){
                                     Email.send({//寄出預約成功通知
                                         SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
-                                        To : apoint.userID+'@mail.ntou.edu.tw',
+                                        To : apoint.userID+'@email.ntou.edu.tw',
                                         From : "ntoumailonly@gmail.com",
                                         Subject : "您的預約申請未通過",
                                         Body : email_text
@@ -412,7 +412,7 @@ $("document").ready(function(){
         console.log(user);
         Email.send({//寄出預約成功通知
             SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
-            To : user+"@mail.ntou.edu.tw",
+            To : user+"@email.ntou.edu.tw",
             From : "ntoumailonly@gmail.com",
             Subject : title,
             Body : content

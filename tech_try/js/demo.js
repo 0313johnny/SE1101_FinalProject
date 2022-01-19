@@ -3,10 +3,10 @@ $("document").ready(function(){
     console.log(globle);
     
     $(".mail").click(function(){
-        console.log("mail");
+        console.log("00857027@mail.ntou.edu.tw");
         Email.send({
             SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
-            To : '00857027@mail.ntou.edu.tw',
+            To : '00857027@email.ntou.edu.tw',
             From : "ntoumailonly@gmail.com",
             Subject : "test2",
             Body : "try to send an email by smtpjs again!"

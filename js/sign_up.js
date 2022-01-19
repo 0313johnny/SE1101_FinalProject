@@ -23,8 +23,8 @@ $("document").ready(function(){
         }
         else{//註冊資訊正確，新增使用者
             var user = {};
-            主user.userID = email;
-            user.email = email + "@mail.ntou.edu.tw";
+            user.userID = email;
+            user.email = email + "@email.ntou.edu.tw";
             user.password = password;
             user.authority = "user";
             var insertData = JSON.stringify(user);
@@ -59,7 +59,7 @@ $("document").ready(function(){
             CAPTCHA = Math.floor(Math.random()*899999+100000);//隨機產生一六位驗證碼
             Email.send({//寄出驗證碼
                 SecureToken : "9464cce8-62a9-4145-9dcb-1aeb58cd91e8",
-                To : email+'@mail.ntou.edu.tw',
+                To : email+'@email.ntou.edu.tw',
                 From : "ntoumailonly@gmail.com",
                 Subject : "ntou教室租借系統 驗證碼",
                 Body : "您的驗證碼是： " + CAPTCHA
