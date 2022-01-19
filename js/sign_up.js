@@ -23,7 +23,7 @@ $("document").ready(function(){
         }
         else{//註冊資訊正確，新增使用者
             var user = {};
-            user.userID = email;
+            主user.userID = email;
             user.email = email + "@mail.ntou.edu.tw";
             user.password = password;
             user.authority = "user";
@@ -40,7 +40,7 @@ $("document").ready(function(){
                     }   
                     else
                         alert("此信箱已註冊過，請更換信箱");
-                    //跳轉頁面回主頁
+                    //跳轉頁面回頁
                 },
                 error: function (thrownError) {
                     console.log(thrownError);
