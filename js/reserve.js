@@ -62,12 +62,12 @@ $("document").ready(function(){
                     var insertINFOCard = "";//點選後彈出的視窗
                     insertINFOCard += "<div class='card circle card_reserve'style='display:none' id = 'reserve_card_"+result.classroomID+"'>";
                     insertINFOCard += "<div class='close_button glass'><span></span><span></span><span></span></div>";
-                    insertINFOCard += "<div class='card_body container_sp text-dark row scroll'><div class='heading mb-3'><h1>教室資訊</h1></div>";
+                    insertINFOCard += "<div class = 'reserve_content'><div class='card_body container_sp text-dark row scroll'><div class='heading mb-3'><h1>教室資訊</h1></div>";
                     insertINFOCard += "<div class='rows'><div class='container-fluid'><div class='info'><h3>教室:</h3><p class='right'>"+result.classroomID+"</p></div><div class='info'><h3>座位:</h3><p class='right'>"+result.capacity+"</p></div><div class='info'><h3>器材:</h3></div><div class='row'>";
                     var eq = Object.keys(result.equipment);
                     for(var i = 0;i < eq.length;i++)
                     {
-                        insertINFOCard+="<p class='col-4 col-md-3 col-lg-4 col-xl-3'>"+eq[i]+"*"+result.equipment[eq[i]]+"</p>";
+                        insertINFOCard+="<p class='col-* col-sm-6 col-lg-6 col-xl-4'>"+eq[i]+"*"+result.equipment[eq[i]]+"</p>";
                     }
                     insertINFOCard += "</div></div></div></div>";
                     //*** */
@@ -83,7 +83,7 @@ $("document").ready(function(){
                     }
                     insertINFOCard += "堂</p></div>";
                     insertINFOCard += "<div class='info'><h3>目的:</h3><p class='right'><input type='text' class='form-control' placeholder='輸入目的(課程名稱)' name='text'></p></div>"
-                    insertINFOCard += "<div class='info'><h3>申請:</h3><p class='right'><button type='button' class='reserve_btn btn'>發送</button></p></div></div></div></div></div>";
+                    insertINFOCard += "<div class='info'><h3>申請:</h3><p class='right'><button type='button' class='reserve_btn btn'>發送</button></p></div></div></div></div></div></div>";
                     
 
                     $(".reserve_list").append(insertCard);
