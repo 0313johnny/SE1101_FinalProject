@@ -148,17 +148,22 @@
 
 .card_reserve {
   position: fixed;
-  left: 6%;
-  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
   width: 88%;
   height: 86%;
-  z-index: 10;
+  max-width: 800px;
+  z-index: 9;
   padding: 0;
   animation-name: example;
   animation-duration: 1s;
+  overflow: unset;
+}
+.card_reserve .reserve_content {
   overflow: auto;
 }
-.card_reserve .card_body {
+.card_reserve .reserve_content .card_body {
   margin: 1rem;
   height: auto;
   background: lightgreen;
@@ -166,8 +171,8 @@
   overflow: unset;
   padding: 1rem;
 }
-.card_reserve .card_end {
-  height: 100%;
+.card_reserve .reserve_content .card_end {
+  height: auto;
   margin-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 1rem;
@@ -176,7 +181,7 @@
   border-radius: 15px;
   overflow: unset;
 }
-.card_reserve .card_end button {
+.card_reserve .reserve_content .card_end button {
   width: 100%;
   height: 100%;
   background-color: lightblue;
@@ -184,8 +189,8 @@
 }
 .card_reserve .close_button {
   position: absolute;
-  right: 20px;
-  top: 0px;
+  right: -20px;
+  top: -20px;
   width: 50px;
   height: 50px;
   z-index: 100;
@@ -801,11 +806,13 @@ input[type=number] {
   background: rgba(209, 254, 184, 0.8);
   padding-right: 1.5rem;
   margin: 1rem;
+  overflow: auto;
 }
 .show_right table {
   width: 100%;
   white-space: nowrap;
   table-layout: auto;
+  overflow: hidden;
 }
 .show_right table thead tr th {
   border-bottom: 3px solid white;
@@ -832,6 +839,9 @@ input[type=number] {
   height: 100%;
 }
 
+.rows .container-fluid {
+  padding: 0px;
+}
 .rows .container-fluid .info {
   cursor: text;
 }
@@ -848,6 +858,10 @@ input[type=number] {
   margin-bottom: 0;
   float: left;
   width: 60%;
+}
+.rows .container-fluid .info .row p {
+  width: 20%;
+  float: left;
 }
 
 .scroll {

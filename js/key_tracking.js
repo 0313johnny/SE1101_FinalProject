@@ -20,7 +20,9 @@ function move(moveto,removeID,object){
         }
     });
 }
+function add_to_list(){
 
+}
 $("document").ready(function(){
     var num = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
     var week_ch = ["一","二","三","四","五","六","日"];
@@ -31,17 +33,17 @@ $("document").ready(function(){
             $("#absent_key").html("");
             $("#card_edit_list").html("");
         var url = "https://se1101-finalp-roject.herokuapp.com/DB/findTodayNonPending";
-        console.log("admin4");
         $.getJSON(url,function(result){//取得所有預約成功的物件
             $.each(result,function(index,value){//為所有物件建立介面
                 var ID_composition = value.usingTime.date+"_"+value.classroomID+"_"+value.usingTime.time[0];
                 var insert_key_tracking_HTML = "";
+                var date = value.usingTime.date.split("-")
                 insert_key_tracking_HTML +=
                 `<tr id = "${"key_tracking_"+ID_composition}">
-                    <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:value.usingTime.date}</td>
+                    <td>${value.isFixed ? "星期" + week_ch[value.usingTime.weekday]:date[1]+"-"+date[2]}</td>
                     <td>${value.userID}</td>
                     <td>${value.classroomID}</td>
-                    <td>${num[parseInt(value.usingTime.time[0]) - 1]}~${num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
+                    <td>${num[parseInt(value.usingTime.time[0]) - 1]}${(value.usingTime.class <= 1)?"":" ~ "+num[parseInt(value.usingTime.time[value.usingTime.time.length - 1]) - 1]}</td>
                     <td>${value.purpose}</td>
                     <td>
                         <div class="request_button" id = "${"track_option_"+ID_composition}">
@@ -76,28 +78,64 @@ $("document").ready(function(){
                 apoint.usingTime.class = value.usingTime.class;
                 apoint.usingTime.weekday = value.usingTime.weekday;
                 apoint.isFixed = value.isFixed;
-                $("#card_edit_list").append(key_tracking_btn);//插入彈出操作介面
-                if(value.status == "reserving")//插入個狀態的鑰匙管理
-                {
-                    $("#not_taken_key").append(insert_key_tracking_HTML);
-                    //$("#overtime_"+ID_composition).css("display", "none");
+                var append_boolean = true;
+                if(value.isFixed){
+                    var is_return_class = {};
+                    var fullDate = new Date();
+                    var yyyy = fullDate.getFullYear();
+                    var MM = (fullDate.getMonth() + 1) >= 10 ? (fullDate.getMonth() + 1) : ("0" + (fullDate.getMonth() + 1));
+                    var dd = fullDate.getDate() < 10 ? ("0"+fullDate.getDate()) : fullDate.getDate();
+                    var today = yyyy + "-" + MM + "-" + dd;
+                    is_return_class.classroomID = value.classroomID;
+                    is_return_class.date = [today];
+                    var data = JSON.stringify(is_return_class);
+                    $.ajax({ 
+                        type: "POST",
+                        url: "https://se1101-finalp-roject.herokuapp.com/DB/findconditionRecord",
+                        dataType: "json",
+                        data:data,
+                        async: false,
+                        success: function(re){//判斷該固定課程金瑱是否已歸還
+                            console.log(re);
+                            //console.log(index + "  ：  "+ re.length);
+                            if(re != false ){
+                                console.log("do each");
+                                $.each(re,function(reserve,today_return){//查找當日歸還是否有完成此預約
+                                    if((today_return.userID == value.userID) && (today_return.usingTime.time[0] == value.usingTime.time[0]) && (today_return.usingTime.class == value.usingTime.class) && (today_return.usingTime.weekday == value.usingTime.weekday)){
+                                        append_boolean = false;
+                                        return false;
+                                    }
+                                });
+                            }
+                        },
+                        error: function (thrownError) {
+                            alert(thrownError);
+                        }
+                    });
                 }
-                else if(value.status == "using")
-                {
-                    $("#unreturned_key").append(insert_key_tracking_HTML);
-                    //$("#not_taken_"+ID_composition).css("display", "none");
+                //console.log(append_boolean);
+                if(append_boolean){
+                    $("#card_edit_list").append(key_tracking_btn);//插入彈出操作介面
+                    if(value.status == "reserving")//插入個狀態的鑰匙管理
+                    {
+                        $("#not_taken_key").append(insert_key_tracking_HTML);
+                        //$("#overtime_"+ID_composition).css("display", "none");
+                    }
+                    else if(value.status == "using")
+                    {
+                        $("#unreturned_key").append(insert_key_tracking_HTML);
+                        //$("#not_taken_"+ID_composition).css("display", "none");
+                    }
+                    else if(value.status == "overtime")
+                    {
+                        $("#overtime_key").append(insert_key_tracking_HTML);
+                        //$("#not_taken_"+ID_composition).css("display", "none");
+                    }
+                    else if(value.status == "absent")
+                    {
+                        $("#absent_key").append(insert_key_tracking_HTML);
+                    }
                 }
-                else if(value.status == "overtime")
-                {
-                    $("#overtime_key").append(insert_key_tracking_HTML);
-                    //$("#not_taken_"+ID_composition).css("display", "none");
-                }
-                else if(value.status == "absent")
-                {
-                    $("#absent_key").append(insert_key_tracking_HTML);
-                }
-                
-
                 $("#track_option_"+ID_composition).click(function () { //彈出操作介面動畫設定
                     $("#track_act_"+ID_composition).css("display", "");
                     $(".black_background").css("display", "");
