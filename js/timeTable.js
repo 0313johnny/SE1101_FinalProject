@@ -128,15 +128,15 @@ function findHistoryByDate(classroomID, week){
         dataType: "json",
         data:input_data,
         success: function (result) {
-            console.log("Get condition record successful. Room" + classroomID);
-            console.log(result);
+            // console.log("Get condition record successful. Room" + classroomID);
+            // console.log(result);
 
             $.each(result, function (index, record){
                 let my_date = record.usingTime.weekday + 6;
                 my_date %= 7;
 
                 for(c in record.usingTime.time){
-                    console.log("Inserting" + classroomID + " period=" + c + " date=" + my_date);
+                    // console.log("Inserting" + classroomID + " period=" + c + " date=" + my_date);
                     $("#classroomInfoWindow_"+ classroomID +" tr[period="+record.usingTime.time[c]+"] td[date="+my_date+"]").html(record.purpose + "<span class='RWD_noShow'>" + record.userID + "</span>");
                 }
 
@@ -155,7 +155,7 @@ $("document").ready(function(){
         url: "https://se1101-finalp-roject.herokuapp.com/DB/findAllClassroom",
         dataType: "json",
         success: function(result){
-            console.log("Get the list successful.");
+            //console.log("Get the list successful.");
             //console.log(result);
             //classroomList = result;
 
